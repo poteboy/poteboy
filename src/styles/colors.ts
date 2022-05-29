@@ -15,6 +15,7 @@ export const colors = {
         Main:  '#60c9ca', 
         Main_RGB: 'rgb(	96, 201,202)',
         Main_Hover: '#56b4b5',
+        Dark: '#0587ca'
     },
 
     Danger: {

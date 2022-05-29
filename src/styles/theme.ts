@@ -8,11 +8,19 @@ const Text: ComponentStyleConfig = {
         fontWeight: 400,
         lineHeight: '150%',
         fontSize: '16px',
-        color: colors.Fonts.Default
+        color: colors.Black
     },
     variants: {
       button1: () => ({
         fontSize: '18px',
+        fontWeight: 600
+      }),
+      heading1: () => ({
+        fontSize: '22px',
+        fontWeight: 600
+      }),
+      heading2: () => ({
+        fontSize: '20px',
         fontWeight: 600
       })
     }

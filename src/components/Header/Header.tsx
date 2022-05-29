@@ -13,8 +13,13 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { paths } from '@src/constants';
 import Title from '@src/public/title/main-title.png';
+import { Category } from '@src/entities';
 
-export const Header: FC = memo(() => {
+type Props = {
+  categories: Category[];
+};
+
+export const Header: FC<Props> = memo(({ categories }) => {
   return (
     <Flex as="header" flexDir="column" bg={colors.White} alignItems="center">
       <ContentBar maxW={'1200px'} py="12px">
@@ -32,16 +37,20 @@ export const Header: FC = memo(() => {
         p="24px 0px"
       >
         <HStack justifyContent="center" mx="auto" gap="20px" maxW="1200px">
-          <Text
-            variant="button1"
-            color={colors.White}
-            _hover={{
-              color: colors.Secondary.Main,
-            }}
-            cursor="pointer"
-          >
-            ダイエット
-          </Text>
+          {categories.map(category => {
+            return (
+              <Text
+                variant="button1"
+                color={colors.White}
+                _hover={{
+                  color: colors.Secondary.Main,
+                }}
+                cursor="pointer"
+              >
+                {category.name}
+              </Text>
+            );
+          })}
         </HStack>
       </HStack>
     </Flex>
