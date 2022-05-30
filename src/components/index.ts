@@ -1,2 +1,5 @@
 export * from './Header/Header'
 export * from './Spacer/Spacer'
+export * from './BlogCard/BlogCard'
+export * from './MarkdownContent/MarkdownContent'
+export * from './Footer/Footer'

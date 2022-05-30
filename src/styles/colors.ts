@@ -4,7 +4,8 @@ export const colors = {
     Black: '#24292f',
 
     Fonts: {
-        Default: '#031a4d'
+        Default: '#031a4d',
+        Sub: '#6b6b6b'
     },
 
 
@@ -12,9 +13,10 @@ export const colors = {
     Disabled: '#b3b3b3',
 
     Primary: {
-        Main:  '#60c9ca', 
+        Main:  '#60A5F9', 
         Main_RGB: 'rgb(	96, 201,202)',
         Main_Hover: '#56b4b5',
+        Dark: '#0587ca'
     },
 
     Danger: {
@@ -24,6 +26,7 @@ export const colors = {
     },
 
     Secondary: {
-        Main: '#fdb22e'
+        Main: '#fdb22e',
+        Light: '#edc01b'
     }
 }

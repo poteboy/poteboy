@@ -1,42 +1,84 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import React, { FC, memo } from 'react';
-import { VStack, Text, Button } from '@chakra-ui/react';
-import { colors } from '@src/styles';
-import { Header } from '@src/components';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { client as microClient } from '@src/constants';
-import { BlogList } from '@src/entities';
+import React, { FC, memo, useCallback } from 'react';
+import { VStack, Text, Image, HStack } from '@chakra-ui/react';
+import { colors, MIN_DESKTOP_WIDTH } from '@src/styles';
+import { Header, Spacer, BlogCard, Footer } from '@src/components';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { client as microClient, paths } from '@src/constants';
+import { MicroList, Blog, Category } from '@src/entities';
+import { useRouter } from 'next/router';
 
 type Props = {
-  blogList: BlogList;
+  blogs: MicroList<Blog>;
+  categories: MicroList<Category>;
 };
 
-const Root: NextPage<Props> = props => {
-  return <RootScreen {...props} />;
+const Root: NextPage<
+  InferGetStaticPropsType<typeof getStaticProps>
+> = props => {
+  const router = useRouter();
+
+  const selectBlogCard = useCallback(
+    (id: string) => {
+      const path = paths.blog({ blogUid: id });
+      router.push(path.href, path.as);
+    },
+    [router],
+  );
+
+  return <RootScreen onClickBlogCard={selectBlogCard} {...props} />;
 };
 
-type ScreenProps = {} & Props;
+type ScreenProps = {
+  onClickBlogCard: (id: string) => void;
+} & Props;
 
-const RootScreen: FC<ScreenProps> = memo(() => {
+const RootScreen: FC<ScreenProps> = memo(props => {
+  const { blogs, onClickBlogCard, categories } = props;
+
   return (
     <>
-      <Header />
-      <VStack bg={colors.BackGround} height="100vh" justifyContent="center">
-        <Text>hello</Text>
-        <Button>hello</Button>
+      <Header categories={categories.contents} />
+      <VStack bg={colors.BackGround} minH="100vh" alignContent="center">
+        <Spacer size={32} />
+        <HStack
+          maxW={`${650}px`}
+          flexWrap="wrap"
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          {blogs.contents.map(content => {
+            return (
+              <BlogCard
+                blog={content}
+                onClickBlogCard={onClickBlogCard}
+                position="relative"
+                key={content.id}
+              />
+            );
+          })}
+        </HStack>
       </VStack>
+      <Footer />
     </>
   );
 });
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const blogList: BlogList = await microClient.get({ endpoint: 'blogs' });
+  const blogs: MicroList<Blog> = await microClient.get({
+    endpoint: 'blogs',
+  });
+  const categories: MicroList<Category> = await microClient.get({
+    endpoint: 'categories',
+  });
 
   return {
     props: {
-      blogList,
+      blogs,
+      categories,
     },
+    revalidate: 10,
   };
 };
 
