@@ -37,7 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           sizes="16x16"
           href={require('@src/public/favicons/favicon-16x16.png')}
         />
-        <link rel="manifest" href="/favicons/site.webmanifest" />
+        {/* <link
+          rel="manifest"
+          href={require('@src/public/favicons/site.webmanifest')}
+        /> */}
         <link
           rel="mask-icon"
           href={require('@src/public/favicons/safari-pinned-tab.svg')}
