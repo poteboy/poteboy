@@ -11,16 +11,17 @@ import React, { FC, memo, useCallback } from 'react';
 import { client as microClient, paths } from '@src/constants';
 import { MicroList, Blog, Category } from '@src/entities';
 import { useRouter } from 'next/router';
+import { useCategory } from '@src/hooks';
 
 type Props = {
-  categories: MicroList<Category>;
   blogs: MicroList<Blog>;
 };
 
 const CategoryDetail: NextPage<
   InferGetStaticPropsType<typeof getStaticProps>
 > = props => {
-  const { categories, blogs } = props;
+  const { categories } = useCategory();
+  const { blogs } = props;
   const router = useRouter();
 
   const onClickBlogCard = (id: string) => {
@@ -34,7 +35,7 @@ const CategoryDetail: NextPage<
 
   return (
     <>
-      <Header categories={categories.contents} selectedId={categoryId} />
+      <Header categories={categories} selectedId={categoryId} />
       <VStack bg={colors.BackGround} height="100vh">
         <Spacer size={32} />
         <HStack
@@ -84,12 +85,8 @@ export const getStaticProps: GetStaticProps<Props> = async context => {
     endpoint: 'blogs',
     queries: { filters: `category[equals]${id}` },
   });
-  const categories: MicroList<Category> = await microClient.get({
-    endpoint: 'categories',
-  });
   return {
     props: {
-      categories,
       blogs,
     },
     revalidate: 10,

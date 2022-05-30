@@ -13,6 +13,7 @@ export const colors = {
     Disabled: '#b3b3b3',
 
     Primary: {
+        MainClear: '#009dff',
         Main:  '#60A5F9', 
         Main_RGB: 'rgb(	96, 201,202)',
         Main_Hover: '#56b4b5',
