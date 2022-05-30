@@ -19,13 +19,11 @@ export const paths: PathProps = {
     },
 
     categoryDetail: ({ categoryUid }: {categoryUid: string}) => ({
-      href: '/category/[categoryUid]',
-      as: `/category/${categoryUid}`
+      href: `/category/${categoryUid}`,
     }),
 
     blog: ({ blogUid }: {blogUid: string}) => ({
-      href: '/blog/[blogUid]',
-      as: `/blog/${blogUid}`
+      href: `/blog/${blogUid}`,
     }),
 
     privacyPolicy: {
