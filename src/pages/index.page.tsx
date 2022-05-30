@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React, { FC, memo, useCallback } from 'react';
-import { VStack, Text, Image } from '@chakra-ui/react';
-import { colors } from '@src/styles';
-import { Header, Spacer, BlogCard } from '@src/components';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { VStack, Text, Image, HStack } from '@chakra-ui/react';
+import { colors, MIN_DESKTOP_WIDTH } from '@src/styles';
+import { Header, Spacer, BlogCard, Footer } from '@src/components';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { client as microClient, paths } from '@src/constants';
 import { MicroList, Blog, Category } from '@src/entities';
 import { useRouter } from 'next/router';
@@ -14,7 +14,9 @@ type Props = {
   categories: MicroList<Category>;
 };
 
-const Root: NextPage<Props> = props => {
+const Root: NextPage<
+  InferGetStaticPropsType<typeof getStaticProps>
+> = props => {
   const router = useRouter();
 
   const selectBlogCard = useCallback(
@@ -34,15 +36,33 @@ type ScreenProps = {
 
 const RootScreen: FC<ScreenProps> = memo(props => {
   const { blogs, onClickBlogCard, categories } = props;
+
+  const bs = [blogs.contents[0], blogs.contents[0], blogs.contents[0]];
+
   return (
     <>
       <Header categories={categories.contents} />
-      <VStack bg={colors.BackGround} height="100%">
+      <VStack bg={colors.BackGround} minH="100vh" alignContent="center">
         <Spacer size={32} />
-        <BlogCard blog={blogs.contents[0]} onClickBlogCard={onClickBlogCard} />
-        <BlogCard blog={blogs.contents[0]} onClickBlogCard={onClickBlogCard} />
-        <BlogCard blog={blogs.contents[0]} onClickBlogCard={onClickBlogCard} />
+        <HStack
+          maxW={`${650}px`}
+          flexWrap="wrap"
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          {bs.map(b => {
+            return (
+              <BlogCard
+                blog={blogs.contents[0]}
+                onClickBlogCard={onClickBlogCard}
+                position="relative"
+                key={b.id}
+              />
+            );
+          })}
+        </HStack>
       </VStack>
+      <Footer />
     </>
   );
 });
@@ -60,6 +80,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       blogs,
       categories,
     },
+    revalidate: 10,
   };
 };
 

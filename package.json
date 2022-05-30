@@ -19,6 +19,7 @@
     "@next/bundle-analyzer": "^12.1.6",
     "date-fns": "^2.28.0",
     "framer-motion": "4.1.11",
+    "markdown-to-jsx": "^7.1.7",
     "microcms-js-sdk": "^2.0.0",
     "next": "latest",
     "next-images": "^1.8.4",

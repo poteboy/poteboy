@@ -14,18 +14,23 @@ import styled from 'styled-components';
 import { paths } from '@src/constants';
 import Title from '@src/public/title/main-title.png';
 import { Category } from '@src/entities';
+import { useRouter } from 'next/router';
 
 type Props = {
   categories: Category[];
 };
 
 export const Header: FC<Props> = memo(({ categories }) => {
+  const router = useRouter();
+
   return (
     <Flex as="header" flexDir="column" bg={colors.White} alignItems="center">
       <ContentBar maxW={'1200px'} py="12px">
         <HStack justifyContent="center" mx="auto" py="4px">
           <Link {...paths.index}>
-            <Image src={Title} width="170px" height="40px" cursor="pointer" />
+            <a>
+              <Image src={Title} width="170px" height="40px" cursor="pointer" />
+            </a>
           </Link>
         </HStack>
       </ContentBar>
@@ -39,16 +44,19 @@ export const Header: FC<Props> = memo(({ categories }) => {
         <HStack justifyContent="center" mx="auto" gap="20px" maxW="1200px">
           {categories.map(category => {
             return (
-              <Text
-                variant="button1"
-                color={colors.White}
-                _hover={{
-                  color: colors.Secondary.Main,
-                }}
-                cursor="pointer"
-              >
-                {category.name}
-              </Text>
+              <Link {...paths.categoryDetail({ categoryUid: category.id })}>
+                <Text
+                  as="a"
+                  variant="button1"
+                  color={colors.White}
+                  _hover={{
+                    color: colors.Secondary.Main,
+                  }}
+                  cursor="pointer"
+                >
+                  {category.name}
+                </Text>
+              </Link>
             );
           })}
         </HStack>
