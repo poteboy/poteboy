@@ -1,5 +1,9 @@
 import { css, CSSObject, FlattenSimpleInterpolation, SimpleInterpolation } from 'styled-components'
 
+
+// styled-componentsはSSRだとデフォルトで動かなかったので、`.babelrc`を追加
+// https://github.com/styled-components/styled-components/issues/3634
+
 export const MAX_MOBILE_WIDTH = 560
 export const MIN_TABLET_WIDTH = 561
 export const MIN_DESKTOP_WIDTH = 834

@@ -28,6 +28,8 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
             bg={colors.White}
             p="0px 64px 60px"
             w="calc(100% - 330px)"
+            boxShadow="0 2px 4px #4385bb12"
+            borderRadius="12px"
           >
             <Heading as="h1" variant="title" pt="40px">
               {blog.title}
