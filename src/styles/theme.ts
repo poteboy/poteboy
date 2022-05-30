@@ -37,6 +37,11 @@ const Text: ComponentStyleConfig = {
         fontSize: '24px',
         fontWeight: 700,
         marginY: '4px'
+      }),
+      sub: () => ({
+        fontSize: '14px',
+        fontWeight: 400,
+        color: colors.Fonts.Sub,
       })
     }
 }
@@ -52,6 +57,23 @@ const Button: ComponentStyleConfig = {
       },
       _hover: {
         bg: colors.Primary.Main_Hover
+      },
+    }),
+    outline: (props) => ({
+      borderWidth: 2,
+      borderColor: colors.Primary.MainClear,
+      bg: colors.White,
+      color: colors.Primary.MainClear,
+      height:"40px",
+      px:"32px",
+      borderRadius:"50px",
+      fontSize: "14px",
+      fontWeight:700,
+      _hover: {
+        bg: '#daeffd',
+      },
+      _focus: {
+        boxShadow: 'none',
       },
     })
   }

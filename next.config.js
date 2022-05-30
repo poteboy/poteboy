@@ -12,5 +12,8 @@ module.exports = withImages(
     eslint: {
       dirs: ["*/*", "src/*"],
     },
-  })
+    env: {
+      MICRO_CMS_API_KEY: process.env.MICRO_CMS_API_KEY
+    }
+  }),
 );

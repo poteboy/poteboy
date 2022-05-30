@@ -20,9 +20,10 @@ const Root: NextPage<
   const router = useRouter();
 
   const selectBlogCard = useCallback(
-    (id: string) => {
+    async (id: string) => {
       const path = paths.blog({ blogUid: id });
-      router.push(path.href, path.as);
+      // debugger;
+      await router.push(path.href, path.as);
     },
     [router],
   );

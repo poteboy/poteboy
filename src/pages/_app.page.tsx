@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from '../styles';
 import Head from 'next/head';
+import { CategoryProvider } from '@src/hooks';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -36,7 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           sizes="16x16"
           href={require('@src/public/favicons/favicon-16x16.png')}
         />
-        <link rel="manifest" href="/favicons/site.webmanifest" />
+        {/* <link
+          rel="manifest"
+          href={require('@src/public/favicons/site.webmanifest')}
+        /> */}
         <link
           rel="mask-icon"
           href={require('@src/public/favicons/safari-pinned-tab.svg')}
@@ -49,7 +53,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <CategoryProvider>
+          <Component {...pageProps} />
+        </CategoryProvider>
       </ChakraProvider>
     </>
   );

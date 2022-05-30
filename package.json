@@ -21,7 +21,7 @@
     "framer-motion": "4.1.11",
     "markdown-to-jsx": "^7.1.7",
     "microcms-js-sdk": "^2.0.0",
-    "next": "latest",
+    "next": "12.0.4",
     "next-images": "^1.8.4",
     "next-pwa": "^5.2.21",
     "react": "^17.0.2",
