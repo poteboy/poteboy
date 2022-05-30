@@ -1,4 +1,4 @@
-import { VStack } from '@chakra-ui/react';
+import { VStack, HStack } from '@chakra-ui/react';
 import { Header, Spacer, BlogCard, Footer } from '@src/components';
 import { colors } from '@src/styles';
 import type {
@@ -27,15 +27,32 @@ const CategoryDetail: NextPage<
     const path = paths.blog({ blogUid: id });
     router.push(path.href, path.as);
   };
+  const categoryId = router.asPath.substring(
+    router.asPath.lastIndexOf('/') + 1,
+    router.asPath.length,
+  );
 
   return (
     <>
-      <Header categories={categories.contents} />
+      <Header categories={categories.contents} selectedId={categoryId} />
       <VStack bg={colors.BackGround} height="100vh">
         <Spacer size={32} />
-        {blogs.contents.map(blog => {
-          return <BlogCard blog={blog} onClickBlogCard={onClickBlogCard} />;
-        })}
+        <HStack
+          maxW={`${650}px`}
+          flexWrap="wrap"
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          {blogs.contents.map(blog => {
+            return (
+              <BlogCard
+                blog={blog}
+                onClickBlogCard={onClickBlogCard}
+                key={blog.id}
+              />
+            );
+          })}
+        </HStack>
       </VStack>
       <Footer />
     </>

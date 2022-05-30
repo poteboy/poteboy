@@ -1,9 +1,11 @@
 import { MicoModel } from './micro'
+import { Category } from './category';
 
 export type Blog = {
     content: any;
     title: string;
-    eyecatch: EyeCatch
+    eyecatch: EyeCatch;
+    category: Category;
 } & MicoModel
 
 export type EyeCatch = {

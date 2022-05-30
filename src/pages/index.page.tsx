@@ -37,8 +37,6 @@ type ScreenProps = {
 const RootScreen: FC<ScreenProps> = memo(props => {
   const { blogs, onClickBlogCard, categories } = props;
 
-  const bs = [blogs.contents[0], blogs.contents[0], blogs.contents[0]];
-
   return (
     <>
       <Header categories={categories.contents} />
@@ -50,13 +48,13 @@ const RootScreen: FC<ScreenProps> = memo(props => {
           justifyContent="space-between"
           alignItems="flex-start"
         >
-          {bs.map(b => {
+          {blogs.contents.map(content => {
             return (
               <BlogCard
-                blog={blogs.contents[0]}
+                blog={content}
                 onClickBlogCard={onClickBlogCard}
                 position="relative"
-                key={b.id}
+                key={content.id}
               />
             );
           })}

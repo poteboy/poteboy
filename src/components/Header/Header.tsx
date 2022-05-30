@@ -18,9 +18,10 @@ import { useRouter } from 'next/router';
 
 type Props = {
   categories: Category[];
+  selectedId?: string;
 };
 
-export const Header: FC<Props> = memo(({ categories }) => {
+export const Header: FC<Props> = memo(({ categories, selectedId }) => {
   const router = useRouter();
 
   return (
@@ -37,6 +38,7 @@ export const Header: FC<Props> = memo(({ categories }) => {
       <HStack
         mx="auto"
         bg={colors.Black}
+        // bg="#5788c3"
         height="30px"
         width="100vw"
         p="24px 0px"
@@ -48,7 +50,11 @@ export const Header: FC<Props> = memo(({ categories }) => {
                 <Text
                   as="a"
                   variant="button1"
-                  color={colors.White}
+                  color={
+                    category.id === selectedId
+                      ? colors.Secondary.Light
+                      : colors.White
+                  }
                   _hover={{
                     color: colors.Secondary.Main,
                   }}
