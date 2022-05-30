@@ -8,6 +8,7 @@ import Document, {
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
+// 何故かこれがあると動かないから一旦.page拡張子を外している
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
