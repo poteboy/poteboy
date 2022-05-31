@@ -1,6 +1,15 @@
 import type { ComponentStyleConfig } from '@chakra-ui/theme'
 import { extendTheme, ButtonProps } from '@chakra-ui/react'
+import{ createBreakpoints } from '@chakra-ui/theme-tools'
 import { colors } from './colors'
+import { MAX_MOBILE_WIDTH, MIN_TABLET_WIDTH, MIN_DESKTOP_WIDTH } from './size'
+
+const breakpoints = createBreakpoints({
+  sm: `${MAX_MOBILE_WIDTH}px`,
+  md: `${MIN_TABLET_WIDTH}px`,
+  lg: `${MIN_DESKTOP_WIDTH}px`,
+  xl: '1200px',
+})
 
 const Heading: ComponentStyleConfig = {
   variants: {

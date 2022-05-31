@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { Header, Spacer, MarkdownContent, Footer } from '@src/components';
-import { Heading, HStack, VStack, Text } from '@chakra-ui/react';
+import { Heading, HStack, VStack, Text, Image } from '@chakra-ui/react';
 import { colors, sp, tab, MIN_DESKTOP_WIDTH } from '@src/styles';
 import { MicroList, Category, Blog } from '@src/entities';
 import { client as microClient, paths } from '@src/constants';
@@ -40,6 +40,10 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
                 {formatDateJa(new Date(blog.createdAt))}
               </Text>
             </HStack>
+            <Image
+              src={blog.eyecatch.url}
+              width={{ base: '100%', md: '80%' }}
+            />
             <MarkdownContent content={blog.content} />
           </BlogContainer>
           <Spacer size={64} />
@@ -90,7 +94,7 @@ export default BlogPost;
 
 const BlogContainer = styled(VStack)`
   ${tab`
-    width: 100%;
+    width: 90%;
     padding: 0px 30px 30px
   `}
   ${sp`
