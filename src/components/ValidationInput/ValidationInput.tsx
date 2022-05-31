@@ -1,7 +1,20 @@
-import React from 'react';
-import { Input, InputProps, Box, FormErrorMessage } from '@chakra-ui/react';
-import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import {
+  Input,
+  InputProps,
+  Box,
+  FormErrorMessage,
+  Text,
+  FormControl,
+} from '@chakra-ui/react';
+import {
+  Controller,
+  FieldValues,
+  UseControllerProps,
+  UseFormSetValue,
+} from 'react-hook-form';
 import { Spacer } from '../Spacer/Spacer';
+import { colors } from '@src/styles';
 
 type ValidationInputProps<T extends FieldValues> = InputProps &
   UseControllerProps<T>;
@@ -12,6 +25,8 @@ export const ValidationInput = <T extends FieldValues>({
   placeholder,
   defaultValue,
   rules,
+  value,
+  ...style
 }: ValidationInputProps<T>) => {
   return (
     <Controller
@@ -19,7 +34,10 @@ export const ValidationInput = <T extends FieldValues>({
       name={name}
       rules={rules}
       defaultValue={defaultValue}
-      render={({ field: { onChange, onBlur }, formState: { errors } }) => {
+      render={({
+        field: { onChange, onBlur, value },
+        formState: { errors },
+      }) => {
         return (
           <Box width="100%">
             <Input
@@ -28,11 +46,13 @@ export const ValidationInput = <T extends FieldValues>({
               fontSize="16px"
               onBlur={onBlur}
               onChange={onChange}
+              {...style}
+              isInvalid={errors[name]?.message}
             />
             <Spacer size={8} />
-            <FormErrorMessage>
-              {errors.name && errors.name.message}
-            </FormErrorMessage>
+            <Text color={colors.Danger.Main} fontSize="14px">
+              {errors[name]?.message}
+            </Text>
           </Box>
         );
       }}
