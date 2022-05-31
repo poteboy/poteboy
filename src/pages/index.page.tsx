@@ -3,7 +3,7 @@ import Head from 'next/head';
 import React, { FC, memo, useCallback } from 'react';
 import { VStack, Text, Image, HStack } from '@chakra-ui/react';
 import { colors, MIN_DESKTOP_WIDTH } from '@src/styles';
-import { Header, Spacer, BlogCard, Footer } from '@src/components';
+import { Header, Spacer, BlogCard, Footer, Seo } from '@src/components';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { client as microClient, paths } from '@src/constants';
 import { MicroList, Blog, Category } from '@src/entities';
@@ -40,6 +40,7 @@ const RootScreen: FC<ScreenProps> = memo(props => {
 
   return (
     <>
+      <Seo />
       <Header categories={categories.contents} />
       <VStack bg={colors.BackGround} minH="100vh" alignContent="center">
         <Spacer size={32} />

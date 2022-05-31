@@ -1,6 +1,6 @@
 import React, { FC, memo } from 'react';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { Header, Spacer, MarkdownContent, Footer } from '@src/components';
+import { Header, Spacer, MarkdownContent, Footer, Seo } from '@src/components';
 import { Heading, HStack, VStack, Text, Image } from '@chakra-ui/react';
 import { colors, sp, tab, MIN_DESKTOP_WIDTH } from '@src/styles';
 import { MicroList, Category, Blog } from '@src/entities';
@@ -8,7 +8,7 @@ import { client as microClient, paths } from '@src/constants';
 import { EditIcon } from './EditIcon';
 import { formatDateJa } from '@src/utils';
 import styled from 'styled-components';
-import { useWindowSize } from '@src/hooks';
+import Head from 'next/head';
 
 type Props = {
   blog: Blog;
@@ -20,6 +20,13 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
 
   return (
     <>
+      <Seo
+        title={blog.title}
+        img={blog.eyecatch.url}
+        imgHeight={315}
+        imgWidth={600}
+        description={blog.content.slice(0, 120)}
+      />
       <Header categories={categories.contents} />
       <VStack bg={colors.BackGround} minH="100vh">
         <Spacer size={32} />

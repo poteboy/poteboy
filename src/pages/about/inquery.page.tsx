@@ -21,7 +21,7 @@ import { colors, MAX_MOBILE_WIDTH } from '@src/styles';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
+import Head from 'next/head';
 
 const Inquery: NextPage = () => {
   const toast = useToast();
@@ -43,6 +43,14 @@ const Inquery: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>ケンコウイチバンへの問い合わせ</title>
+        <meta name="og:title" content="ケンコウイチバンへの問い合わせ" />
+        <meta
+          name="description"
+          content="ケンコウイチバンについて何かご不明点・お問合せがある場合はこちらのフォームからご意見を募集しています。"
+        />
+      </Head>
       <Header categories={categories} />
       <VStack minH="80vh" bg={colors.BackGround}>
         <Spacer size={32} />
