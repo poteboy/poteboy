@@ -29,6 +29,11 @@ export const paths: PathProps = {
     privacyPolicy: {
       href: '/legal/privacy-policy',
       as: '/legal/privacy-policy',
+    },
+
+    termOfUse: {
+      href: '/legal/term-of-use',
+      as: '/legal/term-of-use'
     }
   
   };
@@ -47,6 +52,7 @@ const pathKeys = {
 
     //<root>/legal
     privacyPolicy: 'privacyPolicy',
+    termOfUse: 'termOfUse',
 } as const;
   
 type PathProps = {
@@ -56,4 +62,5 @@ type PathProps = {
     [pathKeys.blog]: ({ blogUid }: {blogUid: string}) => LinkProps
     [pathKeys.categoryDetail]: ({ categoryUid }: {categoryUid: string}) => LinkProps
     [pathKeys.privacyPolicy]: LinkProps;
+    [pathKeys.termOfUse]: LinkProps;
 };

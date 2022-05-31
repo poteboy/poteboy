@@ -39,17 +39,19 @@ export const Footer: FC = memo(() => {
                 プライバシーポリシー
               </Text>
             </Link>
-            <Spacer size={0.5} />
-            <Text
-              as="a"
-              variant="sub"
-              _hover={{
-                borderBottom: `1px solid ${colors.Fonts.Sub}`,
-              }}
-              cursor="pointer"
-            >
-              利用規約
-            </Text>
+            {/* <Spacer size={0.5} />
+            <Link {...paths.termOfUse}>
+              <Text
+                as="a"
+                variant="sub"
+                _hover={{
+                  borderBottom: `1px solid ${colors.Fonts.Sub}`,
+                }}
+                cursor="pointer"
+              >
+                利用規約
+              </Text>
+            </Link> */}
           </FooterStack>
           <FooterStack>
             <Button variant="outline">お問合せはこちら</Button>

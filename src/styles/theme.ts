@@ -8,6 +8,11 @@ const Heading: ComponentStyleConfig = {
       fontSize: '2em',
       fontWeight: 700,
       marginY: '4px'
+    }),
+    subTitle: () => ({
+      fontSize: '1.5em',
+      fontWeight: 600,
+      marginY: '2px'
     })
   }
 }
@@ -16,7 +21,7 @@ const Text: ComponentStyleConfig = {
     baseStyle: {
         fontFamily: 'Hiragino Sans',
         fontWeight: 400,
-        lineHeight: '150%',
+        lineHeight: '1.7',
         fontSize: '16px',
         color: colors.Black
     },

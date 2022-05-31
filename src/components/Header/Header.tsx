@@ -22,8 +22,6 @@ type Props = {
 };
 
 export const Header: FC<Props> = memo(({ categories, selectedId }) => {
-  const router = useRouter();
-
   return (
     <Flex as="header" flexDir="column" bg={colors.White} alignItems="center">
       <ContentBar maxW={'1200px'} py="12px">
