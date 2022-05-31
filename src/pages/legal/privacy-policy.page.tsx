@@ -1,5 +1,5 @@
 import { Divider, Heading, VStack, Text } from '@chakra-ui/react';
-import { Footer, Header, ContentContainer, Spacer } from '@src/components';
+import { Footer, Header, ContentContainer, Spacer, Seo } from '@src/components';
 import { useCategory } from '@src/hooks';
 import { colors } from '@src/styles';
 import type { NextPage } from 'next';
@@ -11,6 +11,10 @@ const PrivacyPolicy: NextPage = () => {
 
   return (
     <>
+      <Seo
+        title="プライバシーポリシー"
+        description="総合健康情報サイト「ケンコウイチバン」のプライバシーポリシーです"
+      />
       <Header categories={categories} />
       <VStack bg={colors.BackGround} minH="80vh">
         <Spacer size={32} />
