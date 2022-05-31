@@ -1,5 +1,5 @@
 import { Divider, Heading, VStack, Text } from '@chakra-ui/react';
-import { Footer, Header, LegalContainer, Spacer } from '@src/components';
+import { Footer, Header, ContentContainer, Spacer } from '@src/components';
 import { useCategory } from '@src/hooks';
 import { colors } from '@src/styles';
 import type { NextPage } from 'next';
@@ -14,7 +14,7 @@ const PrivacyPolicy: NextPage = () => {
       <Header categories={categories} />
       <VStack bg={colors.BackGround} minH="80vh">
         <Spacer size={32} />
-        <LegalContainer>
+        <ContentContainer>
           <Heading as="h1" variant="title" textAlign="center">
             プライバシーポリシー
           </Heading>
@@ -42,7 +42,7 @@ const PrivacyPolicy: NextPage = () => {
             本サービスは、アカウントの有効性の確認やアカウントの保護のため、登録ユーザーが利用登録をする際にメールアドレスなどの個人情報をお尋ねすることがあります。また、登録ユーザーと提携先（情報提供元、広告主、広告配信先などを含みます）などとの間でなされた登録ユーザーの個人情報を含む取引記録や、決済に関する情報を本サービスの提携先などから収集することがあります。
             本サービスは、利便性の向上のため、登録ユーザーについて、利用したサービスやソフトウエア、閲覧したページや広告の履歴、検索した検索キーワード、利用日時、利用方法、利用環境（携帯端末を通じてご利用の場合の当該端末の通信状態、利用に際しての各種設定情報なども含みます）、IPアドレス、Cookie、ローカルストレージなどの履歴情報および特性情報を、登録ユーザーが本サービスや提携先のサービスを利用し、またはページを閲覧する際に収集します。
           </Text>
-        </LegalContainer>
+        </ContentContainer>
         <Spacer size={64} />
       </VStack>
       <Footer />
