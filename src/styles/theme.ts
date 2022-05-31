@@ -70,7 +70,7 @@ const Button: ComponentStyleConfig = {
         boxShadow: 'none',
       },
       _hover: {
-        bg: colors.Primary.Main_Hover
+        bg: colors.Primary.Dark
       },
     }),
     outline: (props) => ({

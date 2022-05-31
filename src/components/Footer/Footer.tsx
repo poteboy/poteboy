@@ -54,7 +54,11 @@ export const Footer: FC = memo(() => {
             </Link> */}
           </FooterStack>
           <FooterStack>
-            <Button variant="outline">お問合せはこちら</Button>
+            <Link {...paths.inquery}>
+              <Button as="a" variant="outline" cursor="pointer">
+                お問合せはこちら
+              </Button>
+            </Link>
           </FooterStack>
         </ResponsiveStack>
       </VStack>

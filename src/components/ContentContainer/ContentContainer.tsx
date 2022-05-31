@@ -1,38 +1,40 @@
-import React, { FC, memo } from 'react';
-import { Spacer } from '../Spacer/Spacer';
-import { VStack, StackProps } from '@chakra-ui/react';
-import { colors, tab, sp, MAX_MOBILE_WIDTH } from '@src/styles';
+import { Heading, VStack, Text, Box } from '@chakra-ui/react';
+import { Footer, Header } from '@src/components';
+import { useCategory } from '@src/hooks';
+import { colors, tab, sp, pc } from '@src/styles';
+import type { NextPage } from 'next';
+import React from 'react';
 import styled from 'styled-components';
 
-export const ContentContainer: FC<StackProps> = memo(
-  ({ children, ...style }) => {
-    return (
-      <VStack bg={colors.BackGround} minH="100vh" pb={8}>
-        <Spacer size={32} />
-        <VStack w="100%" maxW="1120px">
-          <BlogContainer
-            bg={colors.White}
-            p="0px 64px 60px"
-            w="calc(100% - 330px)"
-            boxShadow="0 2px 4px #4385bb12"
-            borderRadius="12px"
-            {...style}
-          >
+export const ContentContainer: React.FC = React.memo(({ children }) => {
+  return (
+    <>
+      <DefaultContainer maxW="880px" m="0 auto" p="0 40px">
+        <Box as="article" boxSizing="inherit" display="block">
+          <ContentBox borderRadius="16px" bg={colors.White} p="30px 60px 40px">
             {children}
-          </BlogContainer>
-        </VStack>
-      </VStack>
-    );
-  },
-);
+          </ContentBox>
+        </Box>
+      </DefaultContainer>
+    </>
+  );
+});
 
-const BlogContainer = styled(VStack)`
-  ${tab`
-    width: 100%;
-    padding: 0px 30px 30px
-  `}
+const DefaultContainer = styled(Box)`
   ${sp`
-    width: auto;
-    padding: 0px 30px 30px;
-  `}
+      padding: 0px;
+      max-width: 100%;
+    `}
+  ${tab`
+      padding: 0 25px;
+      max-width: 100%;
+    `} /* ${pc`
+    max-width: 100%;
+  `} */
+`;
+
+const ContentBox = styled(Box)`
+  ${sp`
+      padding: 30px 20px;
+    `}
 `;

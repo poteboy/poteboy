@@ -1,5 +1,5 @@
 import { Heading, VStack, Text, Box } from '@chakra-ui/react';
-import { Footer, Header, LegalContainer, Spacer } from '@src/components';
+import { Footer, Header, ContentContainer, Spacer } from '@src/components';
 import { useCategory } from '@src/hooks';
 import { colors, tab, sp, pc } from '@src/styles';
 import type { NextPage } from 'next';
@@ -14,12 +14,12 @@ const TermOfUse: NextPage = () => {
       <Header categories={categories} />
       <VStack bg={colors.BackGround} minH="80vh" alignItems="center">
         <Spacer size={32} />
-        <LegalContainer>
+        <ContentContainer>
           <Heading as="h1" variant="title" textAlign="center">
             利用規約
           </Heading>
           <Text>TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST</Text>
-        </LegalContainer>
+        </ContentContainer>
       </VStack>
       <Footer />
     </>

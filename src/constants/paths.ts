@@ -34,6 +34,11 @@ export const paths: PathProps = {
     termOfUse: {
       href: '/legal/term-of-use',
       as: '/legal/term-of-use'
+    },
+
+    inquery: {
+      href: '/about/inquery',
+      as: '/about/inquery'
     }
   
   };
@@ -50,6 +55,9 @@ const pathKeys = {
     //<root>/blog
     blog: 'blog',
 
+    //<root>/about
+    inquery: 'inquery',
+
     //<root>/legal
     privacyPolicy: 'privacyPolicy',
     termOfUse: 'termOfUse',
@@ -63,4 +71,5 @@ type PathProps = {
     [pathKeys.categoryDetail]: ({ categoryUid }: {categoryUid: string}) => LinkProps
     [pathKeys.privacyPolicy]: LinkProps;
     [pathKeys.termOfUse]: LinkProps;
+    [pathKeys.inquery]: LinkProps;
 };
