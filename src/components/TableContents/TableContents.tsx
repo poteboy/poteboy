@@ -1,7 +1,6 @@
 import React, { FC, memo, useEffect } from 'react'
 import { Box, VStack, Text, StyleProps } from '@chakra-ui/react';
 import * as cheerio from 'cheerio'
-import { Link } from 'react-scroll';
 
 type Props = {
     content: string; // content with HTML tag
@@ -25,7 +24,7 @@ export const TableContents: FC<Props> = memo(({ content, ...style }) => {
             <Text variant='heading3'>目次</Text>
             <VStack as='ul' alignItems='flex-start' p={4}>
                 {arr.map(val => {
-                    return <Link key={val.id} to={val.id} ><Text as='li' >{val.text}</Text></Link>
+                    return <Text as='li' >{val.text}</Text>
                 })}
             </VStack>
         </Box>
