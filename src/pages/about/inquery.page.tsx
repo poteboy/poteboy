@@ -87,7 +87,7 @@ const Inquery: NextPage = () => {
             <ValidationInput
               control={control}
               name="content"
-              placeholder="tanaka.taro@gmail.com"
+              placeholder="特になし"
               minW={MAX_MOBILE_WIDTH * 0.5}
               height="100px"
               as="textarea"

@@ -1,6 +1,6 @@
-import { MicoModel } from './micro'
+import { MicoModel } from './micro';
 
 export type Category = {
-    id: string;
-    name: string;
-} & MicoModel
+  id: string;
+  name: string;
+} & MicoModel;

@@ -1,75 +1,78 @@
 import { LinkProps } from 'next/link';
 
 export const paths: PathProps = {
-    index: {
-      href: '/',
-      as: '/',
-    },
-  
-    signUp: (opts?: { redirectTo?: string }) => ({
-      href: '/sign-up',
-      as: `/sign-up${
-        opts?.redirectTo ? `?redirect=${encodeURIComponent(opts.redirectTo)}` : ''
-      }`,
-    }),
+  index: {
+    href: '/',
+    as: '/',
+  },
 
-    category: {
-      href: '/category',
-      as: '/category'
-    },
+  signUp: (opts?: { redirectTo?: string }) => ({
+    href: '/sign-up',
+    as: `/sign-up${
+      opts?.redirectTo ? `?redirect=${encodeURIComponent(opts.redirectTo)}` : ''
+    }`,
+  }),
 
-    categoryDetail: ({ categoryUid }: {categoryUid: string}) => ({
-      href: `/category/${categoryUid}`,
-    }),
+  category: {
+    href: '/category',
+    as: '/category',
+  },
 
-    blog: ({ blogUid }: {blogUid: string}) => ({
-      href: `/blog/${blogUid}`,
-    }),
+  categoryDetail: ({ categoryUid }: { categoryUid: string }) => ({
+    href: `/category/${categoryUid}`,
+  }),
 
-    privacyPolicy: {
-      href: '/legal/privacy-policy',
-      as: '/legal/privacy-policy',
-    },
+  blog: ({ blogUid }: { blogUid: string }) => ({
+    href: `/blog/${blogUid}`,
+  }),
 
-    termOfUse: {
-      href: '/legal/term-of-use',
-      as: '/legal/term-of-use'
-    },
+  privacyPolicy: {
+    href: '/legal/privacy-policy',
+    as: '/legal/privacy-policy',
+  },
 
-    inquery: {
-      href: '/about/inquery',
-      as: '/about/inquery'
-    }
-  
-  };
-  
+  termOfUse: {
+    href: '/legal/term-of-use',
+    as: '/legal/term-of-use',
+  },
+
+  inquery: {
+    href: '/about/inquery',
+    as: '/about/inquery',
+  },
+};
+
 const pathKeys = {
-    // <root>/
-    index: 'index',
-    signUp: 'signUp',
+  // <root>/
+  index: 'index',
+  signUp: 'signUp',
 
-    // <root>/category
-    category: 'category',
-    categoryDetail: 'categoryDetail',
+  // <root>/category
+  category: 'category',
+  categoryDetail: 'categoryDetail',
 
-    //<root>/blog
-    blog: 'blog',
+  //<root>/blog
+  blog: 'blog',
 
-    //<root>/about
-    inquery: 'inquery',
+  //<root>/about
+  inquery: 'inquery',
 
-    //<root>/legal
-    privacyPolicy: 'privacyPolicy',
-    termOfUse: 'termOfUse',
+  //<root>/legal
+  privacyPolicy: 'privacyPolicy',
+  termOfUse: 'termOfUse',
 } as const;
-  
+
 type PathProps = {
-    [pathKeys.index]: LinkProps;
-    [pathKeys.signUp] : (opts?: { redirectTo?: string }) => LinkProps
-    [pathKeys.category]: LinkProps;
-    [pathKeys.blog]: ({ blogUid }: {blogUid: string}) => LinkProps
-    [pathKeys.categoryDetail]: ({ categoryUid }: {categoryUid: string}) => LinkProps
-    [pathKeys.privacyPolicy]: LinkProps;
-    [pathKeys.termOfUse]: LinkProps;
-    [pathKeys.inquery]: LinkProps;
+  [pathKeys.index]: LinkProps;
+  [pathKeys.signUp]: (opts?: { redirectTo?: string }) => LinkProps;
+  [pathKeys.category]: LinkProps;
+  [pathKeys.blog]: ({ blogUid }: { blogUid: string }) => LinkProps;
+  [pathKeys.categoryDetail]: ({
+    categoryUid,
+  }: {
+    categoryUid: string;
+  }) => LinkProps;
+  [pathKeys.privacyPolicy]: LinkProps;
+  [pathKeys.termOfUse]: LinkProps;
+  [pathKeys.inquery]: LinkProps;
 };

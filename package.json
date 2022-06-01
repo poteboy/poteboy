@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "prettier --write ./src/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.5",
@@ -18,6 +19,7 @@
     "@emotion/styled": "11.1.5",
     "@hookform/resolvers": "^2.8.10",
     "@next/bundle-analyzer": "^12.1.6",
+    "cheerio": "^1.0.0-rc.11",
     "date-fns": "^2.28.0",
     "framer-motion": "4.1.11",
     "markdown-to-jsx": "^7.1.7",
@@ -29,6 +31,7 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.31.3",
     "react-remove-scroll-bar": "^2.3.1",
+    "string-strip-html": "^9.1.12",
     "styled-components": "^5.3.5",
     "yup": "^0.32.11"
   },

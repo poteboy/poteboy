@@ -1,2 +1,2 @@
-export * from './paths'
-export * from './micro_cms'
+export * from './paths';
+export * from './micro_cms';

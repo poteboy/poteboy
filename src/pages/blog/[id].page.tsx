@@ -1,6 +1,6 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useEffect } from 'react';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { Header, Spacer, MarkdownContent, Footer, Seo } from '@src/components';
+import { Header, Spacer, MarkdownContent, Footer, Seo, TableContents } from '@src/components';
 import { Heading, HStack, VStack, Text, Image } from '@chakra-ui/react';
 import { colors, sp, tab, MIN_DESKTOP_WIDTH } from '@src/styles';
 import { MicroList, Category, Blog } from '@src/entities';
@@ -8,7 +8,8 @@ import { client as microClient, paths } from '@src/constants';
 import { EditIcon } from './EditIcon';
 import { formatDateJa } from '@src/utils';
 import styled from 'styled-components';
-import Head from 'next/head';
+import { stripHtml } from "string-strip-html";
+import { useScrollContent } from '@src/hooks';
 
 type Props = {
   blog: Blog;
@@ -16,7 +17,6 @@ type Props = {
 };
 
 const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
-  // const { width } = useWindowSize()
 
   return (
     <>
@@ -25,7 +25,7 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
         img={blog.eyecatch.url}
         imgHeight={315}
         imgWidth={600}
-        description={blog.content.slice(0, 120)}
+        description={stripHtml(blog.content).result.slice(0, 120)}
       />
       <Header categories={categories.contents} />
       <VStack bg={colors.BackGround} minH="100vh">
@@ -51,6 +51,8 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
               src={blog.eyecatch.url}
               width={{ base: '100%', md: '80%' }}
             />
+            <Spacer size={10} />
+            <TableContents content={blog.content} minW='70%' maxW='90%' />
             <MarkdownContent content={blog.content} />
           </BlogContainer>
           <Spacer size={64} />
