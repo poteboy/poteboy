@@ -1,9 +1,6 @@
 import React, { FC } from 'react';
 
-export const Spacer: FC<{ size: number; horizontal?: boolean }> = ({
-  size,
-  horizontal,
-}) => {
+export const Spacer: FC<{ size: number; horizontal?: boolean }> = ({ size, horizontal }) => {
   return (
     <div
       style={

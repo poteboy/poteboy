@@ -1,10 +1,4 @@
-import Document, {
-  Html,
-  Head,
-  NextScript,
-  Main,
-  DocumentContext,
-} from 'next/document';
+import Document, { Html, Head, NextScript, Main, DocumentContext } from 'next/document';
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
@@ -40,7 +34,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="ja-JP">
+      <Html lang='ja-JP'>
         <Head />
         <body>
           <noscript></noscript>

@@ -9,9 +9,9 @@ import styled from 'styled-components';
 export const ContentContainer: React.FC = React.memo(({ children }) => {
   return (
     <>
-      <DefaultContainer maxW="880px" m="0 auto" p="0 40px">
-        <Box as="article" boxSizing="inherit" display="block">
-          <ContentBox borderRadius="16px" bg={colors.White} p="30px 60px 40px">
+      <DefaultContainer maxW='880px' m='0 auto' p='0 40px'>
+        <Box as='article' boxSizing='inherit' display='block'>
+          <ContentBox borderRadius='16px' bg={colors.White} p='30px 60px 40px'>
             {children}
           </ContentBox>
         </Box>

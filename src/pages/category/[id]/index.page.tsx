@@ -1,12 +1,7 @@
 import { VStack, HStack } from '@chakra-ui/react';
 import { Header, Spacer, BlogCard, Footer } from '@src/components';
 import { colors } from '@src/styles';
-import type {
-  NextPage,
-  GetStaticProps,
-  InferGetStaticPropsType,
-  GetStaticPaths,
-} from 'next';
+import type { NextPage, GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next';
 import React, { FC, memo, useCallback } from 'react';
 import { client as microClient, paths } from '@src/constants';
 import { MicroList, Blog, Category } from '@src/entities';
@@ -17,9 +12,7 @@ type Props = {
   blogs: MicroList<Blog>;
 };
 
-const CategoryDetail: NextPage<
-  InferGetStaticPropsType<typeof getStaticProps>
-> = props => {
+const CategoryDetail: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
   const { categories } = useCategory();
   const { blogs } = props;
   const router = useRouter();
@@ -36,22 +29,16 @@ const CategoryDetail: NextPage<
   return (
     <>
       <Header categories={categories} selectedId={categoryId} />
-      <VStack bg={colors.BackGround} height="100vh">
+      <VStack bg={colors.BackGround} height='100vh'>
         <Spacer size={32} />
         <HStack
           maxW={`${650}px`}
-          flexWrap="wrap"
-          justifyContent="space-between"
-          alignItems="flex-start"
+          flexWrap='wrap'
+          justifyContent='space-between'
+          alignItems='flex-start'
         >
-          {blogs.contents.map(blog => {
-            return (
-              <BlogCard
-                blog={blog}
-                onClickBlogCard={onClickBlogCard}
-                key={blog.id}
-              />
-            );
+          {blogs.contents.map((blog) => {
+            return <BlogCard blog={blog} onClickBlogCard={onClickBlogCard} key={blog.id} />;
           })}
         </HStack>
       </VStack>
@@ -60,12 +47,12 @@ const CategoryDetail: NextPage<
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async context => {
+export const getStaticPaths: GetStaticPaths = async (context) => {
   const categories: MicroList<Category> = await microClient.get({
     endpoint: 'categories',
   });
 
-  const paths = categories.contents.map(content => {
+  const paths = categories.contents.map((content) => {
     return {
       params: {
         id: content.id,
@@ -79,7 +66,7 @@ export const getStaticPaths: GetStaticPaths = async context => {
   };
 };
 
-export const getStaticProps: GetStaticProps<Props> = async context => {
+export const getStaticProps: GetStaticProps<Props> = async (context) => {
   const id = context.params?.id as string | undefined;
   const blogs: MicroList<Blog> = await microClient.get({
     endpoint: 'blogs',

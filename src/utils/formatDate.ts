@@ -1,5 +1,5 @@
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 
-export const formatDateJa = (date:Date) => {
-    return format(date, 'yyyy年MM月dd日')
-}
+export const formatDateJa = (date: Date) => {
+  return format(date, 'yyyy年MM月dd日');
+};

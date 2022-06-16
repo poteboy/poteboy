@@ -1,13 +1,5 @@
 import React, { FC, memo } from 'react';
-import {
-  HStack,
-  Container,
-  Flex,
-  Button,
-  Text,
-  Image,
-  VStack,
-} from '@chakra-ui/react';
+import { HStack, Container, Flex, Button, Text, Image, VStack } from '@chakra-ui/react';
 import { colors, sp, MAX_MOBILE_WIDTH } from '@src/styles';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -23,40 +15,36 @@ type Props = {
 
 export const Header: FC<Props> = memo(({ categories, selectedId }) => {
   return (
-    <Flex as="header" flexDir="column" bg={colors.White} alignItems="center">
-      <ContentBar maxW={'1200px'} py="12px">
-        <HStack justifyContent="center" mx="auto" py="4px">
+    <Flex as='header' flexDir='column' bg={colors.White} alignItems='center'>
+      <ContentBar maxW={'1200px'} py='12px'>
+        <HStack justifyContent='center' mx='auto' py='4px'>
           <Link {...paths.index}>
             <a>
-              <Image src={Title} width="170px" height="40px" cursor="pointer" />
+              <Image src={Title} width='170px' height='40px' cursor='pointer' />
             </a>
           </Link>
         </HStack>
       </ContentBar>
       <HStack
-        mx="auto"
+        mx='auto'
         bg={colors.Black}
         // bg="#5788c3"
-        height="30px"
-        width="100vw"
-        p="24px 0px"
+        height='30px'
+        width='100vw'
+        p='24px 0px'
       >
-        <HStack justifyContent="center" mx="auto" gap="20px" maxW="1200px">
-          {categories.map(category => {
+        <HStack justifyContent='center' mx='auto' gap='20px' maxW='1200px'>
+          {categories.map((category) => {
             return (
               <Link {...paths.categoryDetail({ categoryUid: category.id })}>
                 <Text
-                  as="a"
-                  variant="button1"
-                  color={
-                    category.id === selectedId
-                      ? colors.Secondary.Light
-                      : colors.White
-                  }
+                  as='a'
+                  variant='button1'
+                  color={category.id === selectedId ? colors.Secondary.Light : colors.White}
                   _hover={{
                     color: colors.Secondary.Main,
                   }}
-                  cursor="pointer"
+                  cursor='pointer'
                 >
                   {category.name}
                 </Text>

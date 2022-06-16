@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useState,
-  useContext,
-  createContext,
-} from 'react';
+import React, { FC, useCallback, useEffect, useState, useContext, createContext } from 'react';
 import { Category, MicroList } from '@src/entities';
 import { client as microClient, paths } from '@src/constants';
 
@@ -42,7 +35,5 @@ export const CategoryProvider: FC = ({ children }) => {
     fetchCategories();
   }, []);
 
-  return (
-    <Provider value={{ categories, loadingCategories }}>{children}</Provider>
-  );
+  return <Provider value={{ categories, loadingCategories }}>{children}</Provider>;
 };

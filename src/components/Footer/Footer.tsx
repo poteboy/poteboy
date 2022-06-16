@@ -10,31 +10,31 @@ const FOOTER_STACK_WIDTH = 1200;
 
 export const Footer: FC = memo(() => {
   return (
-    <VStack as="footer" w="100vw" bg={colors.White}>
+    <VStack as='footer' w='100vw' bg={colors.White}>
       <Divider />
-      <VStack alignItems="center" p={4} maxW={FOOTER_STACK_WIDTH}>
-        <ResponsiveStack gap="50px">
+      <VStack alignItems='center' p={4} maxW={FOOTER_STACK_WIDTH}>
+        <ResponsiveStack gap='50px'>
           <FooterStack>
             <Link {...paths.index}>
               <Image
                 src={require('@src/public/title/main-title.png')}
                 w={FOOTER_STACK_WIDTH / 5.5 + 'px'}
-                cursor="pointer"
+                cursor='pointer'
               />
             </Link>
-            <Text variant="sub">総合健康情報サイト</Text>
+            <Text variant='sub'>総合健康情報サイト</Text>
           </FooterStack>
           <FooterStack>
             <Text fontWeight={600}>規約</Text>
             <Spacer size={0.5} />
             <Link {...paths.privacyPolicy}>
               <Text
-                as="a"
-                variant="sub"
+                as='a'
+                variant='sub'
                 _hover={{
                   borderBottom: `1px solid ${colors.Fonts.Sub}`,
                 }}
-                cursor="pointer"
+                cursor='pointer'
               >
                 プライバシーポリシー
               </Text>
@@ -55,17 +55,15 @@ export const Footer: FC = memo(() => {
           </FooterStack>
           <FooterStack>
             <Link {...paths.inquery}>
-              <Button as="a" variant="outline" cursor="pointer">
+              <Button as='a' variant='outline' cursor='pointer'>
                 お問合せはこちら
               </Button>
             </Link>
           </FooterStack>
         </ResponsiveStack>
       </VStack>
-      <VStack bg={colors.Black} alignItems="center" p={8} w="100%">
-        <Text color={colors.White}>
-          Copyright - kenko-ichiban 2022 All Right Reserved
-        </Text>
+      <VStack bg={colors.Black} alignItems='center' p={8} w='100%'>
+        <Text color={colors.White}>Copyright - kenko-ichiban 2022 All Right Reserved</Text>
       </VStack>
     </VStack>
   );

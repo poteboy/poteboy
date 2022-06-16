@@ -18,28 +18,23 @@ export const BlogCard: FC<
 
   return (
     <VStack
-      as="article"
+      as='article'
       bg={colors.White}
       width={width}
-      borderRadius="8px"
-      cursor="pointer"
+      borderRadius='8px'
+      cursor='pointer'
       _hover={{
         transform: 'translateY(-6px)',
       }}
-      transition="transform 0.1s linear"
-      boxShadow="0 4px 8px rgba(0, 0, 0, 0.15);"
+      transition='transform 0.1s linear'
+      boxShadow='0 4px 8px rgba(0, 0, 0, 0.15);'
       onClick={onClick}
-      marginBottom="16px"
+      marginBottom='16px'
       {...style}
     >
-      <Image
-        src={blog.eyecatch.url}
-        width={width}
-        height={width * 0.563}
-        borderTopRadius="8px"
-      />
+      <Image src={blog.eyecatch.url} width={width} height={width * 0.563} borderTopRadius='8px' />
       <Spacer size={16} />
-      <Text flexWrap="wrap" variant="button1" px="8px">
+      <Text flexWrap='wrap' variant='button1' px='8px'>
         {blog.title}
       </Text>
       <Spacer size={16} />

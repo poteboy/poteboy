@@ -12,14 +12,14 @@ const PrivacyPolicy: NextPage = () => {
   return (
     <>
       <Seo
-        title="プライバシーポリシー"
-        description="総合健康情報サイト「ケンコウイチバン」のプライバシーポリシーです"
+        title='プライバシーポリシー'
+        description='総合健康情報サイト「ケンコウイチバン」のプライバシーポリシーです'
       />
       <Header categories={categories} />
-      <VStack bg={colors.BackGround} minH="80vh">
+      <VStack bg={colors.BackGround} minH='80vh'>
         <Spacer size={32} />
         <ContentContainer>
-          <Heading as="h1" variant="title" textAlign="center">
+          <Heading as='h1' variant='title' textAlign='center'>
             プライバシーポリシー
           </Heading>
           <Spacer size={16} />
@@ -29,7 +29,7 @@ const PrivacyPolicy: NextPage = () => {
             本サービスは、以下のプライバシーポリシーを定め、個人情報保護法を遵守すると共に、適切なプライバシー情報の保護に努めます
           </Text>
           <Spacer size={32} />
-          <Heading as="h2" variant="subTitle">
+          <Heading as='h2' variant='subTitle'>
             第1条（プライバシー情報の定義）
           </Heading>
           <Spacer size={16} />
@@ -38,7 +38,7 @@ const PrivacyPolicy: NextPage = () => {
             プライバシー情報のうち「履歴情報および特性情報」とは、上記に定める「個人情報」以外のものを指し、ご利用いただいたサービスやご覧になったページ、広告の履歴、登録ユーザーが検索された検索キーワード、ご利用日時、ご利用の方法、ご利用環境、登録ユーザーのIPアドレス、Cookie、端末の個体識別情報などを指します。
           </Text>
           <Spacer size={32} />
-          <Heading as="h2" variant="subTitle">
+          <Heading as='h2' variant='subTitle'>
             第2条（プライバシー情報の収集方法）
           </Heading>
           <Spacer size={16} />

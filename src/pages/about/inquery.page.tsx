@@ -1,21 +1,7 @@
 import type { NextPage } from 'next';
 import React from 'react';
-import {
-  Divider,
-  Heading,
-  HStack,
-  VStack,
-  Text,
-  Button,
-  useToast,
-} from '@chakra-ui/react';
-import {
-  Footer,
-  Header,
-  ContentContainer,
-  Spacer,
-  ValidationInput,
-} from '@src/components';
+import { Divider, Heading, HStack, VStack, Text, Button, useToast } from '@chakra-ui/react';
+import { Footer, Header, ContentContainer, Spacer, ValidationInput } from '@src/components';
 import { useCategory } from '@src/hooks';
 import { colors, MAX_MOBILE_WIDTH } from '@src/styles';
 import * as yup from 'yup';
@@ -45,59 +31,55 @@ const Inquery: NextPage = () => {
     <>
       <Head>
         <title>ケンコウイチバンへの問い合わせ</title>
-        <meta name="og:title" content="ケンコウイチバンへの問い合わせ" />
+        <meta name='og:title' content='ケンコウイチバンへの問い合わせ' />
         <meta
-          name="description"
-          content="ケンコウイチバンについて何かご不明点・お問合せがある場合はこちらのフォームからご意見を募集しています。"
+          name='description'
+          content='ケンコウイチバンについて何かご不明点・お問合せがある場合はこちらのフォームからご意見を募集しています。'
         />
       </Head>
       <Header categories={categories} />
-      <VStack minH="80vh" bg={colors.BackGround}>
+      <VStack minH='80vh' bg={colors.BackGround}>
         <Spacer size={32} />
         <ContentContainer>
-          <Heading as="h1" variant="title" textAlign="center">
+          <Heading as='h1' variant='title' textAlign='center'>
             お問い合せ
           </Heading>
           <Spacer size={16} />
           <Divider />
           <Spacer size={16} />
           <VStack
-            justifyContent="flex-start"
-            gap="4px"
-            alignItems="flex-start"
+            justifyContent='flex-start'
+            gap='4px'
+            alignItems='flex-start'
             w={{ base: '100%', md: 'auto', xl: '440px' }}
           >
             <Text>お名前</Text>
             <ValidationInput
               control={control}
-              name="name"
-              placeholder="田中 太郎"
+              name='name'
+              placeholder='田中 太郎'
               minW={MAX_MOBILE_WIDTH * 0.5}
             />
             <Spacer size={8} />
             <Text>メールアドレス</Text>
             <ValidationInput
               control={control}
-              name="email"
-              placeholder="tanaka.taro@gmail.com"
+              name='email'
+              placeholder='tanaka.taro@gmail.com'
               minW={MAX_MOBILE_WIDTH * 0.5}
             />
             <Spacer size={8} />
             <Text>お問合せ内容</Text>
             <ValidationInput
               control={control}
-              name="content"
-              placeholder="tanaka.taro@gmail.com"
+              name='content'
+              placeholder='tanaka.taro@gmail.com'
               minW={MAX_MOBILE_WIDTH * 0.5}
-              height="100px"
-              as="textarea"
+              height='100px'
+              as='textarea'
             />
             <Spacer size={24} />
-            <Button
-              disabled={!formState.isValid}
-              alignSelf="center"
-              onClick={onSubmit}
-            >
+            <Button disabled={!formState.isValid} alignSelf='center' onClick={onSubmit}>
               この内容で送信する
             </Button>
           </VStack>

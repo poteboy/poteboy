@@ -12,10 +12,10 @@ const TermOfUse: NextPage = () => {
   return (
     <>
       <Header categories={categories} />
-      <VStack bg={colors.BackGround} minH="80vh" alignItems="center">
+      <VStack bg={colors.BackGround} minH='80vh' alignItems='center'>
         <Spacer size={32} />
         <ContentContainer>
-          <Heading as="h1" variant="title" textAlign="center">
+          <Heading as='h1' variant='title' textAlign='center'>
             利用規約
           </Heading>
           <Text>TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST</Text>

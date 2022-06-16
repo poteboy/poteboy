@@ -28,29 +28,26 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
         description={blog.content.slice(0, 120)}
       />
       <Header categories={categories.contents} />
-      <VStack bg={colors.BackGround} minH="100vh">
+      <VStack bg={colors.BackGround} minH='100vh'>
         <Spacer size={32} />
-        <VStack maxW="1120px">
+        <VStack maxW='1120px'>
           <BlogContainer
             bg={colors.White}
-            p="0px 64px 60px"
-            w="calc(100% - 330px)"
-            boxShadow="0 2px 4px #4385bb12"
-            borderRadius="12px"
+            p='0px 64px 60px'
+            w='calc(100% - 330px)'
+            boxShadow='0 2px 4px #4385bb12'
+            borderRadius='12px'
           >
-            <Heading as="h1" variant="title" pt="40px">
+            <Heading as='h1' variant='title' pt='40px'>
               {blog.title}
             </Heading>
-            <HStack alignSelf="flex-end" alignItems="center">
+            <HStack alignSelf='flex-end' alignItems='center'>
               <EditIcon />
-              <Text fontSize="14px" color={colors.Fonts.Sub}>
+              <Text fontSize='14px' color={colors.Fonts.Sub}>
                 {formatDateJa(new Date(blog.createdAt))}
               </Text>
             </HStack>
-            <Image
-              src={blog.eyecatch.url}
-              width={{ base: '100%', md: '80%' }}
-            />
+            <Image src={blog.eyecatch.url} width={{ base: '100%', md: '80%' }} />
             <MarkdownContent content={blog.content} />
           </BlogContainer>
           <Spacer size={64} />
@@ -61,12 +58,12 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
   );
 });
 
-export const getStaticPaths: GetStaticPaths = async context => {
+export const getStaticPaths: GetStaticPaths = async (context) => {
   const blogs: MicroList<Blog> = await microClient.get({
     endpoint: 'blogs',
   });
 
-  const paths = blogs.contents.map(blog => {
+  const paths = blogs.contents.map((blog) => {
     return {
       params: { id: blog.id },
     };
@@ -78,7 +75,7 @@ export const getStaticPaths: GetStaticPaths = async context => {
   };
 };
 
-export const getStaticProps: GetStaticProps<Props> = async context => {
+export const getStaticProps: GetStaticProps<Props> = async (context) => {
   const uid = context.params?.uid as string | undefined;
   const blogs: MicroList<Blog> = await microClient.get({
     endpoint: 'blogs',

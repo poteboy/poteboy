@@ -14,9 +14,7 @@ type Props = {
   categories: MicroList<Category>;
 };
 
-const Root: NextPage<
-  InferGetStaticPropsType<typeof getStaticProps>
-> = props => {
+const Root: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
   const router = useRouter();
 
   const selectBlogCard = useCallback(
@@ -35,32 +33,14 @@ type ScreenProps = {
   onClickBlogCard: (id: string) => void;
 } & Props;
 
-const RootScreen: FC<ScreenProps> = memo(props => {
+const RootScreen: FC<ScreenProps> = memo((props) => {
   const { blogs, onClickBlogCard, categories } = props;
 
   return (
     <>
       <Seo />
-      <Header categories={categories.contents} />
-      <VStack bg={colors.BackGround} minH="100vh" alignContent="center">
-        <Spacer size={32} />
-        <HStack
-          maxW={`${650}px`}
-          flexWrap="wrap"
-          justifyContent="space-between"
-          alignItems="flex-start"
-        >
-          {blogs.contents.map(content => {
-            return (
-              <BlogCard
-                blog={content}
-                onClickBlogCard={onClickBlogCard}
-                position="relative"
-                key={content.id}
-              />
-            );
-          })}
-        </HStack>
+      <VStack bg={colors.BackGround} minH='100vh' alignContent='center'>
+        <Text>hello world</Text>
       </VStack>
       <Footer />
     </>
@@ -85,3 +65,11 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 export default Root;
+
+const Gradient: FC = memo(() => {
+  return (
+    <VStack>
+      <></>
+    </VStack>
+  );
+});
