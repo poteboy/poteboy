@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React, { FC, memo, useCallback, useRef } from 'react';
-import { VStack, Text, Box, Avatar } from '@chakra-ui/react';
+import { VStack, Text, Box, Avatar, Button } from '@chakra-ui/react';
 import { colors, BreakPoint, media } from '@src/styles';
 import { Header, Spacer, BlogCard, Footer, Seo } from '@src/components';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
@@ -21,7 +21,7 @@ const Root: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) =
 
   const selectBlogCard = useCallback(
     async (id: string) => {
-      const path = paths.blog({ blogUid: id });
+      const path = paths.blogPost({ blogUid: id });
       // debugger;
       await router.push(path.href, path.as);
     },
@@ -65,6 +65,8 @@ const RootScreen: FC<ScreenProps> = memo((props) => {
           <Caption variant='heading0' fontSize='1.4rem'>
             Front End Developer / UI Designer
           </Caption>
+
+          <Button>Hello</Button>
         </VStack>
       </VStack>
       <Footer />
@@ -111,6 +113,7 @@ const Gradient: FC = memo(() => {
       left={0}
       height='400px'
       background='linear-gradient(180deg,rgba(24,158,255, .1) 0%,rgba(196,196,196,0) 100%)'
+      zIndex={1}
     ></Box>
   );
 });

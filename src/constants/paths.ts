@@ -20,9 +20,14 @@ export const paths: PathProps = {
     href: `/category/${categoryUid}`,
   }),
 
-  blog: ({ blogUid }: { blogUid: string }) => ({
+  blogPost: ({ blogUid }: { blogUid: string }) => ({
     href: `/blog/${blogUid}`,
   }),
+
+  blog: {
+    href: '/blog',
+    as: '/blog',
+  },
 
   privacyPolicy: {
     href: '/legal/privacy-policy',
@@ -51,6 +56,7 @@ const pathKeys = {
 
   //<root>/blog
   blog: 'blog',
+  blogPost: 'blogPost',
 
   //<root>/about
   inquery: 'inquery',
@@ -64,7 +70,8 @@ type PathProps = {
   [pathKeys.index]: LinkProps;
   [pathKeys.signUp]: (opts?: { redirectTo?: string }) => LinkProps;
   [pathKeys.category]: LinkProps;
-  [pathKeys.blog]: ({ blogUid }: { blogUid: string }) => LinkProps;
+  [pathKeys.blog]: LinkProps;
+  [pathKeys.blogPost]: ({ blogUid }: { blogUid: string }) => LinkProps;
   [pathKeys.categoryDetail]: ({ categoryUid }: { categoryUid: string }) => LinkProps;
   [pathKeys.privacyPolicy]: LinkProps;
   [pathKeys.termOfUse]: LinkProps;

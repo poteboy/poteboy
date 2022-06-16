@@ -8,6 +8,8 @@
 community❤
 - https://css-irl.info/
     - Tips, tricks and tutorials on the web’s most beautiful language.
+- https://samuelkraft.com/books
+    - I’m a frontend developer & designer currently working at Bitrefill. This is my personal website - where you’ll find all the stuff I’m currently thinking about.
 
 ## 技術
 ・[console.log(); しか使えなかった自分へ。。。](https://qiita.com/ashketcham/items/06e50b3f7f6238d9b51b#consoletable)

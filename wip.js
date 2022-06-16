@@ -1,3 +1,4 @@
+// .lintstagedrc.js
 const path = require('path')
 
 const buildEslintCommand = (filenames) =>

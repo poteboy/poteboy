@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "yarn eslint --fix",
     "prepare": "husky install",
     "format": "prettier --write --ignore-path .gitignore './**/*.{ts,tsx}'"
   },
@@ -25,7 +25,6 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "yarn lint",
       "yarn format"
     ]
   },

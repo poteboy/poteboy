@@ -18,7 +18,7 @@ const CategoryDetail: NextPage<InferGetStaticPropsType<typeof getStaticProps>> =
   const router = useRouter();
 
   const onClickBlogCard = (id: string) => {
-    const path = paths.blog({ blogUid: id });
+    const path = paths.blogPost({ blogUid: id });
     router.push(path.href, path.as);
   };
   const categoryId = router.asPath.substring(

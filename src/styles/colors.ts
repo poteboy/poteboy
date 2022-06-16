@@ -4,8 +4,8 @@ export const colors = {
   Transparent: 'transparent',
 
   Fonts: {
-    Default: '#031a4d',
-    Sub: '#6b6b6b',
+    Default: '#242d4a',
+    Sub: '#a3a3a3',
   },
 
   BackGround: '#f3f4f8',
@@ -16,7 +16,7 @@ export const colors = {
     Main: '#6684f7',
     Main_RGB: 'rgb(79, 82, 249)',
     Main_Hover: '#56b4b5',
-    Dark: '#0587ca',
+    Dark: 'rgb(79, 82, 249)',
   },
 
   Danger: {

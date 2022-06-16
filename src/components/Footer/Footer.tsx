@@ -16,7 +16,7 @@ export const Footer: FC<{}> = memo(() => {
         <ResponsiveStack gap='50px'>
           <FooterStack>
             <Text fontWeight={600} color={colors.White}>
-              規約
+              Terms
             </Text>
             <Spacer size={0.5} />
             <Link {...paths.privacyPolicy}>
@@ -29,7 +29,7 @@ export const Footer: FC<{}> = memo(() => {
                 cursor='pointer'
                 color={colors.White}
               >
-                プライバシーポリシー
+                Privacy Policy
               </Text>
             </Link>
             {/* <Spacer size={0.5} />
@@ -49,7 +49,7 @@ export const Footer: FC<{}> = memo(() => {
           <FooterStack>
             <Link {...paths.inquery}>
               <Button as='a' cursor='pointer'>
-                お問合せはこちら
+                FAQ
               </Button>
             </Link>
           </FooterStack>

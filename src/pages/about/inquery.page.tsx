@@ -20,8 +20,8 @@ const Inquery: NextPage = () => {
   const onSubmit = () => {
     const values = getValues();
     toast({
-      title: 'エラーが発生しました',
-      description: 'この機能はまだ実装されていません。ごめんね',
+      title: 'ERROR',
+      description: 'Unexpected error has occured',
       status: 'error',
       duration: 2000,
     });
@@ -42,7 +42,7 @@ const Inquery: NextPage = () => {
         <Spacer size={32} />
         <ContentContainer>
           <Heading as='h1' variant='title' textAlign='center'>
-            お問い合せ
+            Contact
           </Heading>
           <Spacer size={16} />
           <Divider />
@@ -53,15 +53,15 @@ const Inquery: NextPage = () => {
             alignItems='flex-start'
             w={{ base: '100%', md: 'auto', xl: '440px' }}
           >
-            <Text>お名前</Text>
+            <Text variant='button1'>Name</Text>
             <ValidationInput
               control={control}
               name='name'
-              placeholder='田中 太郎'
+              placeholder='John Tanaka'
               minW={MAX_MOBILE_WIDTH * 0.5}
             />
             <Spacer size={8} />
-            <Text>メールアドレス</Text>
+            <Text variant='button1'>E-Mail</Text>
             <ValidationInput
               control={control}
               name='email'
@@ -69,18 +69,18 @@ const Inquery: NextPage = () => {
               minW={MAX_MOBILE_WIDTH * 0.5}
             />
             <Spacer size={8} />
-            <Text>お問合せ内容</Text>
+            <Text variant='button1'>Details of Inquery</Text>
             <ValidationInput
               control={control}
               name='content'
-              placeholder='tanaka.taro@gmail.com'
+              placeholder='tanaka.john@gmail.com'
               minW={MAX_MOBILE_WIDTH * 0.5}
               height='100px'
               as='textarea'
             />
             <Spacer size={24} />
             <Button disabled={!formState.isValid} alignSelf='center' onClick={onSubmit}>
-              この内容で送信する
+              Submit
             </Button>
           </VStack>
         </ContentContainer>
@@ -100,10 +100,7 @@ type InqueryField = {
 };
 
 const inquerySchema = yup.object().shape({
-  name: yup.string().trim().required('この項目は必須です'),
-  email: yup
-    .string()
-    .email('メールアドレスの形式が正しくありません')
-    .required('この項目は必須です'),
-  content: yup.string().trim().required('この項目は必須です'),
+  name: yup.string().trim().required('This field is required'),
+  email: yup.string().email('Incorrect email address format').required('This field is required'),
+  content: yup.string().trim().required('This field is required'),
 });
