@@ -18,6 +18,17 @@
     "jsxSingleQuote": true,
     "printWidth": 100
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "precommit"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "yarn lint",
+      "yarn format"
+    ]
+  },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.5",
     "@chakra-ui/react": "^1.4.2",
