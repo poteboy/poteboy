@@ -28,7 +28,7 @@ const CategoryDetail: NextPage<InferGetStaticPropsType<typeof getStaticProps>> =
 
   return (
     <>
-      <Header categories={categories} selectedId={categoryId} />
+      <Header />
       <VStack bg={colors.BackGround} height='100vh'>
         <Spacer size={32} />
         <HStack

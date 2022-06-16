@@ -15,7 +15,7 @@ const PrivacyPolicy: NextPage = () => {
         title='プライバシーポリシー'
         description='総合健康情報サイト「ケンコウイチバン」のプライバシーポリシーです'
       />
-      <Header categories={categories} />
+      <Header />
       <VStack bg={colors.BackGround} minH='80vh'>
         <Spacer size={32} />
         <ContentContainer>

@@ -8,24 +8,14 @@ import { paths } from '@src/constants';
 
 const FOOTER_STACK_WIDTH = 1200;
 
-export const Footer: FC = memo(() => {
+export const Footer: FC<{}> = memo(() => {
   return (
-    <VStack as='footer' w='100vw' bg={colors.White}>
+    <VStack as='footer' w='100vw' bg={colors.Black} >
       <Divider />
       <VStack alignItems='center' p={4} maxW={FOOTER_STACK_WIDTH}>
         <ResponsiveStack gap='50px'>
           <FooterStack>
-            <Link {...paths.index}>
-              <Image
-                src={require('@src/public/title/main-title.png')}
-                w={FOOTER_STACK_WIDTH / 5.5 + 'px'}
-                cursor='pointer'
-              />
-            </Link>
-            <Text variant='sub'>総合健康情報サイト</Text>
-          </FooterStack>
-          <FooterStack>
-            <Text fontWeight={600}>規約</Text>
+            <Text fontWeight={600} color={colors.White}>規約</Text>
             <Spacer size={0.5} />
             <Link {...paths.privacyPolicy}>
               <Text
@@ -35,6 +25,7 @@ export const Footer: FC = memo(() => {
                   borderBottom: `1px solid ${colors.Fonts.Sub}`,
                 }}
                 cursor='pointer'
+                color={colors.White}
               >
                 プライバシーポリシー
               </Text>
@@ -55,7 +46,7 @@ export const Footer: FC = memo(() => {
           </FooterStack>
           <FooterStack>
             <Link {...paths.inquery}>
-              <Button as='a' variant='outline' cursor='pointer'>
+              <Button as='a'  cursor='pointer'>
                 お問合せはこちら
               </Button>
             </Link>
@@ -63,7 +54,7 @@ export const Footer: FC = memo(() => {
         </ResponsiveStack>
       </VStack>
       <VStack bg={colors.Black} alignItems='center' p={8} w='100%'>
-        <Text color={colors.White}>Copyright - kenko-ichiban 2022 All Right Reserved</Text>
+        <Text color={colors.White}>Copyright - poteboy 2022 All Right Reserved</Text>
       </VStack>
     </VStack>
   );

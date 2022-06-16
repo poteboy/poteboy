@@ -6,6 +6,7 @@ import { css, CSSObject, FlattenSimpleInterpolation, SimpleInterpolation } from 
 export const MAX_MOBILE_WIDTH = 560;
 export const MIN_TABLET_WIDTH = 561;
 export const MIN_DESKTOP_WIDTH = 834;
+export const BreakPoint = 768;
 
 export const sp = (
   first: CSSObject | TemplateStringsArray,
@@ -29,6 +30,15 @@ export const pc = (
   ...interpolations: SimpleInterpolation[]
 ): FlattenSimpleInterpolation => css`
   @media (min-width: ${MIN_DESKTOP_WIDTH}px) {
+    ${css(first, ...interpolations)}
+  }
+`;
+
+export const media = (
+  first: CSSObject | TemplateStringsArray,
+  ...interpolations: SimpleInterpolation[]
+): FlattenSimpleInterpolation => css`
+  @media (max-width: ${BreakPoint}px) {
     ${css(first, ...interpolations)}
   }
 `;

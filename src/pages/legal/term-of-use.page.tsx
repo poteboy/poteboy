@@ -11,7 +11,7 @@ const TermOfUse: NextPage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       <VStack bg={colors.BackGround} minH='80vh' alignItems='center'>
         <Spacer size={32} />
         <ContentContainer>

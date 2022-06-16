@@ -37,8 +37,8 @@ const Inquery: NextPage = () => {
           content='ケンコウイチバンについて何かご不明点・お問合せがある場合はこちらのフォームからご意見を募集しています。'
         />
       </Head>
-      <Header categories={categories} />
       <VStack minH='80vh' bg={colors.BackGround}>
+      <Header/>
         <Spacer size={32} />
         <ContentContainer>
           <Heading as='h1' variant='title' textAlign='center'>

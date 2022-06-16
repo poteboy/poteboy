@@ -1,6 +1,7 @@
 export const colors = {
   White: '#FFFF',
   Black: '#24292f',
+  Transparent: 'transparent',
 
   Fonts: {
     Default: '#031a4d',
@@ -12,8 +13,8 @@ export const colors = {
 
   Primary: {
     MainClear: '#009dff',
-    Main: '#60A5F9',
-    Main_RGB: 'rgb(	96, 201,202)',
+    Main: '#6684f7',
+    Main_RGB: 'rgb(79, 82, 249)',
     Main_Hover: '#56b4b5',
     Dark: '#0587ca',
   },

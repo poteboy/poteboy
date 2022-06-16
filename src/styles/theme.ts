@@ -39,6 +39,10 @@ const Text: ComponentStyleConfig = {
       fontSize: '18px',
       fontWeight: 600,
     }),
+    heading0: () => ({
+      fontSize: '2.5rem',
+      fontWeight: 700,
+    }),
     heading1: () => ({
       fontSize: '22px',
       fontWeight: 600,

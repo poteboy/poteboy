@@ -8,56 +8,24 @@ import Title from '@src/public/title/main-title.png';
 import { Category } from '@src/entities';
 import { useRouter } from 'next/router';
 
-type Props = {
-  categories: Category[];
-  selectedId?: string;
-};
+type Props = {}
 
-export const Header: FC<Props> = memo(({ categories, selectedId }) => {
+export const Header: FC<Props> = memo(() => {
   return (
-    <Flex as='header' flexDir='column' bg={colors.White} alignItems='center'>
+    <Flex as='header' w='100%'>
       <ContentBar maxW={'1200px'} py='12px'>
-        <HStack justifyContent='center' mx='auto' py='4px'>
+        <HStack  mx='auto' py='4px'>
           <Link {...paths.index}>
-            <a>
-              <Image src={Title} width='170px' height='40px' cursor='pointer' />
-            </a>
+          <Text variant='heading2' color='#242d4a' cursor='pointer'>🏠 HOME</Text>
           </Link>
         </HStack>
       </ContentBar>
-      <HStack
-        mx='auto'
-        bg={colors.Black}
-        // bg="#5788c3"
-        height='30px'
-        width='100vw'
-        p='24px 0px'
-      >
-        <HStack justifyContent='center' mx='auto' gap='20px' maxW='1200px'>
-          {categories.map((category) => {
-            return (
-              <Link {...paths.categoryDetail({ categoryUid: category.id })}>
-                <Text
-                  as='a'
-                  variant='button1'
-                  color={category.id === selectedId ? colors.Secondary.Light : colors.White}
-                  _hover={{
-                    color: colors.Secondary.Main,
-                  }}
-                  cursor='pointer'
-                >
-                  {category.name}
-                </Text>
-              </Link>
-            );
-          })}
-        </HStack>
-      </HStack>
-    </Flex>
+      </Flex>
   );
 });
 
-const ContentBar = styled(Container)`
+const ContentBar = styled<any>(Container)`
+  backdrop-filter: saturate(50%) blur(8px);
   ${sp`
     max-width: ${MAX_MOBILE_WIDTH * 0.8}px;
   `}
