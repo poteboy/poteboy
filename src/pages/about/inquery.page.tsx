@@ -38,7 +38,7 @@ const Inquery: NextPage = () => {
         />
       </Head>
       <VStack minH='80vh' bg={colors.BackGround}>
-      <Header/>
+        <Header />
         <Spacer size={32} />
         <ContentContainer>
           <Heading as='h1' variant='title' textAlign='center'>

@@ -8,19 +8,21 @@ import Title from '@src/public/title/main-title.png';
 import { Category } from '@src/entities';
 import { useRouter } from 'next/router';
 
-type Props = {}
+type Props = {};
 
 export const Header: FC<Props> = memo(() => {
   return (
     <Flex as='header' w='100%'>
       <ContentBar maxW={'1200px'} py='12px'>
-        <HStack  mx='auto' py='4px'>
+        <HStack mx='auto' py='4px'>
           <Link {...paths.index}>
-          <Text variant='heading2' color='#242d4a' cursor='pointer'>🏠 HOME</Text>
+            <Text variant='heading2' color='#242d4a' cursor='pointer'>
+              🏠 HOME
+            </Text>
           </Link>
         </HStack>
       </ContentBar>
-      </Flex>
+    </Flex>
   );
 });
 

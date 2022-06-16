@@ -1,7 +1,5 @@
-import type { NextPage } from "next";
+import type { NextPage } from 'next';
 
-const Blog:NextPage = () => {
-
-
-    return <></>
-}
+const Blog: NextPage = () => {
+  return <></>;
+};

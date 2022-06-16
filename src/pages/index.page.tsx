@@ -9,7 +9,7 @@ import { client as microClient, paths } from '@src/constants';
 import { MicroList, Blog, Category } from '@src/entities';
 import { useRouter } from 'next/router';
 import { useLayoutEffect } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 type Props = {
   blogs: MicroList<Blog>;
@@ -38,26 +38,33 @@ type ScreenProps = {
 const RootScreen: FC<ScreenProps> = memo((props) => {
   const { blogs, onClickBlogCard, categories } = props;
 
-
   return (
     <>
       <Seo />
-      <Header/>
-        {/* <Gradient /> */}
-      <VStack bg={colors.White} minH='calc(100vh - 0px)' alignContent='center' maxW={`${BreakPoint}px`} mx='auto'>
-        
+      <Header />
+      {/* <Gradient /> */}
+      <VStack
+        bg={colors.White}
+        minH='calc(100vh - 0px)'
+        alignContent='center'
+        maxW={`${BreakPoint}px`}
+        mx='auto'
+      >
         <Spacer size={64} />
-        <Avatar src={require('@src/public/icons/poteboy.png')}
+        <Avatar
+          src={require('@src/public/icons/poteboy.png')}
           width='150px'
           height='150px'
           bg={colors.White}
           borderColor={colors.Disabled}
           borderWidth='1px'
         />
-         <Spacer size={24} />
+        <Spacer size={24} />
         <VStack>
           <Title variant='heading0'>Hi 👋, I'm Poteboy</Title>
-          <Caption variant='heading0' fontSize='1.4rem'>Front End Developer / UI Designer</Caption>
+          <Caption variant='heading0' fontSize='1.4rem'>
+            Front End Developer / UI Designer
+          </Caption>
         </VStack>
       </VStack>
       <Footer />
@@ -69,12 +76,12 @@ const Title = styled(Text)`
   ${media`
     font-size: 1.4rem;
   `}
-`
+`;
 const Caption = styled(Text)`
   ${media`
     font-size: 1rem;
   `}
-`
+`;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const blogs: MicroList<Blog> = await microClient.get({

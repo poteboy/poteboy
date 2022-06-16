@@ -27,7 +27,7 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
         imgWidth={600}
         description={blog.content.slice(0, 120)}
       />
-      <Header  />
+      <Header />
       <VStack bg={colors.BackGround} minH='100vh'>
         <Spacer size={32} />
         <VStack maxW='1120px'>
