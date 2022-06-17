@@ -10,7 +10,7 @@ const FOOTER_STACK_WIDTH = 1200;
 
 export const Footer: FC<{}> = memo(() => {
   return (
-    <VStack as='footer' w='100vw' bg={colors.Black}>
+    <VStack as='footer' w='100vw' bg={colors.Black} bottom={0}>
       <Divider />
       <VStack alignItems='center' p={4} maxW={FOOTER_STACK_WIDTH}>
         <ResponsiveStack gap='50px'>
@@ -48,8 +48,8 @@ export const Footer: FC<{}> = memo(() => {
           </FooterStack>
           <FooterStack>
             <Link {...paths.inquery}>
-              <Button as='a' cursor='pointer'>
-                FAQ
+              <Button as='a' cursor='pointer' boxShadow='none'>
+                Contact
               </Button>
             </Link>
           </FooterStack>

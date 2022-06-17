@@ -6,6 +6,11 @@ export const paths: PathProps = {
     as: '/',
   },
 
+  about: {
+    href: '/about',
+    as: '/about',
+  },
+
   signUp: (opts?: { redirectTo?: string }) => ({
     href: '/sign-up',
     as: `/sign-up${opts?.redirectTo ? `?redirect=${encodeURIComponent(opts.redirectTo)}` : ''}`,
@@ -49,6 +54,7 @@ const pathKeys = {
   // <root>/
   index: 'index',
   signUp: 'signUp',
+  about: 'about',
 
   // <root>/category
   category: 'category',
@@ -68,6 +74,7 @@ const pathKeys = {
 
 type PathProps = {
   [pathKeys.index]: LinkProps;
+  [pathKeys.about]: LinkProps;
   [pathKeys.signUp]: (opts?: { redirectTo?: string }) => LinkProps;
   [pathKeys.category]: LinkProps;
   [pathKeys.blog]: LinkProps;

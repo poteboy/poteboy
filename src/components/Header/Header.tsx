@@ -14,15 +14,16 @@ type Props = {
 };
 
 const SLECTED_STYLE: CSSProperties = {
-  color: colors.Fonts.Default,
-  boxShadow: `0 2px 0 ${colors.Primary.Main}`,
+  color: colors.Primary.Main,
+  // boxShadow: `0 2px 0 ${colors.Primary.Main}`,
+  background: colors.Primary.Light,
 };
 const DEFAULT_STYLE: CSSProperties = { color: colors.Fonts.Sub };
 export const Header: FC<Props> = memo(({ topic }) => {
   const { width } = useWindowSize();
 
   return (
-    <Flex as='header' w='100%' bg='hsla(0,0%,100%,0.6)'>
+    <Flex as='header' w='100%' bg='transparent'>
       <ContentBar maxW={'83ch'} py='12px'>
         <HStack mx='auto' py='4px' justifyContent='space-between'>
           <Link {...paths.index}>
@@ -35,7 +36,7 @@ export const Header: FC<Props> = memo(({ topic }) => {
               🏠 {width && width < MAX_MOBILE_WIDTH ? '' : 'HOME'}
             </Text>
           </Link>
-          <HStack as='nav' gap='20px'>
+          <HStack as='nav' gap='20px' flexDirection='row-reverse'>
             <Link {...paths.blog}>
               <a>
                 <Text
@@ -43,6 +44,8 @@ export const Header: FC<Props> = memo(({ topic }) => {
                   listStyleType='none'
                   variant='button1'
                   cursor='pointer'
+                  borderRadius='10px'
+                  padding='3px 6px'
                   style={topic === 'blog' ? SLECTED_STYLE : DEFAULT_STYLE}
                   _hover={{
                     color: `${colors.Fonts.Default} !important`,
@@ -52,13 +55,15 @@ export const Header: FC<Props> = memo(({ topic }) => {
                 </Text>
               </a>
             </Link>
-            <Link {...paths.index}>
+            <Link {...paths.about}>
               <a>
                 <Text
                   as='li'
                   listStyleType='none'
                   variant='button1'
                   cursor='pointer'
+                  borderRadius='10px'
+                  padding='3px 6px'
                   style={topic === 'about' ? SLECTED_STYLE : DEFAULT_STYLE}
                   _hover={{
                     color: `${colors.Fonts.Default} !important`,

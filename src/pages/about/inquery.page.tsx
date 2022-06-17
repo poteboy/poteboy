@@ -65,7 +65,7 @@ const Inquery: NextPage = () => {
             <ValidationInput
               control={control}
               name='email'
-              placeholder='tanaka.taro@gmail.com'
+              placeholder='tanaka.john@gmail.com'
               minW={MAX_MOBILE_WIDTH * 0.5}
             />
             <Spacer size={8} />
@@ -73,7 +73,7 @@ const Inquery: NextPage = () => {
             <ValidationInput
               control={control}
               name='content'
-              placeholder='tanaka.john@gmail.com'
+              placeholder='I love you and your content!'
               minW={MAX_MOBILE_WIDTH * 0.5}
               height='100px'
               as='textarea'

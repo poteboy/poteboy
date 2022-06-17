@@ -6,16 +6,16 @@ export const colors = {
   Fonts: {
     Default: '#242d4a',
     Sub: '#a3a3a3',
+    Description: '#6e6e6e',
   },
 
-  BackGround: '#f3f4f8',
+  BackGround: '#f6f9fc',
   Disabled: '#b3b3b3',
 
   Primary: {
-    MainClear: '#009dff',
-    Main: '#6684f7',
+    Light: '#b6b3ff5e',
+    Main: '#635aff',
     Main_RGB: 'rgb(79, 82, 249)',
-    Main_Hover: '#56b4b5',
     Dark: 'rgb(79, 82, 249)',
   },
 
@@ -26,7 +26,8 @@ export const colors = {
   },
 
   Secondary: {
-    Main: '#fdb22e',
-    Light: '#edc01b',
+    Light: '#80e9ff',
+    Main: '#009dff',
+    Dark: '#0076ff',
   },
 };

@@ -1,55 +1,27 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React, { FC, memo, useCallback, useRef } from 'react';
-import { VStack, Text, Box, Avatar, Button } from '@chakra-ui/react';
+import { VStack, Text, Box, Avatar, Button, HStack, Flex } from '@chakra-ui/react';
 import { colors, BreakPoint, media } from '@src/styles';
 import { Header, Spacer, BlogCard, Footer, Seo } from '@src/components';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { client as microClient, paths } from '@src/constants';
-import { MicroList, Blog, Category } from '@src/entities';
+import { FaGithub, FaTwitter } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useLayoutEffect } from 'react';
 import styled from 'styled-components';
 
-type Props = {
-  blogs: MicroList<Blog>;
-  categories: MicroList<Category>;
-};
-
-const Root: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
+const Root: NextPage = (props) => {
   const router = useRouter();
 
-  const selectBlogCard = useCallback(
-    async (id: string) => {
-      const path = paths.blogPost({ blogUid: id });
-      // debugger;
-      await router.push(path.href, path.as);
-    },
-    [router],
-  );
-
-  return <RootScreen onClickBlogCard={selectBlogCard} {...props} />;
+  return <RootScreen {...props} />;
 };
 
-type ScreenProps = {
-  onClickBlogCard: (id: string) => void;
-} & Props;
-
-const RootScreen: FC<ScreenProps> = memo((props) => {
-  const { blogs, onClickBlogCard, categories } = props;
-
+const RootScreen: FC = memo((props) => {
   return (
-    <>
+    <VStack bg={colors.BackGround}>
       <Seo />
       <Header />
       {/* <Gradient /> */}
-      <VStack
-        bg={colors.White}
-        minH='calc(100vh - 0px)'
-        alignContent='center'
-        maxW={`${BreakPoint}px`}
-        mx='auto'
-      >
+      <VStack minH='calc(100vh - 0px)' alignContent='center' maxW={`${BreakPoint}px`} mx='auto'>
         <Spacer size={64} />
         <Avatar
           src={require('@src/public/icons/poteboy.png')}
@@ -58,19 +30,25 @@ const RootScreen: FC<ScreenProps> = memo((props) => {
           bg={colors.White}
           borderColor={colors.Disabled}
           borderWidth='1px'
+          boxShadow='0 50px 100px -20px rgb(50 50 93 / 25%), 0 10px 60px -30px rgb(0 0 0 / 30%), inset 0 -2px 6px 0 rgb(10 37 64 / 35%);'
         />
         <Spacer size={24} />
         <VStack>
           <Title variant='heading0'>Hi 👋, I'm Poteboy</Title>
           <Caption variant='heading0' fontSize='1.4rem'>
-            Front End Developer / UI Designer
+            Design Engineer / Front End Developer
           </Caption>
-
-          <Button>Hello</Button>
+          <Spacer size={12} />
+          <IconStack gap='6px'>
+            <Button leftIcon={<FaGithub size={24} />}>GitHub</Button>
+            <Button variant='fluid' leftIcon={<FaTwitter size={24} />}>
+              Twitter
+            </Button>
+          </IconStack>
         </VStack>
       </VStack>
       <Footer />
-    </>
+    </VStack>
   );
 });
 
@@ -85,22 +63,12 @@ const Caption = styled(Text)`
   `}
 `;
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const blogs: MicroList<Blog> = await microClient.get({
-    endpoint: 'blogs',
-  });
-  const categories: MicroList<Category> = await microClient.get({
-    endpoint: 'categories',
-  });
-
-  return {
-    props: {
-      blogs,
-      categories,
-    },
-    revalidate: 10,
-  };
-};
+const IconStack = styled(Flex)`
+  ${media`
+    flex-direction: column;
+    gap: 10px;
+  `}
+`;
 
 export default Root;
 

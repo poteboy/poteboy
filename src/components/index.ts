@@ -6,3 +6,4 @@ export * from './Footer/Footer';
 export * from './ContentContainer/ContentContainer';
 export * from './ValidationInput/ValidationInput';
 export * from './Seo/Seo';
+export * from './PostCard/PostCard';
