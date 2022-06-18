@@ -1,6 +1,6 @@
 import React, { FC, memo } from 'react';
 import { VStack, Text, Divider, Image, Stack, Button } from '@chakra-ui/react';
-import { colors, MIN_DESKTOP_WIDTH, pc, sp, tab } from '@src/styles';
+import { BreakPoint, colors, MIN_DESKTOP_WIDTH, pc, sp, tab } from '@src/styles';
 import { Spacer } from '../Spacer/Spacer';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ export const Footer: FC<{}> = memo(() => {
     <VStack as='footer' w='100vw' bg={colors.Black} bottom={0}>
       <Divider />
       <VStack alignItems='center' p={4} maxW={FOOTER_STACK_WIDTH}>
-        <ResponsiveStack gap='50px'>
+        <ResponsiveStack gap={{ base: '25px', md: '50px' }}>
           <FooterStack>
             <Text fontWeight={600} color={colors.White}>
               Terms
@@ -32,19 +32,6 @@ export const Footer: FC<{}> = memo(() => {
                 Privacy Policy
               </Text>
             </Link>
-            {/* <Spacer size={0.5} />
-            <Link {...paths.termOfUse}>
-              <Text
-                as="a"
-                variant="sub"
-                _hover={{
-                  borderBottom: `1px solid ${colors.Fonts.Sub}`,
-                }}
-                cursor="pointer"
-              >
-                利用規約
-              </Text>
-            </Link> */}
           </FooterStack>
           <FooterStack>
             <Link {...paths.inquery}>
@@ -55,7 +42,7 @@ export const Footer: FC<{}> = memo(() => {
           </FooterStack>
         </ResponsiveStack>
       </VStack>
-      <VStack bg={colors.Black} alignItems='center' p={8} w='100%'>
+      <VStack bg={colors.Black} alignItems='center' p={{ base: 4, md: 8 }} w='100%'>
         <Text color={colors.White}>Copyright - poteboy 2022 All Right Reserved</Text>
       </VStack>
     </VStack>

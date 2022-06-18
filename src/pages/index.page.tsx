@@ -8,12 +8,15 @@ import { FaGithub, FaTwitter } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useLayoutEffect } from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 const Root: NextPage = (props) => {
   const router = useRouter();
-
   return <RootScreen {...props} />;
 };
+
+const onNavigateTwitter = () => window.open('https://twitter.com/_poteboy_', '_blank');
+const onNavigateGitHub = () => window.open('https://github.com/poteboy', '_blank');
 
 const RootScreen: FC = memo((props) => {
   return (
@@ -40,8 +43,21 @@ const RootScreen: FC = memo((props) => {
           </Caption>
           <Spacer size={12} />
           <IconStack gap='6px'>
-            <Button leftIcon={<FaGithub size={24} />}>GitHub</Button>
-            <Button variant='fluid' leftIcon={<FaTwitter size={24} />}>
+            <Button
+              as='a'
+              onClick={onNavigateGitHub}
+              cursor='pointer'
+              leftIcon={<FaGithub size={24} />}
+            >
+              GitHub
+            </Button>
+            <Button
+              as='a'
+              onClick={onNavigateTwitter}
+              cursor='pointer'
+              variant='fluid'
+              leftIcon={<FaTwitter size={24} />}
+            >
               Twitter
             </Button>
           </IconStack>
