@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name='description' content={defaultDescription} />
         {/* OGP */}
         <meta property='og:locale' content='ja_JP' />
-        <meta property='og:site_name' content={defaultTitle} />
+        <meta property='og:site_name' content={require('@src/public/ogp.png')} />
         {/* <meta property="og:url" content="https://poteboy.com/" /> */}
         <meta property='og:image' content={DefaultImg} />
         <meta property='og:title' content={defaultTitle} />
