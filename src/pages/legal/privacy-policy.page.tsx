@@ -11,10 +11,7 @@ const PrivacyPolicy: NextPage = () => {
 
   return (
     <>
-      <Seo
-        title='プライバシーポリシー'
-        description='総合健康情報サイト「ケンコウイチバン」のプライバシーポリシーです'
-      />
+      <Seo title='Privacy Policy' description='' />
 
       <VStack bg={colors.BackGround}>
         <Header />

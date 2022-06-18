@@ -1,5 +1,5 @@
 import { Box, VStack, Text, HStack, Avatar } from '@chakra-ui/react';
-import { Header, Spacer } from '@src/components';
+import { Header, Spacer, Footer } from '@src/components';
 import type { NextPage } from 'next';
 import React from 'react';
 import { BreakPoint, colors } from '@src/styles';
@@ -11,57 +11,60 @@ const About: NextPage = () => {
     width && width > BreakPoint ? `${42}px ${42}px` : `${24}px ${14}px`;
 
   return (
-    <VStack bg={colors.BackGround} h='100vh'>
-      <Header topic='about' />
-      <VStack maxW={`${BreakPoint}px`} p='20px'>
-        <Box
-          boxShadow={boxShadow}
-          bg={bg}
-          p={padding}
-          alignItems='flex-start'
-          minW='350px'
-          borderRadius='20px'
-        >
-          <Text as='h2' variant='heading1'>
-            Profile 🍑
-          </Text>
-          <VStack gap='10px' alignItems='flex-start' py='12px'>
-            <HStack gap='12px'>
-              <Avatar
-                src={require('@src/public/icons/poteboy.png')}
-                h='80px'
-                w='80px'
-                bg={colors.Primary.Light}
-              />
-              <VStack gap='4px' alignItems='flex-start'>
-                <Text variant='caption'>
-                  Keita Furuse {'{'} Poteboy {'}'}
-                </Text>
-                <Text pl='4px'>design engineer / front end developer in Japan.</Text>
-              </VStack>
-            </HStack>
-          </VStack>
-          <Spacer size={16} />
-          <Text as='h2' variant='heading1'>
-            Work Experience ⚡️
-          </Text>
-          <VStack gap='10px' alignItems='flex-start' py='12px'>
-            {workExperiences.map((experience) => {
-              return <ExperienceCard {...experience} />;
-            })}
-          </VStack>
-          <Spacer size={16} />
-          <Text as='h2' variant='heading1'>
-            Education 🐻
-          </Text>
-          <VStack gap='10px' alignItems='flex-start' py='12px'>
-            {educationExperience.map((experience) => {
-              return <ExperienceCard {...experience} />;
-            })}
-          </VStack>
-        </Box>
+    <>
+      <VStack bg={colors.BackGround} h='100vh'>
+        <Header topic='about' />
+        <VStack maxW={`${BreakPoint}px`} p='20px'>
+          <Box
+            boxShadow={boxShadow}
+            bg={bg}
+            p={padding}
+            alignItems='flex-start'
+            minW='350px'
+            borderRadius='20px'
+          >
+            <Text as='h2' variant='heading1'>
+              Profile 🍑
+            </Text>
+            <VStack gap='10px' alignItems='flex-start' py='12px'>
+              <HStack gap='12px'>
+                <Avatar
+                  src={require('@src/public/icons/poteboy.png')}
+                  h='80px'
+                  w='80px'
+                  bg={colors.Primary.Light}
+                />
+                <VStack gap='4px' alignItems='flex-start'>
+                  <Text variant='caption'>
+                    Keita Furuse {'{'} Poteboy {'}'}
+                  </Text>
+                  <Text pl='4px'>design engineer / front end developer in Japan.</Text>
+                </VStack>
+              </HStack>
+            </VStack>
+            <Spacer size={16} />
+            <Text as='h2' variant='heading1'>
+              Work Experience ⚡️
+            </Text>
+            <VStack gap='10px' alignItems='flex-start' py='12px'>
+              {workExperiences.map((experience) => {
+                return <ExperienceCard {...experience} />;
+              })}
+            </VStack>
+            <Spacer size={16} />
+            <Text as='h2' variant='heading1'>
+              Education 🐻
+            </Text>
+            <VStack gap='10px' alignItems='flex-start' py='12px'>
+              {educationExperience.map((experience) => {
+                return <ExperienceCard {...experience} />;
+              })}
+            </VStack>
+          </Box>
+        </VStack>
       </VStack>
-    </VStack>
+      <Footer />
+    </>
   );
 };
 

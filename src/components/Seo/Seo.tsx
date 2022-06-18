@@ -1,10 +1,10 @@
 import React, { FC, memo } from 'react';
 import Head from 'next/head';
-import DefaultImg from '@src/public/title/main-title.png';
+import DefaultImg from '@src/public/ogp.png';
 
-const defaultTitle = 'ケンコウイチバン';
-const defaultDescription =
-  'ケンコウイチバンは日々の暮らしをより健康に過ごすためのお役立ち情報を発信する総合メディアです。';
+export const defaultTitle = 'Poteboy';
+export const defaultDescription =
+  'I’m a design engineer & frontend developer currently working on live streaming platform. This is my personal website - where you’ll find all the stuff I’m currently thinking about.';
 
 type SeoProps = {
   title?: string;

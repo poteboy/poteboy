@@ -16,7 +16,7 @@ const Blog: NextPage<Props> = ({ data }) => {
 
   return (
     <>
-      <VStack h='100vh'>
+      <VStack h='100vh' bg={colors.BackGround}>
         <Header topic='blog' />
         <VStack py={16}>
           {posts.map((post) => {

@@ -4,21 +4,21 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from '../styles';
 import Head from 'next/head';
 import { CategoryProvider } from '@src/hooks';
+import { defaultTitle, defaultDescription } from '@src/components';
+import DefaultImg from '@src/public/ogp.png';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>ケンコウイチバン</title>
-        <meta
-          name='description'
-          content='ケンコウイチバンは日々の暮らしをより健康に過ごすためのお役立ち情報を発信する総合メディアです。'
-        />
+        <title>{defaultTitle}</title>
+        <meta name='description' content={defaultDescription} />
         {/* OGP */}
         <meta property='og:locale' content='ja_JP' />
-        <meta property='og:site_name' content='ケンコウイチバン' />
+        <meta property='og:site_name' content={defaultTitle} />
         {/* <meta property="og:url" content="https://poteboy.com/" /> */}
-        <meta property='og:title' content='ケンコウイチバン' />
+        <meta property='og:image' content={DefaultImg} />
+        <meta property='og:title' content={defaultTitle} />
         {/* Favicon */}
         <link
           rel='apple-touch-icon'

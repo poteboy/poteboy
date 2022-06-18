@@ -5,5 +5,6 @@ tags: ['figma', 'css']
 icon: 🍑
 ---
 
-# Why learn Figma
-test test test
+# Hello
+
+this is still work in progress

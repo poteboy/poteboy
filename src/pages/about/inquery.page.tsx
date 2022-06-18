@@ -30,11 +30,11 @@ const Inquery: NextPage = () => {
   return (
     <>
       <Head>
-        <title>ケンコウイチバンへの問い合わせ</title>
-        <meta name='og:title' content='ケンコウイチバンへの問い合わせ' />
+        <title>Contact - Poteboy</title>
+        <meta name='og:title' content='Contact - Poteboy' />
         <meta
           name='description'
-          content='ケンコウイチバンについて何かご不明点・お問合せがある場合はこちらのフォームからご意見を募集しています。'
+          content='If you have any question please do not hesitate to contact me from the form below, it will not actually send a message though'
         />
       </Head>
       <VStack minH='80vh' bg={colors.BackGround}>
