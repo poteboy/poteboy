@@ -7,11 +7,14 @@ import styled from 'styled-components';
 import { sp } from '@src/styles';
 
 export const MarkdownContent: FC<{ content: string }> = memo(({ content }) => {
+  console.log(content);
+
   return (
     <Markdown
       options={{
         wrapper: 'article',
         overrides: {
+          h1: H2,
           h2: H2,
           ul: UL,
           li: Li,
@@ -28,6 +31,7 @@ export const MarkdownContent: FC<{ content: string }> = memo(({ content }) => {
 const H2: FC = ({ children }) => {
   return (
     <Heading
+      as='h2'
       pb='0.2em'
       mb='1.1rem'
       mt='1.3em'
@@ -58,7 +62,7 @@ const Li: FC = ({ children }) => {
   return (
     <ListItem my='0.2em'>
       <ListIcon as={Circle} />
-      <Text as='span' ml='8px'>
+      <Text as='span' ml='8px' fontFamily='monospace'>
         {children}
       </Text>
     </ListItem>
@@ -67,7 +71,7 @@ const Li: FC = ({ children }) => {
 
 const P: FC = ({ children }) => {
   return (
-    <Text mt='0.3em' lineHeight='1.9'>
+    <Text lineHeight='1.9' fontFamily='monospace' mt='1.5em'>
       {children}
     </Text>
   );
@@ -75,7 +79,7 @@ const P: FC = ({ children }) => {
 
 const Img: FC<{ src: string }> = (props) => {
   const src = props.src;
-  return <Image src={src} width='80%' alignSelf='center' m='1.2rem auto' />;
+  return <Image src={src} width='400px' alignSelf='center' m='1.2rem auto' />;
 };
 
 const Image = styled(_Image)`

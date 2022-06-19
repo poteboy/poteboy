@@ -1,54 +1,52 @@
 import React, { FC, memo } from 'react';
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import type { GetStaticPaths, GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 import { Header, Spacer, MarkdownContent, Footer, Seo } from '@src/components';
 import { Heading, HStack, VStack, Text, Image } from '@chakra-ui/react';
 import { colors, sp, tab, MIN_DESKTOP_WIDTH } from '@src/styles';
-import { MicroList, Category, Blog } from '@src/entities';
-import { client as microClient, paths } from '@src/constants';
+import { Post } from '@src/entities';
+import { formatDateEN, getAllSlugs, getPostBySlug } from '@src/utils';
 import { EditIcon } from './EditIcon';
 import { formatDateJa } from '@src/utils';
 import styled from 'styled-components';
 import Head from 'next/head';
 
 type Props = {
-  blog: Blog;
-  categories: MicroList<Category>;
+  post: string;
 };
 
-const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
-  // const { width } = useWindowSize()
+const BlogPost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = memo(({ post }) => {
+  const json: Post = JSON.parse(post);
 
   return (
     <>
       <Seo
-        title={blog.title}
-        img={blog.eyecatch.url}
+        title={json.data.title}
         imgHeight={315}
         imgWidth={600}
-        description={blog.content.slice(0, 120)}
+        description={json.content.slice(0, 120)}
       />
-      <Header />
       <VStack bg={colors.BackGround} minH='100vh'>
+        <Header topic='blog' />
         <Spacer size={32} />
         <VStack maxW='1120px'>
           <BlogContainer
             bg={colors.White}
             p='0px 64px 60px'
-            w='calc(100% - 330px)'
+            w={'80%'}
             boxShadow='0 2px 4px #4385bb12'
             borderRadius='12px'
           >
             <Heading as='h1' variant='title' pt='40px'>
-              {blog.title}
+              {json.data.title}
             </Heading>
             <HStack alignSelf='flex-end' alignItems='center'>
               <EditIcon />
               <Text fontSize='14px' color={colors.Fonts.Sub}>
-                {formatDateJa(new Date(blog.createdAt))}
+                {formatDateEN(new Date(json.data.date))}
               </Text>
             </HStack>
-            <Image src={blog.eyecatch.url} width={{ base: '100%', md: '80%' }} />
-            <MarkdownContent content={blog.content} />
+            {/* <Image src={blog.eyecatch.url} width={{ base: '100%', md: '80%' }} /> */}
+            <MarkdownContent content={json.content} />
           </BlogContainer>
           <Spacer size={64} />
         </VStack>
@@ -59,13 +57,10 @@ const BlogPost: NextPage<Props> = memo(({ categories, blog }) => {
 });
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const blogs: MicroList<Blog> = await microClient.get({
-    endpoint: 'blogs',
-  });
-
-  const paths = blogs.contents.map((blog) => {
+  const slugs = getAllSlugs();
+  const paths = slugs.map((slug) => {
     return {
-      params: { id: blog.id },
+      params: { id: slug },
     };
   });
 
@@ -76,19 +71,11 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
-  const uid = context.params?.uid as string | undefined;
-  const blogs: MicroList<Blog> = await microClient.get({
-    endpoint: 'blogs',
-    contentId: uid,
-  });
-  const categories: MicroList<Category> = await microClient.get({
-    endpoint: 'categories',
-  });
-
+  const id = context.params?.id as string;
+  const post = JSON.stringify(getPostBySlug(id));
   return {
     props: {
-      blog: blogs.contents[0],
-      categories,
+      post,
     },
     revalidate: 10,
   };

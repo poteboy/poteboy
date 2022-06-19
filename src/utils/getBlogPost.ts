@@ -13,9 +13,9 @@ export const getAllSlugs = () => {
   });
 };
 
-const getPostBySlug = (slug: string) => {
+export const getPostBySlug = (slug: string) => {
   const file = fs.readFileSync(`${path}/${slug}.md`, 'utf-8');
-  return { ...matter(file), slug }; // typeof Post
+  return { ...matter(file), slug } as any as Post; // typeof Post
 };
 
 // if retured as plain object, it throws this error: `object` ("[object Uint8Array]") cannot be serialized as JSON.

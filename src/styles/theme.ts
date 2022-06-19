@@ -15,11 +15,13 @@ const breakpoints = createBreakpoints({
 const Heading: ComponentStyleConfig = {
   variants: {
     title: () => ({
-      fontSize: '2em',
+      fontFamily: 'Quicksand,serif',
+      fontSize: ['27px', '27px', '27px', '32px'],
       fontWeight: 700,
       marginY: '4px',
     }),
     subTitle: () => ({
+      fontFamily: 'Quicksand,serif',
       fontSize: '1.5em',
       fontWeight: 600,
       marginY: '2px',

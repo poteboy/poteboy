@@ -1,9 +1,11 @@
 import React, { FC, memo } from 'react';
+import Link from 'next/link';
 import { Box, HStack, Text, Image, VStack, Flex } from '@chakra-ui/react';
 import { Post } from '@src/entities';
 import { format } from 'date-fns';
 import { BreakPoint, colors } from '@src/styles';
 import { useHover, useWindowSize } from '@src/hooks';
+import { paths } from '@src/constants';
 
 export const PostCard: React.FC<{ post: Post }> = memo(({ post }) => {
   const { hoverRef, hovered } = useHover();
@@ -14,37 +16,39 @@ export const PostCard: React.FC<{ post: Post }> = memo(({ post }) => {
   const gapSize = width && width > BreakPoint ? 6 : 12;
 
   return (
-    <HStack
-      ref={hoverRef}
-      py='24px'
-      px='16px'
-      borderRadius={8}
-      cursor='pointer'
-      _hover={{ bg: colors.Primary.Light }}
-      alignItems='center'
-      gap={`${gapSize}px`}
-    >
-      <VStack
-        borderRadius='12px'
-        bg={hovered ? colors.White : colors.BackGround}
-        width={`${size}px`}
-        h={`${size}px`}
+    <Link {...paths.blogPost({ blogUid: post.slug })}>
+      <HStack
+        ref={hoverRef}
+        py='24px'
+        px='16px'
+        borderRadius={8}
+        cursor='pointer'
+        _hover={{ bg: colors.Primary.Light }}
         alignItems='center'
-        justifyContent='center'
+        gap={`${gapSize}px`}
       >
-        <Text fontSize={`${iconSize}px`}>{post.data.icon}</Text>
-      </VStack>
-      <Flex flexDir='column' alignItems='flex-start'>
-        <Text>{post.data.date}</Text>
-        <Text
-          fontSize='1.5rem'
-          fontWeight={700}
-          color={hovered ? colors.Primary.Main : colors.Black}
+        <VStack
+          borderRadius='12px'
+          bg={hovered ? colors.White : colors.BackGround}
+          width={`${size}px`}
+          h={`${size}px`}
+          alignItems='center'
+          justifyContent='center'
         >
-          {post.data.title}
-        </Text>
-      </Flex>
-    </HStack>
+          <Text fontSize={`${iconSize}px`}>{post.data.icon}</Text>
+        </VStack>
+        <Flex flexDir='column' alignItems='flex-start'>
+          <Text>{post.data.date}</Text>
+          <Text
+            fontSize='1.5rem'
+            fontWeight={700}
+            color={hovered ? colors.Primary.Main : colors.Black}
+          >
+            {post.data.title}
+          </Text>
+        </Flex>
+      </HStack>
+    </Link>
   );
 });
 
