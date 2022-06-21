@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { useCallback } from 'react';
 import styled from 'styled-components';
 import { sp } from '@src/styles';
+import { CodeBlock } from '../CodeBlock/CodeBlock';
 
 export const MarkdownContent: FC<{ content: string }> = memo(({ content }) => {
   console.log(content);
@@ -20,6 +21,7 @@ export const MarkdownContent: FC<{ content: string }> = memo(({ content }) => {
           li: Li,
           p: P,
           img: Img,
+          pre: CodeBlock,
         },
       }}
     >
@@ -62,7 +64,7 @@ const Li: FC = ({ children }) => {
   return (
     <ListItem my='0.2em'>
       <ListIcon as={Circle} />
-      <Text as='span' ml='8px' fontFamily='monospace'>
+      <Text as='span' ml='8px' fontFamily='system-ui'>
         {children}
       </Text>
     </ListItem>
@@ -71,7 +73,12 @@ const Li: FC = ({ children }) => {
 
 const P: FC = ({ children }) => {
   return (
-    <Text lineHeight='1.9' fontFamily='monospace' mt='1.5em'>
+    <Text
+      lineHeight='1.9'
+      fontSize={{ base: '18px', md: '20px' }}
+      fontFamily='system-ui'
+      mt='1.5em'
+    >
       {children}
     </Text>
   );

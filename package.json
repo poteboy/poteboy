@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "yarn eslint --fix",
     "prepare": "husky install",
-    "format": "prettier --write --ignore-path .gitignore './**/*.{ts,tsx}'"
+    "format": "prettier --write --ignore-path .gitignore './**/*.{ts,tsx}'",
+    "storybook": "start-storybook -s ./.storybook/public -p 6006"
   },
   "prettier": {
     "trailingComma": "all",
@@ -38,6 +39,7 @@
     "@fontsource/quicksand": "^4.5.9",
     "@hookform/resolvers": "^2.8.10",
     "@next/bundle-analyzer": "^12.1.6",
+    "@types/react-syntax-highlighter": "^15.5.2",
     "date-fns": "^2.28.0",
     "framer-motion": "4.1.11",
     "fs": "^0.0.1-security",
@@ -52,6 +54,7 @@
     "react-hook-form": "^7.31.3",
     "react-icons": "^4.4.0",
     "react-remove-scroll-bar": "^2.3.1",
+    "react-syntax-highlighter": "^15.5.0",
     "styled-components": "^5.3.5",
     "yup": "^0.32.11"
   },
