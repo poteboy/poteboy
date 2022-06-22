@@ -9,7 +9,10 @@ import { Category } from '@src/entities';
 import { useRouter } from 'next/router';
 import { useWindowSize } from '@src/hooks';
 
-type Props = {
+export type Props = {
+  /**
+   * 選択されているトピック
+   */
   topic?: 'blog' | 'about';
 };
 

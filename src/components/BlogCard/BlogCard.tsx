@@ -5,13 +5,13 @@ import { Header, Spacer } from '@src/components';
 import { Blog } from '@src/entities';
 import { useCallback } from 'react';
 
+export type Props = {
+  blog: Blog;
+  onClickBlogCard: (id: string) => void;
+} & StackProps;
+
 const width = 320;
-export const BlogCard: FC<
-  {
-    blog: Blog;
-    onClickBlogCard: (id: string) => void;
-  } & StackProps
-> = memo(({ blog, onClickBlogCard, ...style }) => {
+export const BlogCard: FC<Props> = memo(({ blog, onClickBlogCard, ...style }) => {
   const onClick = useCallback(() => {
     onClickBlogCard(blog.id);
   }, []);
