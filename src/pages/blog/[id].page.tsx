@@ -9,6 +9,7 @@ import { EditIcon } from './EditIcon';
 import { formatDateJa } from '@src/utils';
 import styled from 'styled-components';
 import Head from 'next/head';
+import { useWindowSize } from '@src/hooks';
 
 type Props = {
   post: string;
@@ -16,6 +17,7 @@ type Props = {
 
 const BlogPost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = memo(({ post }) => {
   const json: Post = JSON.parse(post);
+  const { width } = useWindowSize();
 
   return (
     <>
@@ -46,7 +48,7 @@ const BlogPost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = memo(
               </Text>
             </HStack>
             {/* <Image src={blog.eyecatch.url} width={{ base: '100%', md: '80%' }} /> */}
-            <MarkdownContent content={json.content} />
+            <MarkdownContent content={json.content} width={width} />
           </BlogContainer>
           <Spacer size={64} />
         </VStack>
@@ -86,10 +88,10 @@ export default BlogPost;
 const BlogContainer = styled(VStack)`
   ${tab`
     width: 90%;
-    padding: 0px 30px 30px
+    padding: 0px 30px 30px 30px;
   `}
   ${sp`
     width: auto;
-    padding: 0px 30px 30px;
+    padding: 0px 30px 30px 30px;
   `}
 `;

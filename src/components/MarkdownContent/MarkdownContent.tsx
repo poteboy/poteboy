@@ -6,12 +6,16 @@ import { useCallback } from 'react';
 import styled from 'styled-components';
 import { sp } from '@src/styles';
 import { CodeBlock } from '../CodeBlock/CodeBlock';
+import { useWindowSize } from '@src/hooks';
 
-export const MarkdownContent: FC<{ content: string }> = memo(({ content }) => {
-  console.log(content);
+type Props = {
+  content: string;
+  width?: number;
+};
 
+export const MarkdownContent: FC<Props> = memo(({ content, width }) => {
   return (
-    <Markdown
+    <Article
       options={{
         wrapper: 'article',
         overrides: {
@@ -24,9 +28,10 @@ export const MarkdownContent: FC<{ content: string }> = memo(({ content }) => {
           pre: CodeBlock,
         },
       }}
+      width={width}
     >
       {content}
-    </Markdown>
+    </Article>
   );
 });
 
@@ -93,4 +98,10 @@ const Image = styled(_Image)`
   ${sp`
       width: 100%
     `}
+`;
+
+const Article = styled(Markdown)`
+  ${sp`
+    width: ${((props: { width?: number }) => (props.width ? props.width - 60 : 380)) as any}px
+  `}
 `;
