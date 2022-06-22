@@ -6,14 +6,13 @@ import { useCallback } from 'react';
 import styled from 'styled-components';
 import { sp } from '@src/styles';
 import { CodeBlock } from '../CodeBlock/CodeBlock';
-import { useWindowSize } from '@src/hooks';
 
-type Props = {
+export type MarkdwonProps = {
   content: string;
   width?: number;
 };
 
-export const MarkdownContent: FC<Props> = memo(({ content, width }) => {
+export const MarkdownContent: FC<MarkdwonProps> = memo(({ content, width }) => {
   return (
     <Article
       options={{

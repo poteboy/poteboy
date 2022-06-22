@@ -4,7 +4,7 @@ import { Controller, FieldValues, UseControllerProps, UseFormSetValue } from 're
 import { Spacer } from '../Spacer/Spacer';
 import { colors } from '@src/styles';
 
-type ValidationInputProps<T extends FieldValues> = InputProps & UseControllerProps<T>;
+export type ValidationInputProps<T extends FieldValues> = InputProps & UseControllerProps<T>;
 
 export const ValidationInput = <T extends FieldValues>({
   control,
