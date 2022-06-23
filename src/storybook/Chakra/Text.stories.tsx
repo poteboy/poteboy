@@ -1,14 +1,28 @@
 import React from 'react';
-import { ComponentMeta } from '@storybook/react';
-import { Text } from '@chakra-ui/react';
+import { ComponentMeta, storiesOf, Story } from '@storybook/react';
+import { Text, TextProps } from '@chakra-ui/react';
 
+type Props = {
+  text: string;
+  variant: 'body1';
+};
+
+//👇 We create a “template” of how args map to rendering
 export default {
   title: 'Text',
   component: Text,
-} as ComponentMeta<typeof Text>;
+  argTyps: {
+    variant: {
+      name: 'variant',
+      control: 'select',
+      options: ['body1'],
+    },
+  },
+};
 
-const text = 'こんにちわ';
-
-export const Default = <Text>{text}</Text>;
-
-export const Button1 = <Text variant='button1'>{text}</Text>;
+const Template: Story<TextProps> = (args) => <Text {...args} />;
+export const body1 = Template.bind({});
+body1.args = {
+  children: 'hello',
+  variant: 'body1',
+};

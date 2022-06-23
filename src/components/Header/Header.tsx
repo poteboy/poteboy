@@ -9,7 +9,7 @@ import { Category } from '@src/entities';
 import { useRouter } from 'next/router';
 import { useWindowSize } from '@src/hooks';
 
-export type Props = {
+export type HeaderProps = {
   /**
    * 選択されているトピック
    */
@@ -22,7 +22,7 @@ const SLECTED_STYLE: CSSProperties = {
   background: colors.Primary.Light,
 };
 const DEFAULT_STYLE: CSSProperties = { color: colors.Fonts.Sub };
-export const Header: FC<Props> = memo(({ topic }) => {
+export const Header: FC<HeaderProps> = memo(({ topic }) => {
   const { width } = useWindowSize();
 
   return (
