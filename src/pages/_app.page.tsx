@@ -12,6 +12,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>{defaultTitle}</title>
+        <meta http-equiv='Cache-Control' content='no-store' />
+        <meta http-equiv='Expires' content='86400' />
         <meta name='description' content={defaultDescription} />
         {/* OGP */}
         <meta property='og:locale' content='ja_JP' />
