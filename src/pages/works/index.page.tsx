@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { Seo, Header } from '@src/components';
 import { VStack } from '@chakra-ui/react';
 
-export const Works: NextPage = () => {
+const Works: NextPage = () => {
   return (
     <VStack>
       <Seo />
@@ -10,3 +10,5 @@ export const Works: NextPage = () => {
     </VStack>
   );
 };
+
+export default Works;
