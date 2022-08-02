@@ -73,7 +73,7 @@ export default About;
 
 const workExperiences: Experience[] = [
   {
-    name: 'HiCustormer, Inc.',
+    name: 'HiCustomer, Inc.',
     duration: 'Sep 2022 ~ Current',
     description: 'TypeScript, React, GraphQL, Express',
   },
