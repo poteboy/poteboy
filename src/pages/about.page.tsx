@@ -12,7 +12,7 @@ const About: NextPage = () => {
 
   return (
     <>
-      <VStack bg={colors.BackGround} h='100vh'>
+      <VStack bg={colors.BackGround} minH='100vh'>
         <Header topic='about' />
         <VStack maxW={`${BreakPoint}px`} p='20px'>
           <Box
@@ -62,6 +62,7 @@ const About: NextPage = () => {
             </VStack>
           </Box>
         </VStack>
+        <Spacer size={40} />
       </VStack>
       <Footer />
     </>
@@ -72,13 +73,18 @@ export default About;
 
 const workExperiences: Experience[] = [
   {
+    name: 'HiCustormer, Inc.',
+    duration: 'Sep 2022 ~ Current',
+    description: 'TypeScript, React, GraphQL, Express',
+  },
+  {
     name: 'THECOO, Inc.',
-    duration: 'June 2022 ~',
+    duration: 'Jun 2022 ~ Current',
     description: 'JavaScript, Vue, Express',
   },
   {
     name: 'MICIN, Inc.',
-    duration: 'July 2020 ~ May 2022',
+    duration: 'Jul 2020 ~ Sep 2022',
     description: 'TypeScript, React Native, Next.js, Angular, Ruby on Rails',
   },
 ];

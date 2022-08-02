@@ -31,6 +31,7 @@ export const Header: FC<HeaderProps> = memo(({ topic }) => {
         <HStack mx='auto' py='4px' justifyContent='space-between'>
           <Link {...paths.index}>
             <Text
+              as='a'
               fontSize={width && width < MAX_MOBILE_WIDTH ? '26' : '22px'}
               fontWeight={700}
               color='#242d4a'
