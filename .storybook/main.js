@@ -1,5 +1,5 @@
 const path = require("path");
-
+const { mergeConfig } = require("vite");
 const toPath = (_path) => path.join(process.cwd(), _path);
 
 module.exports = {
@@ -13,7 +13,11 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-docs",
     "@storybook/addon-a11y",
+    "@chakra-ui/storybook-addon",
   ],
+  core: {
+    builder: "@storybook/builder-vite",
+  },
   features: {
     emotionAlias: false,
   },
@@ -27,24 +31,26 @@ module.exports = {
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
-  webpackFinal: async (config) => {
-    config.module.rules.push({
-      test: /\.mjs$/,
-      include: /node_modules/,
-      type: "javascript/auto",
-    });
-    return {
-      ...config,
+  viteFinal: async (config) => {
+    return mergeConfig(config, {
       resolve: {
-        ...config.resolve,
         alias: {
-          ...config.resolve.alias,
-          "@emotion/core": toPath("node_modules/@emotion/react"),
-          "emotion-theming": toPath("node_modules/@emotion/react"),
-          // "@src": path.resolve(__dirname, './src'),
+          preserveSymlinks: true,
           "@src": path.resolve(__dirname, "../src"),
         },
       },
-    };
+    });
+    // return {
+    //   ...config,
+    //   resolve: {
+    //     ...config.resolve,
+    //     alias: {
+    //       ...config.resolve.alias,
+    //       // "@emotion/core": toPath("node_modules/@emotion/react"),
+    //       // "emotion-theming": toPath("node_modules/@emotion/react"),
+    //       "@src": path.resolve(__dirname, "../src"),
+    //     },
+    //   },
+    // };
   },
 };
