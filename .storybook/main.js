@@ -21,16 +21,16 @@ module.exports = {
   features: {
     emotionAlias: false,
   },
-  typescript: {
-    check: false,
-    checkOptions: {},
-    reactDocgen: "react-docgen-typescript",
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) =>
-        prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
-    },
-  },
+  // typescript: {
+  //   check: false,
+  //   checkOptions: {},
+  //   reactDocgen: "react-docgen-typescript",
+  //   reactDocgenTypescriptOptions: {
+  //     shouldExtractLiteralValuesFromEnum: true,
+  //     propFilter: (prop) =>
+  //       prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
+  //   },
+  // },
   viteFinal: async (config) => {
     return mergeConfig(config, {
       resolve: {
