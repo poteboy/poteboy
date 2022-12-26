@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Box, Image, Container, Spacer, Button } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { TextInput } from "@src/components";
+import { ThemeToggle } from "@src/components";
 import { colors, useColorTheme } from "@src/styles";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
             borderRadius="50%"
           />
         </Link>
-        <Button onClick={changeTheme}>hello</Button>
+        <ThemeToggle />
       </Container>
     </Box>
   );

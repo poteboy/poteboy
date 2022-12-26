@@ -1,4 +1,4 @@
-import { render } from "../../../utils";
+import { render } from "@src/utils";
 import { Spacer } from "./Spacer";
 
 describe(`Spacer`, () => {

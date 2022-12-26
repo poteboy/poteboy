@@ -1,9 +1,12 @@
 import React, { FC } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
+import { theme, ThemeProvider } from "@src/styles";
 
 const ProviderWrapper: FC<{ children: React.ReactNode }> = ({ children }) => (
-  <ChakraProvider>{children}</ChakraProvider>
+  <ChakraProvider theme={theme}>
+    <ThemeProvider>{children}</ThemeProvider>
+  </ChakraProvider>
 );
 
 const _render = (

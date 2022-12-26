@@ -4,7 +4,7 @@ import {
   FC,
   ReactNode,
   memo,
-  Children,
+  useCallback,
   useRef,
   MutableRefObject,
   useEffect,
@@ -13,7 +13,7 @@ import {
 export type Color = keyof typeof colors;
 
 const themeKey = "poteboy-theme";
-const themeSchema = z.enum(["white", "dark"]);
+const themeSchema = z.enum(["light", "dark"]);
 type ThemeMode = z.infer<typeof themeSchema>;
 
 // styles.cssに合わせる
@@ -52,17 +52,31 @@ export const useColorTheme = () => {
     document.body.dataset.theme = theme.current.theme;
   }, []);
 
-  const changeTheme = () =>
-    theme.current.theme === "dark"
-      ? (theme.current.theme = "white")
-      : (theme.current.theme = "dark");
+  const changeTheme = useCallback(
+    () =>
+      theme.current.theme === "dark"
+        ? (theme.current.theme = "light")
+        : (theme.current.theme = "dark"),
+    []
+  );
 
-  return { changeTheme };
+  // 実行されるまで評価されない
+  const isDarkMode = () => {
+    if (typeof window === "undefined") return true;
+    else return document.body.dataset.theme === "dark";
+    // (() => {
+    //   if (typeof window === "undefined") return true;
+    //   else return document.body.dataset.theme === "dark";
+    // })();
+  };
+
+  return { changeTheme, isDarkMode };
 };
 
 export const ThemeProvider: FC<{ children: ReactNode }> = memo(
   ({ children }) => {
     useColorTheme();
     return <>{children}</>;
-  }
+  },
+  (_prev, _curr) => true
 );
