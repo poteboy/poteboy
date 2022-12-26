@@ -1,3 +1,7 @@
-:root {
+body[data-theme="dark"] {
   --base-bg: #1a1e2e;
+}
+
+body[data-theme="light"] {
+  --base-bg: #ffff;
 }

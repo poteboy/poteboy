@@ -6,13 +6,15 @@ import SuperJSON from "superjson";
 import { AppRouter } from "@src/server/route";
 import { withTRPC } from "@trpc/next";
 import { ChakraProvider } from "@chakra-ui/react";
-import { theme } from "@src/styles/theme";
+import { theme, ThemeProvider } from "@src/styles";
 import "../styles/styles.css";
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </ChakraProvider>
   );
 }

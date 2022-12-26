@@ -3,5 +3,8 @@
     "next/core-web-vitals",
     "plugin:jsx-a11y/recommended",
     "plugin:storybook/recommended"
-  ]
+  ],
+  "rules": {
+    "react/display-name": "off"
+  }
 }
