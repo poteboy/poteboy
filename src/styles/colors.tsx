@@ -9,6 +9,7 @@ import {
   useEffect,
 } from "react";
 import { useMemo } from "react";
+import { useBrowserLayoutEffect } from "@src/hooks";
 
 export type Color = keyof typeof colors;
 
@@ -19,6 +20,8 @@ type ThemeMode = z.infer<typeof themeSchema>;
 // styles.cssに合わせる
 export const colors = {
   baseBg: "var(--base-bg)",
+  baseBgLight: "var(--base-bg-light)",
+  baseBgTranslucent: "--base-bg-translucent",
 } as const;
 
 const colorFromStorage = () => {
@@ -57,7 +60,7 @@ export const useColorTheme = () => {
 
 export const ThemeProvider: FC<{ children: ReactNode }> = memo(
   ({ children }) => {
-    useLayoutEffect(() => {
+    useBrowserLayoutEffect(() => {
       const result = colorFromStorage();
       document.body.dataset.theme = result;
     }, []);

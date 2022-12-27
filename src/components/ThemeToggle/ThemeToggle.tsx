@@ -7,14 +7,10 @@ import React, {
 } from "react";
 import styled from "@emotion/styled";
 import { useColorTheme } from "@src/styles";
-import { useEffect } from "react";
+import { SunIcon, MoonIcon } from "./ThemeIcons";
 
 export const ThemeToggle: FC = memo(() => {
   const { changeTheme, isDarkMode } = useColorTheme();
-
-  useEffect(() => {
-    console.log(isDarkMode);
-  }, [isDarkMode]);
 
   return (
     <Button
@@ -27,8 +23,25 @@ export const ThemeToggle: FC = memo(() => {
       <Bar
         dark={isDarkMode}
         style={{ background: isDarkMode ? "#fff" : "#000" }}
-      />
-      <Thumb dark={isDarkMode} />
+      >
+        {!isDarkMode && (
+          <SunIcon
+            color="#fde047"
+            style={{ top: "5px", left: "5px", position: "absolute" }}
+            width={14}
+            height={14}
+          />
+        )}
+        {isDarkMode && (
+          <MoonIcon
+            color="#fde047"
+            style={{ top: "5px", right: "5px", position: "absolute" }}
+            width={15}
+            height={15}
+          />
+        )}
+      </Bar>
+      <Thumb dark={isDarkMode}></Thumb>
     </Button>
   );
 });
@@ -63,5 +76,7 @@ const Thumb = styled.span<{ dark: boolean }>`
   border-radius: 9999px;
   background: #fff;
   transition: transform ease 200ms, background ease 200ms;
-  box-shadow: 0 0 2px 3px #ffa7c4;
+  box-shadow: 0 0 1px 2px #fde047;
 `;
+
+// #ff886c

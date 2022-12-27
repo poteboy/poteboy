@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Box, Image, Container, Spacer, Button } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { ThemeToggle } from "@src/components";
+import { ThemeToggle, Header } from "@src/components";
 import { colors, useColorTheme } from "@src/styles";
 
 export default function Home() {
@@ -9,7 +9,8 @@ export default function Home() {
 
   return (
     <Box flex={1} minH="100vh" bg={colors.baseBg}>
-      <Container as="main">
+      <Header />
+      <Container as="main" bg={colors.baseBgLight}>
         <Spacer h="80px" />
         <Link href="/">
           <Image
@@ -19,7 +20,6 @@ export default function Home() {
             borderRadius="50%"
           />
         </Link>
-        <ThemeToggle />
       </Container>
     </Box>
   );
