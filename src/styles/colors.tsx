@@ -28,10 +28,16 @@ const colorFromStorage = () => {
 };
 
 export const useColorTheme = () => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
-    setTheme(document.body.dataset.theme!);
+    setTheme(
+      (() => {
+        const result = themeSchema.safeParse(document.body.dataset.theme);
+        if (result.success) return result.data;
+        else throw Error("unexpected error has occured");
+      })()
+    );
   }, []);
 
   const changeTheme = useCallback(
