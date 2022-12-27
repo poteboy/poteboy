@@ -7,33 +7,28 @@ import React, {
 } from "react";
 import styled from "@emotion/styled";
 import { useColorTheme } from "@src/styles";
+import { useEffect } from "react";
 
 export const ThemeToggle: FC = memo(() => {
   const { changeTheme, isDarkMode } = useColorTheme();
-  const [_, forceRerender] = useReducer((c: number) => c + 1, 0);
 
-  const handelKeyDown = (e: React.KeyboardEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-    changeTheme();
-    forceRerender();
-  };
-
-  const handleClick = (e: any) => {
-    console.log(e);
-    changeTheme();
-    forceRerender();
-  };
+  useEffect(() => {
+    console.log(isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <Button
       tabIndex={0}
-      onClick={handleClick}
+      onClick={changeTheme}
       aria-label="テーマ切り替えボタン"
       role="switch"
-      aria-checked={isDarkMode()}
+      aria-checked={isDarkMode}
     >
-      <Bar dark={isDarkMode()} />
-      <Thumb dark={isDarkMode()} />
+      <Bar
+        dark={isDarkMode}
+        style={{ background: isDarkMode ? "#fff" : "#000" }}
+      />
+      <Thumb dark={isDarkMode} />
     </Button>
   );
 });
@@ -46,7 +41,7 @@ const Button = styled.button`
 `;
 
 const Bar = styled.span<{ dark: boolean }>`
-  background: ${(props) => (props.dark ? "#fff" : "#000")};
+  /* background: ${(props) => (props.dark ? "#fff" : "#000")}; */
   width: 50px;
   height: 24px;
   border-radius: 9999px;

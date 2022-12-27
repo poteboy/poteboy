@@ -5,10 +5,10 @@ import {
   ReactNode,
   memo,
   useCallback,
-  useRef,
-  MutableRefObject,
+  useLayoutEffect,
   useEffect,
 } from "react";
+import { useMemo } from "react";
 
 export type Color = keyof typeof colors;
 
@@ -21,61 +21,40 @@ export const colors = {
   baseBg: "var(--base-bg)",
 } as const;
 
+const colorFromStorage = () => {
+  const result = themeSchema.safeParse(localStorage.getItem(themeKey));
+  if (result.success) return result.data;
+  else return "dark";
+};
+
 export const useColorTheme = () => {
-  const theme: MutableRefObject<{ theme: ThemeMode }> = useRef(
-    new Proxy(
-      {
-        theme: (() => {
-          if (typeof window === "undefined") return "dark";
-          const result = themeSchema.safeParse(localStorage.getItem(themeKey));
-          if (result.success) return result.data;
-          else return "dark";
-        })(),
-      },
-      {
-        set(target, key, value: ThemeMode, receiver) {
-          const result = Reflect.set(target, key, value, receiver);
-          if (
-            typeof window !== "undefined" &&
-            typeof document !== "undefined"
-          ) {
-            document.body.dataset.theme = value;
-            localStorage.setItem(themeKey, value);
-          }
-          return result;
-        },
-      }
-    )
-  );
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
-    document.body.dataset.theme = theme.current.theme;
+    setTheme(document.body.dataset.theme!);
   }, []);
 
   const changeTheme = useCallback(
-    () =>
-      theme.current.theme === "dark"
-        ? (theme.current.theme = "light")
-        : (theme.current.theme = "dark"),
+    () => setTheme((t) => (t === "dark" ? "light" : "dark")),
     []
   );
 
-  // 実行されるまで評価されない
-  const isDarkMode = () => {
-    if (typeof window === "undefined") return true;
-    else return document.body.dataset.theme === "dark";
-    // (() => {
-    //   if (typeof window === "undefined") return true;
-    //   else return document.body.dataset.theme === "dark";
-    // })();
-  };
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem(themeKey, theme);
+  }, [theme]);
+
+  const isDarkMode = useMemo(() => theme === "dark", [theme]);
 
   return { changeTheme, isDarkMode };
 };
 
 export const ThemeProvider: FC<{ children: ReactNode }> = memo(
   ({ children }) => {
-    useColorTheme();
+    useLayoutEffect(() => {
+      const result = colorFromStorage();
+      document.body.dataset.theme = result;
+    }, []);
     return <>{children}</>;
   },
   (_prev, _curr) => true
