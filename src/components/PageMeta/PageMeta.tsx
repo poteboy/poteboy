@@ -1,5 +1,6 @@
 import Head from "next/head";
-import { FC } from "react";
+import { FC, useEffect, useMemo } from "react";
+import OGPImage from "@src/public/ogp.png";
 
 type PageMetaProps = {
   title?: string;
@@ -7,16 +8,24 @@ type PageMetaProps = {
 };
 
 export const PageMeta: FC<PageMetaProps> = (props) => {
+  const domain = useMemo(() => {
+    if (typeof document === "undefined") return "c";
+    else return document.domain ?? "https://www.poteboy.com";
+  }, []);
+
   return (
     <Head>
       <title>{props.title}</title>
       <meta name="description" content={props.description} />
-      <meta property="og:image" content={require("@src/public/ogp.png")} />
+      <meta
+        property="og:image"
+        content={`https://www.poteboy.com/${OGPImage}`}
+      />
     </Head>
   );
 };
 
 PageMeta.defaultProps = {
   title: "Poteboy",
-  description: "poteboyの実験場兼お気持ち表明ブログ",
+  description: "poteboyのサイト",
 };

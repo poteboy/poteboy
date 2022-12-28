@@ -6,6 +6,7 @@ import Document, {
   DocumentContext,
 } from "next/document";
 import React from "react";
+import OGPImage from "@src/public/ogp.png";
 
 // 何故かこれがあると動かないから一旦.page拡張子を外している
 export default class MyDocument extends Document {
@@ -21,7 +22,10 @@ export default class MyDocument extends Document {
             content={require("@src/public/ogp.png")}
           />
           <meta property="og:url" content="https://poteboy.com/" />
-          <meta property="og:image" content={require("@src/public/ogp.png")} />
+          <meta
+            property="og:image"
+            content={`https://www.poteboy.com/${OGPImage}`}
+          />
           <meta property="og:title" content="poteboy" />
           {/* Favicon */}
           <link
