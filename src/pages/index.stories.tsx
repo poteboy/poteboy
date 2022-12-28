@@ -1,4 +1,4 @@
-import TopPage from ".";
+import TopPage from "./index.page";
 import { Meta, Story } from "@storybook/react";
 
 export default {

@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ja-JP">
         <Head>
-          <meta http-equiv="Expires" content="86400" />
+          <meta httpEquiv="Expires" content="86400" />
           {/* OGP */}
           <meta property="og:locale" content="ja_JP" />
           <meta

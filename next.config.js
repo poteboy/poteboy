@@ -6,6 +6,8 @@ const withImages = require("next-images");
 
 module.exports = withImages(
   withBundleAnalyzer({
+    distDir: "build",
+    trailingSlash: true,
     pageExtensions: ["page.tsx"],
     images: {
       disableStaticImages: true,
