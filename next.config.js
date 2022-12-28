@@ -6,17 +6,17 @@ const withImages = require("next-images");
 
 module.exports = withImages(
   withBundleAnalyzer({
-    distDir: "build",
+    // distDir: "build",
     trailingSlash: true,
     pageExtensions: ["page.tsx"],
-    // exportPathMap: async function (
-    //   defaultPathMap,
-    //   { dev, dir, outDir, distDir, buildId }
-    // ) {
-    //   return {
-    //     "/": { page: "/" },
-    //   };
-    // },
+    exportPathMap: async function (
+      defaultPathMap,
+      { dev, dir, outDir, distDir, buildId }
+    ) {
+      return {
+        "/": { page: "/" },
+      };
+    },
     images: {
       disableStaticImages: true,
     },
