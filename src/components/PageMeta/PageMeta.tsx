@@ -11,6 +11,7 @@ export const PageMeta: FC<PageMetaProps> = (props) => {
     <Head>
       <title>{props.title}</title>
       <meta name="description" content={props.description} />
+      <meta property="og:image" content={require("@src/public/ogp.png")} />
     </Head>
   );
 };
