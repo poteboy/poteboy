@@ -11,7 +11,7 @@ import {
   Card,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { Header } from "@src/components";
+import { Header, PageMeta } from "@src/components";
 import { colors, useColorTheme } from "@src/styles";
 import styled from "@emotion/styled";
 
@@ -20,6 +20,7 @@ import styled from "@emotion/styled";
 export default function Home() {
   return (
     <Box flex={1} minH="100vh" bg={colors.baseBg}>
+      <PageMeta />
       <Header />
       <Container as="main">
         <Spacer h={20} />
