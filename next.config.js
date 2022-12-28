@@ -6,9 +6,17 @@ const withImages = require("next-images");
 
 module.exports = withImages(
   withBundleAnalyzer({
-    distDir: "out",
+    distDir: "build",
     trailingSlash: true,
     pageExtensions: ["page.tsx"],
+    // exportPathMap: async function (
+    //   defaultPathMap,
+    //   { dev, dir, outDir, distDir, buildId }
+    // ) {
+    //   return {
+    //     "/": { page: "/" },
+    //   };
+    // },
     images: {
       disableStaticImages: true,
     },
@@ -19,6 +27,7 @@ module.exports = withImages(
       if (!isServer) {
         config.resolve.fallback.fs = false;
       }
+      // config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
       return config;
     },
   })
