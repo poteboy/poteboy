@@ -5,7 +5,7 @@ import { ThemeToggle } from "..";
 
 export const Header: FC = memo(() => {
   return (
-    <Box as="header" w="100%" bg={colors.baseBgTranslucent} h="58px">
+    <Box as="header" w="100%" bg={colors.baseBgTranslucent} h="62px">
       <Flex
         flexDir="row"
         maxW={`${MOBILE_SIZE}px`}
@@ -14,7 +14,6 @@ export const Header: FC = memo(() => {
         p="8px 16px"
         align="center"
       >
-        <div>hello</div>
         <Box ml="auto" display="grid">
           <ThemeToggle />
         </Box>

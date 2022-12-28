@@ -21,7 +21,11 @@ type ThemeMode = z.infer<typeof themeSchema>;
 export const colors = {
   baseBg: "var(--base-bg)",
   baseBgLight: "var(--base-bg-light)",
-  baseBgTranslucent: "--base-bg-translucent",
+  baseBgTranslucent: "var(--base-bg-translucent)",
+
+  baseText: "var(--base-text)",
+  baseTextLight: "var(--base-text-light)",
+  baseTextLink: "var(--base-text-link)",
 } as const;
 
 const colorFromStorage = () => {

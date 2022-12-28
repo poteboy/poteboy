@@ -2,10 +2,18 @@ body[data-theme="dark"] {
   --base-bg: #1a1e2e;
   --base-bg-light: #2b3047;
   --base-bg-translucent: rgba(26, 30, 46, 0.5);
+
+  --base-text: #fff;
+  --base-text-light: #8a8c9d;
+  --base-text-link: #4986cc;
 }
 
 body[data-theme="light"] {
   --base-bg: #f7f9fc;
   --base-bg-light: #fff;
   --base-bg-translucent: rgba(247, 249, 252, 0.5);
+
+  --base-text: #000;
+  --base-text-light: #8a8c9d;
+  --base-text-link: #0070f3;
 }
