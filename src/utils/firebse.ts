@@ -46,4 +46,6 @@ export {
   collection,
   doc,
   runTransaction,
+  Timestamp,
+  getDocs,
 } from "firebase/firestore";

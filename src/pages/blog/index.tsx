@@ -1,6 +1,5 @@
 import type { NextPage, GetStaticProps } from "next";
 import { getAllPosts, Post, postSchema } from "./utils";
-import { useEffect, useMemo } from "react";
 import {
   Box,
   Container,
@@ -19,14 +18,12 @@ import {
   Timestamp,
   getDocs,
   fbCollectionKeys,
-  setDoc,
   query,
   collection,
   firestore,
   doc,
   runTransaction,
 } from "@src/utils";
-import dayjs from "dayjs";
 import { blogPostSchema, BlogPost } from "@src/schema";
 
 type Props = {
@@ -83,6 +80,7 @@ const Blog: NextPage<Props> = ({ posts }) => {
   );
 };
 
+// あったらアップデート、なかったら作る
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const post = getAllPosts();
   try {
@@ -90,11 +88,11 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       query(collection(firestore, fbCollectionKeys.blogPost))
     );
     const item = snap.docs
-      .map((d) => {
+      .map((d: any) => {
         const result = blogPostSchema.safeParse(d.data());
         if (result.success) return result.data;
       })
-      .filter((item) => !!item) as BlogPost[];
+      .filter((item: BlogPost | undefined) => !!item) as BlogPost[];
     await runTransaction(firestore, async (transaction) => {
       post.forEach((post) => {
         const _i = item.find((i) => i.slug === post.slug);

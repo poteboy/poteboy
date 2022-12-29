@@ -8,13 +8,31 @@ import { Post, getAllSlugs, getPostBySlug } from "./utils";
 import { Box } from "@chakra-ui/react";
 import { colors } from "@src/styles";
 import { Header, PageMeta } from "@src/components";
-import { useQuery, getDoc, fbCollectionKeys, doc, firestore } from "@src/utils";
+import {
+  useQuery,
+  getDoc,
+  fbCollectionKeys,
+  doc,
+  firestore,
+  useMutation,
+} from "@src/utils";
 import { useEffect } from "react";
 
 const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
-  const { data, isError } = useQuery(["blogs.get-blog-post", post.slug], {});
+  const { mutate } = useMutation(["blogs.update-blog-post"]);
+  const { data, isError, isLoading } = useQuery(
+    ["blogs.get-blog-post", post.slug],
+    {
+      onSuccess(data) {
+        return mutate({
+          slug: post.slug,
+          readCount: !!data?.readCount ? data.readCount + 1 : 1,
+        });
+      },
+    }
+  );
 
   return (
     <Box bg={colors.baseBg} minH="100vh">
