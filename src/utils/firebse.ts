@@ -39,4 +39,11 @@ export const fbCollectionKeys = {
 
 export const firestore = getFirestore();
 
-export * from "firebase/firestore";
+export {
+  getDoc,
+  setDoc,
+  query,
+  collection,
+  doc,
+  runTransaction,
+} from "firebase/firestore";

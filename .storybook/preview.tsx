@@ -4,7 +4,7 @@ import "../src/styles/styles.css";
 import { useBrowserLayoutEffect } from "../src/hooks";
 import { FC, ReactNode, memo } from "react";
 
-const withChakra = (StoryFn) => {
+const withChakra = (StoryFn: any) => {
   return (
     <ChakraProvider theme={theme}>
       <ThemeProvider>
