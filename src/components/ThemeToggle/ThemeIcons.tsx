@@ -21,9 +21,9 @@ export const SunIcon: FC<SVGProps> = memo(({ width, height, color, style }) => {
       }}
     >
       <g
-        stroke-linejoin="round"
-        stroke-linecap="round"
-        stroke-width="2"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        strokeWidth="2"
         fill="none"
         stroke="currentColor"
       >

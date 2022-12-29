@@ -1,11 +1,13 @@
 import { Box, Flex, HStack, Text, Image, Card, VStack } from "@chakra-ui/react";
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useState, useRef } from "react";
 import { colors, MOBILE_SIZE } from "@src/styles";
 import Link from "next/link";
 import { ThemeToggle } from "..";
 import { paths, PathKey, pathKeys } from "@src/constants";
 import { useRouter } from "next/router";
 import { ArrowIcon } from "./ArrowIcon";
+import { z } from "zod";
+import isEqual from "lodash.isequal";
 
 type HeaderProps = {
   disableMenu?: boolean; // this is used when there's no H1 tag in page component
@@ -15,6 +17,7 @@ type HeaderProps = {
 export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
+  const ref = useRef(null);
 
   const firstPath: PathKey = (() => {
     const path = pathKeys.safeParse(router.asPath.split("/")[1]);
@@ -35,8 +38,18 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
     const handleCloseModal = (event: MouseEvent) => {
       const element = event.target as HTMLElement;
       if (element.closest(controlKey) == null && expanded) {
-        event.preventDefault();
-        setExpanded(false);
+        const HTMLSchema = z.instanceof(HTMLElement);
+        const _button = HTMLSchema.safeParse(ref.current);
+        if (_button.success) {
+          let escape = _button.data === element;
+          _button.data.childNodes.forEach((node) => {
+            if (isEqual(node, element)) escape = true;
+          });
+          if (!escape) {
+            event.preventDefault();
+            setExpanded(false);
+          }
+        }
       }
     };
     document.addEventListener("keydown", handleEscape);
@@ -45,7 +58,7 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
       document.removeEventListener("keydown", handleEscape);
       document.removeEventListener("click", handleCloseModal);
     };
-  }, []);
+  }, [expanded]);
 
   return (
     <Box
@@ -91,6 +104,7 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
                   aria-haspopup="menu"
                   aria-controls={controlKey}
                   onClick={() => setExpanded((e) => !e)}
+                  ref={ref}
                 >
                   <Text as="span">{firstPath}</Text>
                   <ArrowIcon />
