@@ -15,9 +15,7 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
   const { mutate } = useMutation(["blogs.update-blog-post"], {
-    onSuccess(e) {
-      console.log(e);
-    },
+    onSuccess(e) {},
   });
   const { data, isError, isLoading } = useQuery(
     ["blogs.get-blog-post", post.slug],
