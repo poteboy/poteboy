@@ -18,6 +18,9 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
 export function withCors(handler: NextApiHandler) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     await runMiddleware(req, res, cors);
+    req.headers["access-control-allow-origin"] = "*";
+    req.headers["access-control-allow-headers"] =
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization";
 
     return await handler(req, res);
   };
