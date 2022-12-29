@@ -1,9 +1,9 @@
 ---
-title: "Hello World"
+title: "Goodbye 2022, hello 2023 "
 date: "2022-12-29"
 icon: 🍨
 ---
 
-# Hello World!
-
 自作サイトをリニューアルしたので記念投稿してみました 🥳
+
+これから色々書いていきたいと思います
