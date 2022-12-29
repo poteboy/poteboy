@@ -19,6 +19,7 @@ export const SunIcon: FC<SVGProps> = memo(({ width, height, color, style }) => {
         color,
         ...(style as any),
       }}
+      role="presentation"
     >
       <g
         strokeLinejoin="round"
@@ -59,6 +60,7 @@ export const MoonIcon: FC<SVGProps> = memo(
           color,
           ...(style as any),
         }}
+        role="presentation"
       >
         <path
           fill="currentColor"

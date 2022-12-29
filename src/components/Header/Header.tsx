@@ -54,6 +54,7 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
     };
     document.addEventListener("keydown", handleEscape);
     document.addEventListener("click", handleCloseModal);
+
     return () => {
       document.removeEventListener("keydown", handleEscape);
       document.removeEventListener("click", handleCloseModal);
@@ -107,7 +108,12 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
                   ref={ref}
                 >
                   <Text as="span">{firstPath}</Text>
-                  <ArrowIcon />
+                  <ArrowIcon
+                    style={{
+                      transform: `rotate(${expanded ? 180 : 0}deg)`,
+                      transition: "0.1s",
+                    }}
+                  />
                 </Flex>
                 <Card
                   id={controlKey}
