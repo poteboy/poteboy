@@ -14,6 +14,7 @@ import {
 import { colors } from "@src/styles";
 import { Header } from "@src/components";
 import Link from "next/link";
+import { dynamicPaths } from "@src/constants";
 
 type Props = {
   posts: Post[];
@@ -31,7 +32,7 @@ const Blog: NextPage<Props> = ({ posts }) => {
         <Spacer h={4} />
         {posts.map((p, index) => {
           return (
-            <Link key={p.slug} href="/">
+            <Link key={p.slug} {...dynamicPaths.post({ id: p.slug })}>
               {index === 0 && <Divider />}
               <Box as="article" padding="1rem">
                 <HStack spacing={4}>

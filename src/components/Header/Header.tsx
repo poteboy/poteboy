@@ -66,7 +66,6 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
       as="header"
       w="100%"
       bg={colors.baseBgTranslucent}
-      h="62px"
       pos="sticky"
       top={0}
       zIndex={3}
@@ -77,7 +76,7 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
         maxW={`${MOBILE_SIZE}px`}
         h="100%"
         m="auto"
-        p="8px 16px"
+        p="16px"
         align="center"
       >
         {!disableMenu && (
