@@ -9,6 +9,7 @@
     "lint": "next lint",
     "test": "jest",
     "prepare": "husky install",
+    "postinstall": "npx prisma generate",
     "format": "prettier --write --ignore-path .gitignore './**/*.{ts,tsx}'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
