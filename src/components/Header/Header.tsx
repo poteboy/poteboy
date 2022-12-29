@@ -27,15 +27,25 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      console.log(event.key);
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && expanded) {
+        event.preventDefault();
+        setExpanded(false);
+      }
+    };
+    const handleCloseModal = (event: MouseEvent) => {
+      const element = event.target as HTMLElement;
+      if (element.closest(controlKey) == null && expanded) {
         event.preventDefault();
         setExpanded(false);
       }
     };
     document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [expanded]);
+    document.addEventListener("click", handleCloseModal);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("click", handleCloseModal);
+    };
+  }, []);
 
   return (
     <Box
