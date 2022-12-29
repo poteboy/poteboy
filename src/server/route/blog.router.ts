@@ -38,9 +38,12 @@ export const blogRouter = createRouter()
         const slug = input.slug;
         if (!slug) throw Error("slugを入力してください");
 
-        setDoc(doc(firestore, fbCollectionKeys.blogPost, slug), input, {
+        await setDoc(doc(firestore, fbCollectionKeys.blogPost, slug), input, {
           merge: true,
         });
-      } catch {}
+      } catch (e) {
+        console.error(e);
+        throw Error("予期せぬエラーが起きました");
+      }
     },
   });

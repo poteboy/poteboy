@@ -4,7 +4,7 @@ import type {
   GetStaticProps,
   InferGetStaticPropsType,
 } from "next";
-import { Post, getAllSlugs, getPostBySlug } from "./utils";
+import { Post, getAllSlugs, getPostBySlug } from "../../utils/blog";
 import { Box } from "@chakra-ui/react";
 import { colors } from "@src/styles";
 import { Header, PageMeta } from "@src/components";

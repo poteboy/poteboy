@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { postSchema } from "@src/pages/blog/utils";
+import { postSchema } from "@src/utils";
 import { Timestamp } from "firebase/firestore";
 
 export const blogPostSchema = postSchema.merge(

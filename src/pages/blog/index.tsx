@@ -1,5 +1,4 @@
 import type { NextPage, GetStaticProps } from "next";
-import { getAllPosts, Post, postSchema } from "./utils";
 import {
   Box,
   Container,
@@ -23,6 +22,8 @@ import {
   firestore,
   doc,
   runTransaction,
+  getAllPosts,
+  Post,
 } from "@src/utils";
 import { blogPostSchema, BlogPost } from "@src/schema";
 
