@@ -34,16 +34,6 @@ type Props = {
 };
 
 const Blog: NextPage<Props> = ({ posts }) => {
-  const [selected, setSelected] = useState("");
-
-  const handleEnter = (slug: string) => () => {
-    setSelected(slug);
-  };
-
-  const handleLeave = (slug: string) => () => {
-    setSelected((s) => (s === slug ? "" : s));
-  };
-
   return (
     <Box bg={colors.baseBg} minH="100vh">
       <PageMeta title="Blog | Poteboy" />
@@ -58,23 +48,9 @@ const Blog: NextPage<Props> = ({ posts }) => {
           return (
             <Link key={p.slug} {...dynamicPaths.post({ id: p.slug })}>
               {index === 0 && <Divider />}
-              <Box
-                as="article"
-                padding="1rem"
-                onMouseEnter={handleEnter(p.slug)}
-                onMouseLeave={handleLeave(p.slug)}
-              >
+              <Box as="article" padding="1rem">
                 <HStack spacing={4}>
-                  {/* <Card padding={3} bg={colors.baseBgLight}> */}
-                  <Card
-                    padding={3}
-                    bg={colors.baseBgLight}
-                    animation={
-                      p.slug === selected
-                        ? `${bgAnimation} 10s infinite 0s`
-                        : undefined
-                    }
-                  >
+                  <Card padding={3} bg={colors.baseBgLight}>
                     <Text
                       as="span"
                       role="presentation"
@@ -149,18 +125,3 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 export default Blog;
-
-const bgAnimation = keyframes`
-  0% {
-    background-color: #80deea;
-  }
-  33% {
-    background-color: #ce93d8;
-  }
-  66% {
-    background-color: #ffcc80;
-  }
-  100% {
-    background-color: #80deea;
-  }
-`;

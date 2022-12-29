@@ -45,6 +45,7 @@ export default withTRPC<AppRouter>({
           return {
             ...ctx.req.headers,
             "x-ssr": "1",
+            credentials: "include",
           };
         } else return {};
       },
