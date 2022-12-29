@@ -1,4 +1,4 @@
-import About from "./about.page";
+import About from "./about";
 import { Meta, Story } from "@storybook/react";
 
 export default {
