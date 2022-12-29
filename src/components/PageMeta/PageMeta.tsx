@@ -19,8 +19,13 @@ export const PageMeta: FC<PageMetaProps> = (props) => {
       <meta name="description" content={props.description} />
       <meta
         property="og:image"
-        content={`https://www.poteboy.com/${OGPImage}`}
+        content={`https://www.poteboy.com${OGPImage}`}
       />
+      <meta
+        property="twitter:image"
+        content={`https://www.poteboy.com${OGPImage}`}
+      />
+      <meta name="twitter:card" content="summary_large_image" />
     </Head>
   );
 };
