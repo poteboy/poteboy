@@ -22,6 +22,13 @@ export function withCors(handler: NextApiHandler) {
     req.headers["access-control-allow-headers"] =
       "Origin, X-Requested-With, Content-Type, Accept, Authorization";
 
+    res.setHeader("access-control-allow-origin", "*");
+    res.setHeader(
+      "access-control-allow-headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader("credentials", "include");
+
     return await handler(req, res);
   };
 }
