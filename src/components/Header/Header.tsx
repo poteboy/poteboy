@@ -109,6 +109,7 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
                 >
                   <Text as="span">{firstPath}</Text>
                   <ArrowIcon
+                    color={colors.baseText}
                     style={{
                       transform: `rotate(${expanded ? 180 : 0}deg)`,
                       transition: "0.1s",
@@ -164,6 +165,10 @@ const menuItems = [
   {
     name: "About",
     path: paths.about,
+  },
+  {
+    name: "Blog",
+    path: paths.blog,
   },
 ];
 

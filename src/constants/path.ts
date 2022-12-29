@@ -6,7 +6,7 @@ type Option = {
   id: string;
 };
 
-export const pathKeys = z.enum(["index", "about"]);
+export const pathKeys = z.enum(["index", "about", "blog"]);
 export type PathKey = z.infer<typeof pathKeys>;
 
 export const paths: Record<PathKey, LinkProps> = {
@@ -18,6 +18,11 @@ export const paths: Record<PathKey, LinkProps> = {
   about: {
     href: "/about",
     as: "/about",
+  },
+
+  blog: {
+    href: "/blog",
+    as: "/blog",
   },
 } as const;
 // Nextjs gives compiler error
