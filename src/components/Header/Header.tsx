@@ -70,6 +70,7 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
       top={0}
       zIndex={3}
       backdropBlur="blur(16px)"
+      height="76px"
     >
       <Flex
         flexDir="row"

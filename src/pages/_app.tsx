@@ -49,13 +49,14 @@ export default withTRPC<AppRouter>({
         } else return {};
       },
       transformer: SuperJSON,
-      ssr: false,
+      ssr: true,
     };
   },
 })(App);
 
-export const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : "http://localhost:3000";
+export const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : `https://poteboy.com`;
 
 export const url = `${baseUrl}/api/trpc`;

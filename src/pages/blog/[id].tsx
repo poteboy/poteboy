@@ -8,10 +8,14 @@ import { Post, getAllSlugs, getPostBySlug } from "./utils";
 import { Box } from "@chakra-ui/react";
 import { colors } from "@src/styles";
 import { Header, PageMeta } from "@src/components";
+import { useQuery, getDoc, fbCollectionKeys, doc, firestore } from "@src/utils";
+import { useEffect } from "react";
 
 const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
+  const { data, isError } = useQuery(["blogs.get-blog-post", post.slug], {});
+
   return (
     <Box bg={colors.baseBg} minH="100vh">
       <PageMeta title={`${post.data.title} | Poteboy`} />

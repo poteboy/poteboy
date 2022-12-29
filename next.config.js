@@ -8,7 +8,7 @@ module.exports = withImages(
   withBundleAnalyzer({
     // distDir: "build",
     trailingSlash: true,
-    pageExtensions: ["page.tsx"],
+    // pageExtensions: ["page.tsx"],
     // exportPathMap: async function (
     //   defaultPathMap,
     //   { dev, dir, outDir, distDir, buildId }

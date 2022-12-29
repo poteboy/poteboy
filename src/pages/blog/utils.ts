@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import { z } from "zod";
+import { blogPostSchema, BlogPost } from "@src/schema";
 
 export const postSchema = z.object({
   content: z.string(),
@@ -40,3 +41,5 @@ export const getAllPosts = () => {
   //   return JSON.stringify(getAllSlugs().map((slug) => getPostBySlug(slug)));
   return getAllSlugs().map((slug) => getPostBySlug(slug));
 };
+
+export const createBlogPost = (blogPost: BlogPost[]) => {};
