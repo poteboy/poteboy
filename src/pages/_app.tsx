@@ -46,8 +46,19 @@ export default withTRPC<AppRouter>({
             ...ctx.req.headers,
             "x-ssr": "1",
             credentials: "include",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers":
+              "Content-Type, Authorization, access_token",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
           };
-        } else return {};
+        } else
+          return {
+            credentials: "include",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers":
+              "Content-Type, Authorization, access_token",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
+          };
       },
       transformer: SuperJSON,
       ssr: true,
