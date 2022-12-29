@@ -1,6 +1,8 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { theme, ThemeProvider } from "../src/styles";
+import { theme, colorFromStorage } from "../src/styles";
 import "../src/styles/styles.css";
+import { useBrowserLayoutEffect } from "../src/hooks";
+import { FC, ReactNode, memo } from "react";
 
 const withChakra = (StoryFn) => {
   return (
@@ -19,3 +21,14 @@ const withChakra = (StoryFn) => {
 };
 
 export const decorators = [withChakra];
+
+export const ThemeProvider: FC<{ children: ReactNode }> = memo(
+  ({ children }) => {
+    useBrowserLayoutEffect(() => {
+      const result = colorFromStorage();
+      document.body.dataset.theme = result;
+    }, []);
+    return <>{children}</>;
+  },
+  (_prev, _curr) => true
+);

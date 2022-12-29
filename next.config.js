@@ -9,14 +9,15 @@ module.exports = withImages(
     // distDir: "build",
     trailingSlash: true,
     pageExtensions: ["page.tsx"],
-    exportPathMap: async function (
-      defaultPathMap,
-      { dev, dir, outDir, distDir, buildId }
-    ) {
-      return {
-        "/": { page: "/" },
-      };
-    },
+    // exportPathMap: async function (
+    //   defaultPathMap,
+    //   { dev, dir, outDir, distDir, buildId }
+    // ) {
+    //   return {
+    //     "/": { page: "/" },
+    //     "/about": { page: "/about" },
+    //   };
+    // },
     images: {
       disableStaticImages: true,
     },

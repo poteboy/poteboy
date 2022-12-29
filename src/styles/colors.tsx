@@ -1,15 +1,6 @@
 import { z } from "zod";
-import {
-  useState,
-  FC,
-  ReactNode,
-  memo,
-  useCallback,
-  useLayoutEffect,
-  useEffect,
-} from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useMemo } from "react";
-import { useBrowserLayoutEffect } from "@src/hooks";
 
 export type Color = keyof typeof colors;
 
@@ -28,7 +19,7 @@ export const colors = {
   baseTextLink: "var(--base-text-link)",
 } as const;
 
-const colorFromStorage = () => {
+export const colorFromStorage = () => {
   const result = themeSchema.safeParse(localStorage.getItem(themeKey));
   if (result.success) return result.data;
   else return "dark";
@@ -61,14 +52,3 @@ export const useColorTheme = () => {
 
   return { changeTheme, isDarkMode };
 };
-
-export const ThemeProvider: FC<{ children: ReactNode }> = memo(
-  ({ children }) => {
-    useBrowserLayoutEffect(() => {
-      const result = colorFromStorage();
-      document.body.dataset.theme = result;
-    }, []);
-    return <>{children}</>;
-  },
-  (_prev, _curr) => true
-);

@@ -6,15 +6,18 @@ import SuperJSON from "superjson";
 import { AppRouter } from "@src/server/route";
 import { withTRPC } from "@trpc/next";
 import { ChakraProvider } from "@chakra-ui/react";
-import { theme, ThemeProvider } from "@src/styles";
+import { theme, colorFromStorage } from "@src/styles";
 import "../styles/styles.css";
+import { useBrowserLayoutEffect } from "@src/hooks";
 
 function App({ Component, pageProps }: AppProps) {
+  useBrowserLayoutEffect(() => {
+    const result = colorFromStorage();
+    document.body.dataset.theme = result;
+  }, []);
   return (
     <ChakraProvider theme={theme}>
-      <ThemeProvider>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <Component {...pageProps} />
     </ChakraProvider>
   );
 }

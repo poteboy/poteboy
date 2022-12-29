@@ -11,9 +11,9 @@ import {
   Card,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { Header, PageMeta } from "@src/components";
+import { Header, PageMeta, RouterLink } from "@src/components";
 import { colors, useColorTheme } from "@src/styles";
-import styled from "@emotion/styled";
+import { paths } from "@src/constants";
 
 // 1 = 4px
 
@@ -21,11 +21,11 @@ export default function Home() {
   return (
     <Box flex={1} minH="100vh" bg={colors.baseBg}>
       <PageMeta />
-      <Header />
+      <Header disableMenu />
       <Container as="main">
-        <Spacer h={20} />
-        <HStack spacing={8} animation={animation(0)}>
-          <Link href="/" style={{ width: "fit-content" }}>
+        <Spacer h={16} />
+        <HStack spacing={8} animation={animation(0)} as="section">
+          <Link {...paths.index} style={{ width: "fit-content" }}>
             <Image
               src="https://pbs.twimg.com/profile_images/1571474754976219136/RN77fkuW_400x400.jpg"
               alt="poteboy"
@@ -34,9 +34,11 @@ export default function Home() {
             />
           </Link>
           <VStack align="baseline" spacing={4}>
-            <Text variant="heading">poteboy 🍑</Text>
+            <Text variant="heading" as="h1">
+              poteboy 🍑
+            </Text>
             <Text color={colors.baseTextLight}>
-              Software developer, digital creator and amature kickboxer
+              a software developer, digital creator and an amature kickboxer
             </Text>
             <Card
               bg={colors.baseBgLight}
@@ -46,13 +48,10 @@ export default function Home() {
             >
               <Text variant="caption">
                 詳しいプロフィールは
-                <RouterLink
-                  href="https://www.potelog.dev/about"
-                  target="_blank"
-                >
+                <RouterLink href="/about" as="/about">
                   こちら
                 </RouterLink>
-                からどうぞ
+                から
               </Text>
             </Card>
           </VStack>
@@ -66,7 +65,7 @@ export default function Home() {
 const FadeInUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -75,9 +74,9 @@ const FadeInUp = keyframes`
 `;
 const animation = (delay = 0) => `${FadeInUp} 0.4s forwards ${delay}s`;
 
-const RouterLink = styled(Link)`
-  text-decoration: underline;
-  text-decoration-thickness: 0.5px;
-  text-underline-offset: 0.1em;
-  color: ${colors.baseTextLink};
-`;
+// const RouterLink = styled(Link)`
+//   text-decoration: underline;
+//   text-decoration-thickness: 0.5px;
+//   text-underline-offset: 0.1em;
+//   color: ${colors.baseTextLink};
+// `;
