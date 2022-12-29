@@ -1,12 +1,20 @@
-import type { NextPage, GetStaticPaths, GetStaticProps } from "next";
+import type {
+  NextPage,
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetStaticPropsType,
+} from "next";
 import { Post, getAllSlugs, getPostBySlug } from "./utils";
 import { Box } from "@chakra-ui/react";
 import { colors } from "@src/styles";
-import { Header } from "@src/components";
+import { Header, PageMeta } from "@src/components";
 
-const PostPage: NextPage = () => {
+const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  post,
+}) => {
   return (
     <Box bg={colors.baseBg} minH="100vh">
+      <PageMeta title={`${post.data.title} | Poteboy`} />
       <Header />
     </Box>
   );

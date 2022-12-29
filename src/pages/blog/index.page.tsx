@@ -12,7 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { colors } from "@src/styles";
-import { Header } from "@src/components";
+import { Header, PageMeta } from "@src/components";
 import Link from "next/link";
 import { dynamicPaths } from "@src/constants";
 
@@ -23,6 +23,7 @@ type Props = {
 const Blog: NextPage<Props> = ({ posts }) => {
   return (
     <Box bg={colors.baseBg} minH="100vh">
+      <PageMeta title="Blog | Poteboy" />
       <Header />
       <Spacer h={4} />
       <Container>
