@@ -1,12 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "@src/utils";
-
 export const createContext = ({
   req,
   res,
 }: {
   req: NextApiRequest;
   res: NextApiResponse;
-}) => ({ req, res, prisma });
+}) => ({ req, res });
 
 export type Context = ReturnType<typeof createContext>;

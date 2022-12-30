@@ -1,6 +1,5 @@
 import { createRouter } from "../router";
 import { blogPostSchema } from "@src/schema";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as t from "@trpc/server";
 import { z } from "zod";
 import { adminDB, fbCollectionKeys } from "../admin";
