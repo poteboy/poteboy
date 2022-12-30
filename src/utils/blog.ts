@@ -29,9 +29,7 @@ export const getAllSlugs = () => {
 
 export const getPostBySlug = (slug: string): Post => {
   const file = fs.readFileSync(`${path}/${slug}.md`, "utf-8");
-  //   return { ...matter(file), slug } as any as Post; // typeof Post
   try {
-    console.log(file);
     return postSchema.parse({ ...matter(file), slug });
   } catch (e) {
     throw Error(JSON.stringify(e));

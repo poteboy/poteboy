@@ -9,9 +9,11 @@ body[data-theme="dark"] {
 }
 
 body[data-theme="light"] {
-  --base-bg: #f7f9fc;
+  /* --base-bg: #f7f9fc; */
+  --base-bg: #ebf0f9;
   --base-bg-light: #fff;
-  --base-bg-translucent: rgba(247, 249, 252, 0.5);
+  /* --base-bg-translucent: rgba(247, 249, 252, 0.5); */
+  --base-bg-translucent: rgba(235, 240, 249, 0.5);
 
   --base-text: #000;
   --base-text-light: #8a8c9d;
