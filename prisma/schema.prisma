@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("NEXT_PUBLIC_STORAGE_BUCKET")
+  url      = "postgresql://postgres:postgres@host.docker.internal:49153/testdb"
 }
 
 model User {
