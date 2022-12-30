@@ -9,12 +9,13 @@ import { Box, Container, Spacer, Text } from "@chakra-ui/react";
 import { colors } from "@src/styles";
 import { Header, PageMeta, Markdown } from "@src/components";
 import { useQuery, useMutation } from "@src/utils";
-import { useEffect } from "react";
+import { useReducer } from "react";
 import { usePushHistory } from "@src/hooks";
 
 const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
+  const [finished, updateFinished] = useReducer(() => true, false);
   usePushHistory();
   const { mutate } = useMutation(["blogs.update-blog-post"], {
     onSuccess(e) {},
@@ -23,10 +24,13 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     ["blogs.get-blog-post", post.slug],
     {
       onSuccess(data) {
-        return mutate({
-          slug: post.slug,
-          readCount: !!data?.readCount ? data.readCount + 1 : 1,
-        });
+        if (!finished) {
+          mutate({
+            slug: post.slug,
+            readCount: !!data?.readCount ? data.readCount + 1 : 1,
+          });
+        }
+        updateFinished();
       },
     }
   );

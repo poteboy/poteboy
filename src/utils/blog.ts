@@ -9,6 +9,7 @@ export const postSchema = z.object({
     date: z.string(),
     title: z.string(),
     icon: z.string(),
+    topic: z.enum(["dev", "self"]),
   }),
   slug: z.string(),
 });
@@ -30,6 +31,7 @@ export const getPostBySlug = (slug: string): Post => {
   const file = fs.readFileSync(`${path}/${slug}.md`, "utf-8");
   //   return { ...matter(file), slug } as any as Post; // typeof Post
   try {
+    console.log(file);
     return postSchema.parse({ ...matter(file), slug });
   } catch (e) {
     throw Error(JSON.stringify(e));
