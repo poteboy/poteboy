@@ -18,6 +18,7 @@ export const PageMeta: FC<PageMetaProps> = (props) => {
       <title>{props.title}</title>
       <meta property="og:title" content={props.title} />
       <meta name="description" content={props.description} />
+      <meta property="og:description" content={props.description} />
       <meta
         property="og:image"
         content={`https://www.poteboy.com${OGPImage}`}

@@ -153,6 +153,7 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </Card>
           </HStack>
         </Container>
+        <Spacer h={12} />
       </Box>
     </Box>
   );
