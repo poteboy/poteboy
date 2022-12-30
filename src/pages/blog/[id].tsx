@@ -112,7 +112,9 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 onKeyUp={(e) => e.key === "Enter" && setPeachScalse(1)}
               >
                 <PeachIcon width={28} height={28} />
-                <Text ml={2}>いいね</Text>
+                <Text ml={2} whiteSpace="nowrap">
+                  いいね
+                </Text>
               </Card>
               <Text variant="caption">{data?.likeCount ?? 0}</Text>
             </VStack>
@@ -131,7 +133,9 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 height={7}
                 color="white"
               />
-              <Text ml={2}>ツイート</Text>
+              <Text ml={2} whiteSpace="nowrap">
+                ツイート
+              </Text>
             </Card>
           </HStack>
         </Container>
