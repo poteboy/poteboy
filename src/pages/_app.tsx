@@ -24,14 +24,24 @@ function App({ Component, pageProps }: AppProps) {
 
 export default withTRPC<AppRouter>({
   config({ ctx }) {
-    const links: TRPCLink<any>[] = [
-      loggerLink(),
-      httpBatchLink({
-        url,
-      }),
-    ];
+    if (typeof window !== "undefined") {
+      return {
+        transformer: SuperJSON,
+        links: [
+          httpBatchLink({
+            url: "/api/trpc",
+          }),
+        ],
+      };
+    }
 
     return {
+      transformer: SuperJSON,
+      links: [
+        httpBatchLink({
+          url: url,
+        }),
+      ],
       queryClientConfig: {
         defaultOptions: {
           queries: {
@@ -39,16 +49,15 @@ export default withTRPC<AppRouter>({
           },
         },
       },
-      links,
       headers() {
         if (ctx?.req) {
+          const { connection: _connection, ...headers } = ctx.req.headers;
           return {
-            ...ctx.req.headers,
+            ...headers,
             "x-ssr": "1",
           };
         } else return {};
       },
-      transformer: SuperJSON,
       ssr: true,
     };
   },
@@ -59,5 +68,4 @@ export const baseUrl =
     ? "http://localhost:3000"
     : `https://poteboy.com`;
 
-export const url = `/api/trpc`;
-// export const url = `${baseUrl}/api/trpc`;
+export const url = `${baseUrl}/api/trpc`;
