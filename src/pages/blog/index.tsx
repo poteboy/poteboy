@@ -14,20 +14,10 @@ import { colors } from "@src/styles";
 import { Header, PageMeta } from "@src/components";
 import Link from "next/link";
 import { dynamicPaths } from "@src/constants";
-import {
-  Timestamp,
-  getDocs,
-  fbCollectionKeys,
-  query,
-  collection,
-  firestore,
-  doc,
-  runTransaction,
-  getAllPosts,
-  Post,
-} from "@src/utils";
+import { Post, getAllPosts } from "@src/utils";
 import { blogPostSchema, BlogPost } from "@src/schema";
 import { usePushHistory } from "@src/hooks";
+import { adminDB, fbCollectionKeys, Timestamp } from "@src/server/admin";
 
 type Props = {
   posts: Post[];
@@ -88,16 +78,16 @@ const Blog: NextPage<Props> = ({ posts }) => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const post = getAllPosts();
   try {
-    const snap = await getDocs(
-      query(collection(firestore, fbCollectionKeys.blogPost))
-    );
+    const snap = await adminDB.collection(fbCollectionKeys.blogPost).get();
+
     const item = snap.docs
       .map((d: any) => {
         const result = blogPostSchema.safeParse(d.data());
         if (result.success) return result.data;
       })
       .filter((item: BlogPost | undefined) => !!item) as BlogPost[];
-    await runTransaction(firestore, async (transaction) => {
+
+    await adminDB.runTransaction(async (transaction) => {
       post.forEach((post) => {
         const _i = item.find((i) => i.slug === post.slug);
         const blogPost: BlogPost = {
@@ -110,7 +100,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
             _i?.updatedAt ?? Timestamp.fromDate(new Date(post.data.date)),
         };
         transaction.set(
-          doc(firestore, fbCollectionKeys.blogPost, post.slug),
+          adminDB.collection(fbCollectionKeys.blogPost).doc(post.slug),
           blogPost,
           { merge: true }
         );
