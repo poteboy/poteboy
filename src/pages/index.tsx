@@ -14,14 +14,16 @@ import { useEffect } from "react";
 import { Header, PageMeta, RouterLink } from "@src/components";
 import { colors, useColorTheme } from "@src/styles";
 import { paths } from "@src/constants";
+import { useHistory, usePushHistory } from "@src/hooks";
 
 // 1 = 4px
 
 export default function Home() {
+  usePushHistory();
   return (
     <Box flex={1} minH="100vh" bg={colors.baseBg}>
       <PageMeta />
-      <Header disableMenu />
+      <Header />
       <Container as="main">
         <Spacer h={16} />
         <HStack spacing={8} animation={animation(0)} as="section">

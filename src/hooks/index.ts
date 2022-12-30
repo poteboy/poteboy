@@ -37,3 +37,5 @@ export const useSVGResizer = (ref: React.RefObject<SVGSVGElement>) => {
     }
   }, [ref]);
 };
+
+export * from "./useHistory";

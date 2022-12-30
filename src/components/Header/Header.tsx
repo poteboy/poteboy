@@ -1,4 +1,13 @@
-import { Box, Flex, HStack, Text, Image, Card, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Text,
+  Image,
+  Card,
+  VStack,
+  keyframes,
+} from "@chakra-ui/react";
 import { FC, memo, useCallback, useEffect, useState, useRef } from "react";
 import { colors, MOBILE_SIZE } from "@src/styles";
 import Link from "next/link";
@@ -8,21 +17,30 @@ import { useRouter } from "next/router";
 import { ArrowIcon } from "./ArrowIcon";
 import { z } from "zod";
 import isEqual from "lodash.isequal";
+import { useHistory, useBrowserLayoutEffect } from "@src/hooks";
 
 type HeaderProps = {
-  disableMenu?: boolean; // this is used when there's no H1 tag in page component
   current?: PathKey;
 };
 
-export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
+export const Header: FC<HeaderProps> = memo(({ current }) => {
   const [expanded, setExpanded] = useState(false);
+
   const router = useRouter();
   const ref = useRef(null);
+  const { histories } = useHistory();
+  const [firstPath, setFirstPath] = useState<PathKey>(
+    (router.asPath.split("/")[1] as PathKey) || "index"
+  );
 
-  const firstPath: PathKey = (() => {
-    const path = pathKeys.safeParse(router.asPath.split("/")[1]);
-    return path.success ? path.data : "index";
-  })();
+  useBrowserLayoutEffect(() => {
+    // const _firstPath: PathKey = (() => {
+    //   if (current) return current;
+    //   const path = pathKeys.safeParse(router.asPath.split("/")[1]);
+    //   return path.success ? path.data : "index";
+    // })();
+    // setFirstPath(_firstPath);
+  }, []);
 
   const handleClickMenuItem = useCallback(() => {
     setExpanded(false);
@@ -61,6 +79,38 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
     };
   }, [expanded]);
 
+  const animate = useCallback(
+    (isIcon: boolean) =>
+      (() => {
+        // 初期ランディングページの場合アニメーションは不要
+        if (histories.length <= 1) return undefined;
+        // 前ページがホームの場合
+        if (histories[1].pathKey === "index") {
+          return moveIn(isIcon);
+        } else {
+          // 前ページがホーム以外の場合
+          if (histories[0].pathKey === "index") {
+            return moveOut(isIcon);
+          } else {
+            return undefined;
+          }
+        }
+      })(),
+    [histories]
+  );
+
+  const iconAnimation = animate(true);
+  const navAnimation = animate(false);
+
+  const isHome = firstPath === "index";
+  const iconOpacity = (() => {
+    if (histories.length <= 1) return 1;
+    return isHome ||
+      (histories[0].pathKey !== "index" && histories[1].pathKey !== "index")
+      ? 1
+      : 0;
+  })();
+
   return (
     <Box
       as="header"
@@ -80,73 +130,73 @@ export const Header: FC<HeaderProps> = memo(({ disableMenu }) => {
         p="16px"
         align="center"
       >
-        {!disableMenu && (
-          <HStack align="center" spacing={2}>
-            <Link href="/">
-              <Image
-                src="https://pbs.twimg.com/profile_images/1571474754976219136/RN77fkuW_400x400.jpg"
-                alt="poteboy"
-                w="44px"
-                borderRadius="50%"
-              />
+        <HStack align="center" spacing={2}>
+          <Link href="/">
+            <Image
+              src="https://pbs.twimg.com/profile_images/1571474754976219136/RN77fkuW_400x400.jpg"
+              alt="poteboy"
+              w="44px"
+              borderRadius="50%"
+              animation={iconAnimation}
+              opacity={iconOpacity}
+            />
+          </Link>
+          <HStack spacing={1} as="nav" animation={navAnimation}>
+            <Link {...paths.index}>
+              <Text>poteboy</Text>
             </Link>
-            <HStack spacing={1} as="nav">
-              <Link {...paths.index}>
-                <Text>poteboy</Text>
-              </Link>
-              <Text color={colors.baseTextLight}>/</Text>
-              <Box as="ul" pos="relative">
-                <Flex
-                  as="button"
-                  listStyleType="none"
-                  flexDir="row"
-                  align="end"
-                  aria-expanded={expanded}
-                  aria-haspopup="menu"
-                  aria-controls={controlKey}
-                  onClick={() => setExpanded((e) => !e)}
-                  ref={ref}
-                >
-                  <Text as="span">{firstPath}</Text>
-                  <ArrowIcon
-                    color={colors.baseText}
-                    style={{
-                      transform: `rotate(${expanded ? 180 : 0}deg)`,
-                      transition: "0.1s",
-                    }}
-                  />
-                </Flex>
-                <Card
-                  id={controlKey}
-                  role="menu"
-                  pos="absolute"
-                  visibility={expanded ? "visible" : "hidden"}
-                  padding={4}
-                  bg={colors.baseBgLight}
-                  // boxShadow="0 8px 16px -2px rgb(255 255 0 / 40%)"
-                  boxShadow="0 8px 16px -2px rgb(0 0 0 / 40%)"
-                >
-                  <VStack spacing={2}>
-                    {menuItems.map((item) => {
-                      return (
-                        <Link
-                          {...item.path}
-                          key={item.name}
-                          style={{ width: "fit-content" }}
-                          onClick={handleClickMenuItem}
-                        >
-                          <HStack as="li">
-                            <Text>{item.name}</Text>
-                          </HStack>
-                        </Link>
-                      );
-                    })}
-                  </VStack>
-                </Card>
-              </Box>
-            </HStack>
+            <Text color={colors.baseTextLight}>/</Text>
+            <Box as="ul" pos="relative">
+              <Flex
+                as="button"
+                listStyleType="none"
+                flexDir="row"
+                align="end"
+                aria-expanded={expanded}
+                aria-haspopup="menu"
+                aria-controls={controlKey}
+                onClick={() => setExpanded((e) => !e)}
+                ref={ref}
+              >
+                <Text as="span">{isHome ? "Home" : firstPath}</Text>
+                <ArrowIcon
+                  color={colors.baseText}
+                  style={{
+                    transform: `rotate(${expanded ? 180 : 0}deg)`,
+                    transition: "0.1s",
+                  }}
+                />
+              </Flex>
+              <Card
+                id={controlKey}
+                role="menu"
+                pos="absolute"
+                visibility={expanded ? "visible" : "hidden"}
+                padding={4}
+                bg={colors.baseBgLight}
+                // boxShadow="0 8px 16px -2px rgb(255 255 0 / 40%)"
+                boxShadow="0 8px 16px -2px rgb(0 0 0 / 40%)"
+              >
+                <VStack spacing={2}>
+                  {menuItems.map((item) => {
+                    return (
+                      <Link
+                        {...item.path}
+                        key={item.name}
+                        style={{ width: "fit-content" }}
+                        onClick={handleClickMenuItem}
+                      >
+                        <HStack as="li">
+                          <Text>{item.name}</Text>
+                        </HStack>
+                      </Link>
+                    );
+                  })}
+                </VStack>
+              </Card>
+            </Box>
           </HStack>
-        )}
+        </HStack>
         <Box ml="auto" display="grid">
           <ThemeToggle />
         </Box>
@@ -172,6 +222,47 @@ const menuItems = [
   },
 ];
 
-Header.defaultProps = {
-  disableMenu: false,
-};
+const MoveIn = keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(-44px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+`;
+const IconIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+`;
+const MoveOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-44px);
+  }
+`;
+const IconOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+`;
+const moveIn = (icon: boolean) =>
+  `${icon ? IconIn : MoveIn} 0.4s forwards ${icon ? 0.2 : 0}s`;
+const moveOut = (icon: boolean) =>
+  `${icon ? IconOut : MoveOut} 0.4s forwards ${!icon ? 0.2 : 0}s`;

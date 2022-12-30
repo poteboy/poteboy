@@ -2,8 +2,10 @@ import type { NextPage } from "next";
 import { Header, PageMeta } from "@src/components";
 import { Box, Spacer, Container, Text } from "@chakra-ui/react";
 import { colors, useColorTheme } from "@src/styles";
+import { usePushHistory } from "@src/hooks";
 
 export const About: NextPage = () => {
+  usePushHistory();
   return (
     <Box bg={colors.baseBg} minH="100vh">
       <PageMeta title="About | Poteboy" />

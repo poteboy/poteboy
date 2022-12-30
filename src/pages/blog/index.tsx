@@ -27,13 +27,14 @@ import {
   Post,
 } from "@src/utils";
 import { blogPostSchema, BlogPost } from "@src/schema";
-import { useState, useRef } from "react";
+import { usePushHistory } from "@src/hooks";
 
 type Props = {
   posts: Post[];
 };
 
 const Blog: NextPage<Props> = ({ posts }) => {
+  usePushHistory();
   return (
     <Box bg={colors.baseBg} minH="100vh">
       <PageMeta title="Blog | Poteboy" />

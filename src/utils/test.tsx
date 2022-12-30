@@ -2,11 +2,13 @@ import React, { FC, ReactNode, memo } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme, colorFromStorage } from "@src/styles";
-import { useBrowserLayoutEffect } from "@src/hooks";
+import { useBrowserLayoutEffect, HistoryProvider } from "@src/hooks";
 
 const ProviderWrapper: FC<{ children: React.ReactNode }> = ({ children }) => (
   <ChakraProvider theme={theme}>
-    <ThemeProvider>{children}</ThemeProvider>
+    <HistoryProvider>
+      <ThemeProvider>{children}</ThemeProvider>
+    </HistoryProvider>
   </ChakraProvider>
 );
 

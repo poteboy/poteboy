@@ -8,7 +8,7 @@ import { withTRPC } from "@trpc/next";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme, colorFromStorage } from "@src/styles";
 import "../styles/styles.css";
-import { useBrowserLayoutEffect } from "@src/hooks";
+import { useBrowserLayoutEffect, HistoryProvider } from "@src/hooks";
 
 function App({ Component, pageProps }: AppProps) {
   useBrowserLayoutEffect(() => {
@@ -17,7 +17,9 @@ function App({ Component, pageProps }: AppProps) {
   }, []);
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <HistoryProvider>
+        <Component {...pageProps} />
+      </HistoryProvider>
     </ChakraProvider>
   );
 }

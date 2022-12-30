@@ -10,10 +10,12 @@ import { colors } from "@src/styles";
 import { Header, PageMeta, Markdown } from "@src/components";
 import { useQuery, useMutation } from "@src/utils";
 import { useEffect } from "react";
+import { usePushHistory } from "@src/hooks";
 
 const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
+  usePushHistory();
   const { mutate } = useMutation(["blogs.update-blog-post"], {
     onSuccess(e) {},
   });

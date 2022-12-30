@@ -1,21 +1,23 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme, colorFromStorage } from "../src/styles";
 import "../src/styles/styles.css";
-import { useBrowserLayoutEffect } from "../src/hooks";
+import { useBrowserLayoutEffect, HistoryProvider } from "../src/hooks";
 import { FC, ReactNode, memo } from "react";
 
 const withChakra = (StoryFn: any) => {
   return (
     <ChakraProvider theme={theme}>
-      <ThemeProvider>
-        <div id="story-wrapper">
-          <StoryFn />
-        </div>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap"
-          rel="stylesheet"
-        />
-      </ThemeProvider>
+      <HistoryProvider>
+        <ThemeProvider>
+          <div id="story-wrapper">
+            <StoryFn />
+          </div>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap"
+            rel="stylesheet"
+          />
+        </ThemeProvider>
+      </HistoryProvider>
     </ChakraProvider>
   );
 };

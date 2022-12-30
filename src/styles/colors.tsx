@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { useState, useCallback, useEffect } from "react";
 import { useMemo } from "react";
+import { useBrowserLayoutEffect } from "@src/hooks";
 
 export type Color = keyof typeof colors;
 
@@ -28,12 +29,12 @@ export const colorFromStorage = () => {
 export const useColorTheme = () => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
-  useEffect(() => {
-    setTheme(
+  useBrowserLayoutEffect(() => {
+    setTheme((init) =>
       (() => {
         const result = themeSchema.safeParse(document.body.dataset.theme);
         if (result.success) return result.data;
-        else throw Error("unexpected error has occured");
+        else return init;
       })()
     );
   }, []);
