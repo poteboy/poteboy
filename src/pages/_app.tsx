@@ -55,7 +55,7 @@ export default withTRPC<AppRouter>({
 })(App);
 
 export const baseUrl =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV !== "development"
     ? "http://localhost:3000"
     : `https://poteboy.com`;
 

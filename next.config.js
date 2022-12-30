@@ -17,7 +17,7 @@ module.exports = withImages(
             { key: "Access-Control-Allow-Credentials", value: "true" },
             {
               key: "Access-Control-Allow-Origin",
-              value: "*",
+              value: "*/*",
             },
             {
               key: "Access-Control-Allow-Methods",

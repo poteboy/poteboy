@@ -22,7 +22,7 @@ function runMiddleware(
 export function withCors(handler: NextApiHandler) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader("access-control-allow-origin", "*");
+    res.setHeader("access-control-allow-origin", "*/*");
     res.setHeader(
       "access-control-allow-headers",
       "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
