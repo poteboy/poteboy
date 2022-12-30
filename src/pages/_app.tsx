@@ -42,13 +42,6 @@ export default withTRPC<AppRouter>({
       links,
       headers() {
         if (ctx?.req) {
-          ctx?.res?.setHeader("access-control-allow-origin", "*/*");
-          ctx?.res?.setHeader(
-            "access-control-allow-headers",
-            "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-          );
-          ctx?.res?.setHeader("credentials", "include");
-
           return {
             ...ctx.req.headers,
             "x-ssr": "1",
@@ -66,4 +59,5 @@ export const baseUrl =
     ? "http://localhost:3000"
     : `https://poteboy.com`;
 
-export const url = `${baseUrl}/api/trpc`;
+export const url = `/api/trpc`;
+// export const url = `${baseUrl}/api/trpc`;
