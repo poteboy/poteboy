@@ -16,6 +16,7 @@ export const PageMeta: FC<PageMetaProps> = (props) => {
   return (
     <Head>
       <title>{props.title}</title>
+      <meta property="og:title" content={props.title} />
       <meta name="description" content={props.description} />
       <meta
         property="og:image"

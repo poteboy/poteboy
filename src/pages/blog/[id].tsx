@@ -28,6 +28,7 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
   const [finished, updateFinished] = useReducer(() => true, false);
+  const [isLiked, updateLiked] = useReducer(() => true, false);
   usePushHistory();
   const { mutate } = useMutation(["blogs.update-blog-post"], {
     onSuccess(e) {
@@ -57,6 +58,7 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         slug: post.slug,
         likeCount: !!data?.likeCount ? data.likeCount + 1 : 1,
       });
+      updateLiked();
     },
     [data, mutate, post]
   );
@@ -104,7 +106,8 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 align="center"
                 as="button"
                 transform={`scale(${peachScale})`}
-                bg={colors.baseBgLight}
+                // 桃アイコンの色の薄い部分
+                bg={isLiked ? "#ff886c70" : colors.baseBgLight}
                 onClick={handleLGTM}
                 onMouseDown={() => setPeachScalse(0.9)}
                 onMouseUp={() => setPeachScalse(1)}
@@ -116,7 +119,14 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   いいね
                 </Text>
               </Card>
-              <Text variant="caption">{data?.likeCount ?? 0}</Text>
+              <Text
+                variant="caption"
+                as="span"
+                // 桃アイコンの1番色が濃い部分
+                color={isLiked ? "#e5474f" : colors.baseText}
+              >
+                {data?.likeCount ?? 0}
+              </Text>
             </VStack>
             <Card
               padding="8px 12px"
