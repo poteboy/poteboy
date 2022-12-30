@@ -42,6 +42,7 @@
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
     "firebase": "^9.15.0",
+    "firebase-admin": "^11.4.1",
     "framer-motion": "^8.0.2",
     "gray-matter": "^4.0.3",
     "jotai": "^1.10.0",

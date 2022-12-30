@@ -39,11 +39,6 @@ export const usePushHistory = () => {
       href: router.pathname,
       as: router.asPath,
       pathKey: (router.asPath.split("/")[1] as PathKey) || "index",
-      // (() => {
-      //   console.log(router.asPath.split("/")[1] || "index");
-      //   const path = pathKeys.safeParse(router.asPath.split("/")[1]);
-      //   return path.success ? path.data : "index";
-      // })(),
     });
   }, []);
 

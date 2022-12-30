@@ -29,18 +29,7 @@ export const Header: FC<HeaderProps> = memo(({ current }) => {
   const router = useRouter();
   const ref = useRef(null);
   const { histories } = useHistory();
-  const [firstPath, setFirstPath] = useState<PathKey>(
-    (router.asPath.split("/")[1] as PathKey) || "index"
-  );
-
-  useBrowserLayoutEffect(() => {
-    // const _firstPath: PathKey = (() => {
-    //   if (current) return current;
-    //   const path = pathKeys.safeParse(router.asPath.split("/")[1]);
-    //   return path.success ? path.data : "index";
-    // })();
-    // setFirstPath(_firstPath);
-  }, []);
+  const firstPath = (router.asPath.split("/")[1] as PathKey) || "index";
 
   const handleClickMenuItem = useCallback(() => {
     setExpanded(false);
@@ -110,8 +99,6 @@ export const Header: FC<HeaderProps> = memo(({ current }) => {
       ? 1
       : 0;
   })();
-
-  console.log(iconAnimation, navAnimation);
 
   return (
     <Box
