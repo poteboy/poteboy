@@ -14,6 +14,7 @@ import {
   Spacer,
   Text,
   VStack,
+  keyframes,
 } from "@chakra-ui/react";
 import { colors } from "@src/styles";
 import { Header, PageMeta, Markdown } from "@src/components";
@@ -79,22 +80,25 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Header />
       <Box as="main" m="auto" textAlign="center">
         <Spacer h={8} />
-        <Text as="h1" variant="heading" padding="0px 20px">
-          {post.data.title}
-        </Text>
-        <Spacer h={2} />
-        <Text as="time" color={colors.baseTextLight}>
-          Posted on {post.data.date}
-        </Text>
-        <Spacer h={2} />
-        <Text>{isLoading ? "--" : data?.readCount ?? 0} views</Text>
-
+        <Box animation={animation(0)}>
+          <Text as="h1" variant="heading" padding="0px 20px">
+            {post.data.title}
+          </Text>
+          <Spacer h={2} />
+          <Text as="time" color={colors.baseTextLight}>
+            Posted on {post.data.date}
+          </Text>
+          <Spacer h={2} />
+          <Text>{isLoading ? "--" : data?.readCount ?? 0} views</Text>
+        </Box>
         <Spacer h={4} />
         <Container
           textAlign="start"
           pos="relative"
           padding={4}
           borderRadius={10}
+          opacity={0}
+          animation={animation(0.2)}
         >
           <Markdown content={post.content} />
           <Spacer h={10} />
@@ -177,3 +181,15 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 };
 
 export default PostPage;
+
+const FadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+`;
+const animation = (delay: number) => `${FadeInUp} 0.4s forwards ${delay}s`;

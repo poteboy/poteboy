@@ -4,13 +4,18 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { theme, colorFromStorage } from "@src/styles";
 import { useBrowserLayoutEffect, HistoryProvider } from "@src/hooks";
 
-const ProviderWrapper: FC<{ children: React.ReactNode }> = ({ children }) => (
-  <ChakraProvider theme={theme}>
-    <HistoryProvider>
-      <ThemeProvider>{children}</ThemeProvider>
-    </HistoryProvider>
-  </ChakraProvider>
-);
+const ProviderWrapper: FC<{ children: React.ReactNode }> = ({ children }) => {
+  useBrowserLayoutEffect(() => {
+    const result = colorFromStorage();
+    document.body.dataset.theme = result;
+  }, []);
+
+  return (
+    <ChakraProvider theme={theme}>
+      <HistoryProvider>{children}</HistoryProvider>
+    </ChakraProvider>
+  );
+};
 
 const _render = (
   ui: Parameters<typeof render>[0],
@@ -18,14 +23,3 @@ const _render = (
 ) => render(ui, { wrapper: ProviderWrapper, ...options });
 export * from "@testing-library/react";
 export { _render as render };
-
-export const ThemeProvider: FC<{ children: ReactNode }> = memo(
-  ({ children }) => {
-    useBrowserLayoutEffect(() => {
-      const result = colorFromStorage();
-      document.body.dataset.theme = result;
-    }, []);
-    return <>{children}</>;
-  },
-  (_prev, _curr) => true
-);

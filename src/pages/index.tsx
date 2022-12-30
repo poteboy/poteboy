@@ -75,10 +75,3 @@ const FadeInUp = keyframes`
   }
 `;
 const animation = (delay = 0) => `${FadeInUp} 0.4s forwards ${delay}s`;
-
-// const RouterLink = styled(Link)`
-//   text-decoration: underline;
-//   text-decoration-thickness: 0.5px;
-//   text-underline-offset: 0.1em;
-//   color: ${colors.baseTextLink};
-// `;
