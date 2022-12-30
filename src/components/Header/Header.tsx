@@ -111,6 +111,8 @@ export const Header: FC<HeaderProps> = memo(({ current }) => {
       : 0;
   })();
 
+  console.log(iconAnimation, navAnimation);
+
   return (
     <Box
       as="header"
@@ -131,7 +133,7 @@ export const Header: FC<HeaderProps> = memo(({ current }) => {
         align="center"
       >
         <HStack align="center" spacing={2}>
-          <Link href="/">
+          <Link href="/" style={{ visibility: isHome ? "hidden" : "visible" }}>
             <Image
               src="https://pbs.twimg.com/profile_images/1571474754976219136/RN77fkuW_400x400.jpg"
               alt="poteboy"
@@ -141,7 +143,14 @@ export const Header: FC<HeaderProps> = memo(({ current }) => {
               opacity={iconOpacity}
             />
           </Link>
-          <HStack spacing={1} as="nav" animation={navAnimation}>
+          <HStack
+            spacing={1}
+            as="nav"
+            animation={navAnimation}
+            transform={
+              isHome && histories.length <= 1 ? "translateX(-44px)" : "none"
+            }
+          >
             <Link {...paths.index}>
               <Text>poteboy</Text>
             </Link>
