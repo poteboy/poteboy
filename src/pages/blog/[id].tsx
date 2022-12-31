@@ -7,7 +7,7 @@ import type {
 import { Post, getAllSlugs, getPostBySlug } from "../../utils/blog";
 import {
   Box,
-  Card,
+  Button,
   Container,
   HStack,
   Image,
@@ -15,6 +15,7 @@ import {
   Text,
   VStack,
   keyframes,
+  Spinner,
 } from "@chakra-ui/react";
 import { colors } from "@src/styles";
 import { Header, PageMeta, Markdown } from "@src/components";
@@ -31,11 +32,14 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   const [finished, updateFinished] = useReducer(() => true, false);
   const [isLiked, updateLiked] = useReducer(() => true, false);
   usePushHistory();
-  const { mutate } = useMutation(["blogs.update-blog-post"], {
-    onSuccess(e) {
-      refetch();
-    },
-  });
+  const { mutate, isLoading: isMutating } = useMutation(
+    ["blogs.update-blog-post"],
+    {
+      onSuccess(e) {
+        refetch();
+      },
+    }
+  );
   const { data, isError, isLoading, refetch } = useQuery(
     ["blogs.get-blog-post", post.slug],
     {
@@ -51,9 +55,9 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     }
   );
 
-  const [peachScale, setPeachScalse] = useState(1);
   const handleLGTM = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
+      if (isLoading || isMutating) return;
       e.preventDefault();
       mutate({
         slug: post.slug,
@@ -89,7 +93,12 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             Posted on {post.data.date}
           </Text>
           <Spacer h={2} />
-          <Text>{isLoading ? "--" : data?.readCount ?? 0} views</Text>
+
+          {isLoading ? (
+            <Spinner size="xs" />
+          ) : (
+            <Text>{data?.readCount ?? 0} views</Text>
+          )}
         </Box>
         <Spacer h={4} />
         <Container
@@ -102,57 +111,61 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         >
           <Markdown content={post.content} />
           <Spacer h={10} />
-          <HStack align="flex-start" spacing={4} justify="center">
+          <HStack align="flex-start" spacing={6} justify="center">
             <VStack spacing={1}>
-              <Card
+              <Button
                 padding="8px 12px"
                 flexDir="row"
-                align="center"
                 as="button"
-                transform={`scale(${peachScale})`}
-                // 桃アイコンの色の薄い部分
                 bg={isLiked ? "#ff886c70" : colors.baseBgLight}
                 onClick={handleLGTM}
-                onMouseDown={() => setPeachScalse(0.9)}
-                onMouseUp={() => setPeachScalse(1)}
-                onKeyDown={(e) => e.key === "Enter" && setPeachScalse(0.9)}
-                onKeyUp={(e) => e.key === "Enter" && setPeachScalse(1)}
+                _hover={{
+                  transform: `scale(${1.05})`,
+                }}
+                disabled={isLoading || isMutating}
               >
-                <PeachIcon width={28} height={28} />
+                <PeachIcon width={16} height={16} />
                 <Text ml={2} whiteSpace="nowrap">
                   いいね
                 </Text>
-              </Card>
-              <Text
-                variant="caption"
-                as="span"
-                // 桃アイコンの1番色が濃い部分
-                color={isLiked ? "#e5474f" : colors.baseText}
-              >
-                {data?.likeCount ?? 0}
-              </Text>
+              </Button>
+              {isLoading || isMutating ? (
+                <Spinner size="xs" />
+              ) : (
+                <Text
+                  variant="caption"
+                  as="span"
+                  // 桃アイコンの1番色が濃い部分
+                  color={isLiked ? "#e5474f" : colors.baseText}
+                >
+                  {data?.likeCount ?? 0}
+                </Text>
+              )}
             </VStack>
-            <Card
+            <Button
               padding="8px 12px"
               flexDir="row"
-              align="center"
               as="a"
               bg={colors.baseBgLight}
               href={twitterLink}
               target="_blank"
+              _hover={{
+                transform: `scale(${1.05})`,
+              }}
             >
               <Image
                 src={Twitter}
                 alt="twitter logo"
-                height={7}
+                height={4}
                 color="white"
               />
               <Text ml={2} whiteSpace="nowrap">
                 ツイート
               </Text>
-            </Card>
+            </Button>
           </HStack>
         </Container>
+        <Spacer h={12} />
       </Box>
     </Box>
   );
