@@ -9,7 +9,7 @@ export const postSchema = z.object({
     date: z.string(),
     title: z.string(),
     icon: z.string(),
-    topic: z.enum(["dev", "self"]),
+    topic: z.enum(["dev", "self", "health"]),
     isPublic: z.boolean(),
   }),
   slug: z.string(),

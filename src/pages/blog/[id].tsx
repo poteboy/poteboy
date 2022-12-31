@@ -27,6 +27,16 @@ import Twitter from "@src/public/twitter.png";
 import { useRouter } from "next/router";
 import NextImage from "next/image";
 
+const isDevelopment = (() => {
+  if (typeof window === "undefined")
+    return process.env.NODE_ENV === "development";
+  else
+    return (
+      window.location.origin.includes("localhost") ||
+      process.env.NODE_ENV === "development"
+    );
+})();
+
 const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
@@ -45,7 +55,8 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     ["blogs.get-blog-post", post.slug],
     {
       onSuccess(data) {
-        if (!finished) {
+        console.log(!finished && !isDevelopment);
+        if (!finished && !isDevelopment) {
           mutate({
             slug: post.slug,
             readCount: !!data?.readCount ? data.readCount + 1 : 1,

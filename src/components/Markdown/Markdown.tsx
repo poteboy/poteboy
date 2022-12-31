@@ -22,6 +22,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { colors } from "@src/styles";
+import NextImage from "next/image";
 
 type StyledSystemProps = TypographyProps &
   SpaceProps &
@@ -46,15 +47,7 @@ export const Markdown: FC<{ content: string }> = ({ content }) => {
           p: T,
           a: Preview,
           img: (props) => {
-            return (
-              <></>
-              // <img
-              //   src={require(`../../public/blog/ogp.png`)}
-              //   alt=""
-              //   width="50px"
-              //   height="50px"
-              // />
-            );
+            return <></>;
           },
         },
       }}

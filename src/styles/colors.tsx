@@ -20,6 +20,7 @@ export const colors = {
   baseTextLink: "var(--base-text-link)",
 } as const;
 
+// ①_app.tsx　で1番最初に呼ばれる
 export const colorFromStorage = () => {
   const result = themeSchema.safeParse(localStorage.getItem(themeKey));
   if (result.success) return result.data;
@@ -29,6 +30,7 @@ export const colorFromStorage = () => {
 export const useColorTheme = () => {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
+  // ② １の発火後にdocument.body.dataset.themeは埋められているのでローカルStateに保存
   useBrowserLayoutEffect(() => {
     setTheme((init) =>
       (() => {
@@ -44,6 +46,7 @@ export const useColorTheme = () => {
     []
   );
 
+  // ③
   useEffect(() => {
     document.body.dataset.theme = theme;
     localStorage.setItem(themeKey, theme);
