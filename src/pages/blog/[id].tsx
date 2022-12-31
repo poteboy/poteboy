@@ -55,7 +55,6 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     }
   );
 
-  const [peachScale, setPeachScalse] = useState(1);
   const handleLGTM = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       if (isLoading || isMutating) return;
@@ -112,23 +111,20 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         >
           <Markdown content={post.content} />
           <Spacer h={10} />
-          <HStack align="flex-start" spacing={4} justify="center">
+          <HStack align="flex-start" spacing={6} justify="center">
             <VStack spacing={1}>
               <Button
                 padding="8px 12px"
                 flexDir="row"
                 as="button"
-                transform={`scale(${peachScale})`}
-                // 桃アイコンの色の薄い部分
                 bg={isLiked ? "#ff886c70" : colors.baseBgLight}
                 onClick={handleLGTM}
-                onMouseDown={() => setPeachScalse(0.9)}
-                onMouseUp={() => setPeachScalse(1)}
-                onKeyDown={(e) => e.key === "Enter" && setPeachScalse(0.9)}
-                onKeyUp={(e) => e.key === "Enter" && setPeachScalse(1)}
+                _hover={{
+                  transform: `scale(${1.05})`,
+                }}
                 disabled={isLoading || isMutating}
               >
-                <PeachIcon width={24} height={24} />
+                <PeachIcon width={16} height={16} />
                 <Text ml={2} whiteSpace="nowrap">
                   いいね
                 </Text>
@@ -153,11 +149,14 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               bg={colors.baseBgLight}
               href={twitterLink}
               target="_blank"
+              _hover={{
+                transform: `scale(${1.05})`,
+              }}
             >
               <Image
                 src={Twitter}
                 alt="twitter logo"
-                height={6}
+                height={4}
                 color="white"
               />
               <Text ml={2} whiteSpace="nowrap">
