@@ -29,7 +29,10 @@ export const Header: FC<HeaderProps> = memo(({ current }) => {
   const router = useRouter();
   const ref = useRef(null);
   const { histories } = useHistory();
-  const firstPath = (router.asPath.split("/")[1] as PathKey) || "index";
+  const firstPath: PathKey = (() => {
+    const result = pathKeys.safeParse(router.asPath.split("/")[1]);
+    return result.success ? result.data : "index";
+  })();
 
   const handleClickMenuItem = useCallback(() => {
     setExpanded(false);
