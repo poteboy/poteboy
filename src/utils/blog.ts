@@ -10,6 +10,7 @@ export const postSchema = z.object({
     title: z.string(),
     icon: z.string(),
     topic: z.enum(["dev", "self"]),
+    isPublic: z.boolean(),
   }),
   slug: z.string(),
 });

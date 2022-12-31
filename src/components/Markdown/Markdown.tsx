@@ -45,6 +45,17 @@ export const Markdown: FC<{ content: string }> = ({ content }) => {
           h3: H(4),
           p: T,
           a: Preview,
+          img: (props) => {
+            return (
+              <></>
+              // <img
+              //   src={require(`../../public/blog/ogp.png`)}
+              //   alt=""
+              //   width="50px"
+              //   height="50px"
+              // />
+            );
+          },
         },
       }}
     >

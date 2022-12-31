@@ -110,7 +110,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
   return {
     props: {
-      posts: post.map((p) => p),
+      posts: post.filter((p) => p.data.isPublic),
     },
   };
 };

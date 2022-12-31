@@ -25,6 +25,7 @@ import { usePushHistory } from "@src/hooks";
 import { PeachIcon } from "@src/Icons";
 import Twitter from "@src/public/twitter.png";
 import { useRouter } from "next/router";
+import NextImage from "next/image";
 
 const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
@@ -172,7 +173,7 @@ const PostPage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
-  const slugs = getAllSlugs();
+  const slugs = getAllSlugs().filter((s) => getPostBySlug(s).data.isPublic);
   const paths = slugs.map((slug) => ({ params: { id: slug } }));
   return {
     paths,
