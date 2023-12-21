@@ -20,7 +20,7 @@ export const PersonalCard: FC<{ border: boolean }> = ({ border }) => {
 			<Box minWidth={44} minHeight={44} position="relative">
 				<Image
 					src="/me.webp"
-					alt="Logo"
+					alt="personal picture of poteboy"
 					objectFit="contain"
 					fill
 					className={css`border-radius: 99px;`}

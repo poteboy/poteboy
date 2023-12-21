@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "poteboy.com",
-	description: "Open Source Developer mainly focused on compiler 🐻‍❄️⚡️",
+	description: "Dreaming on Open Source 🤞",
 	metadataBase: new URL("https://poteboy.pages.dev/"),
 };
 
