@@ -86,7 +86,7 @@ const ProjectCard: FC<{
 	role: "Author" | "Core Contributor";
 }> = ({ title, description, image, link, role }) => {
 	return (
-		<Link target="_blank" rel="noopener" href={link} textDecoration="none">
+		<Link rel="noreferrer" target="_blank" href={link} textDecoration="none">
 			<HStack
 				borderRadius={24}
 				boxShadow="0 2px 4px rgba(0,0,0,.04)"

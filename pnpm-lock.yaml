@@ -1,9 +1,6 @@
 lockfileVersion: '6.0'
 
 dependencies:
-  '@biomejs/biome':
-    specifier: ^1.4.1
-    version: 1.4.1
   '@kuma-ui/core':
     specifier: ^1.5.5
     version: 1.5.5(@types/react@18.2.45)(next@14.0.4)(react@18.2.0)
@@ -27,6 +24,9 @@ dependencies:
     version: 18.2.0(react@18.2.0)
 
 devDependencies:
+  '@biomejs/biome':
+    specifier: ^1.4.1
+    version: 1.4.1
   '@cloudflare/next-on-pages':
     specifier: ^1.8.2
     version: 1.8.2(vercel@33.0.1)(wrangler@3.22.1)
@@ -1322,7 +1322,7 @@ packages:
       '@biomejs/cli-linux-x64': 1.4.1
       '@biomejs/cli-win32-arm64': 1.4.1
       '@biomejs/cli-win32-x64': 1.4.1
-    dev: false
+    dev: true
 
   /@biomejs/cli-darwin-arm64@1.4.1:
     resolution: {integrity: sha512-PZWy2Idndqux38p6AXSDQM2ldRAWi32bvb7bMbTN0ALzpWYMYnxd71ornatumSSJYoNhKmxzDLq+jct7nZJ79w==}
@@ -1330,7 +1330,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: false
+    dev: true
     optional: true
 
   /@biomejs/cli-darwin-x64@1.4.1:
@@ -1339,7 +1339,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: false
+    dev: true
     optional: true
 
   /@biomejs/cli-linux-arm64@1.4.1:
@@ -1348,7 +1348,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: false
+    dev: true
     optional: true
 
   /@biomejs/cli-linux-x64@1.4.1:
@@ -1357,7 +1357,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: false
+    dev: true
     optional: true
 
   /@biomejs/cli-win32-arm64@1.4.1:
@@ -1366,7 +1366,7 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: false
+    dev: true
     optional: true
 
   /@biomejs/cli-win32-x64@1.4.1:
@@ -1375,7 +1375,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: false
+    dev: true
     optional: true
 
   /@cloudflare/kv-asset-handler@0.2.0:

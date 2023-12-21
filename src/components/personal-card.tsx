@@ -10,7 +10,6 @@ export const PersonalCard: FC<{ border: boolean }> = ({ border }) => {
 			alignItems="center"
 			gap={16}
 			borderRadius={24}
-			// boxShadow="0 2px 4px rgba(0,0,0,.04)"
 			border="var(--border-on, 1px solid #f0f2f5)"
 			padding="1rem"
 			style={inlineStyle({
@@ -50,6 +49,8 @@ export const PersonalCard: FC<{ border: boolean }> = ({ border }) => {
 								textOverflow="ellipsis"
 								color="#555"
 								textDecoration="none"
+								rel="noreferrer"
+								target="_blank"
 							>
 								{link.name}
 							</k.a>
