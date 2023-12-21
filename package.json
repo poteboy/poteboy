@@ -10,21 +10,22 @@
     "lint": "pnpm dlx @biomejs/biome lint ./src"
   },
   "dependencies": {
+    "@biomejs/biome": "^1.4.1",
     "@kuma-ui/core": "^1.5.5",
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^14.0.4",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18",
-    "@biomejs/biome": "^1.4.1"
+    "react-dom": "^18"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.8.2",
+    "@kuma-ui/next-plugin": "^1.1.15",
+    "@types/mdx": "^2.0.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/mdx": "^2.0.10",
-    "@kuma-ui/next-plugin": "^1.1.15",
     "typescript": "^5"
   }
 }
