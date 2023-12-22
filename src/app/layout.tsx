@@ -7,7 +7,7 @@ import "./global.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "poteboy.com",
+	title: "poteboy",
 	description: "Dreaming on Open Source 🤞",
 	metadataBase: new URL("https://poteboy.pages.dev/"),
 };
