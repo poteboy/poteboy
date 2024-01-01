@@ -32,7 +32,7 @@ export default function Profile() {
 			</VStack>
 			<Spacer size={28} />
 			<Section title="Open Source Projects">
-				<HStack gap={[40]} flexWrap="wrap">
+				<HStack gap={[20]} flexWrap="wrap">
 					{openSourceProjects.map((pl) => (
 						<Box
 							borderRadius={24}
@@ -51,7 +51,7 @@ export default function Profile() {
 										height={40}
 										src={pl.logo}
 										className={css`border-radius: 10px;`}
-										alt="typescript logo"
+										alt={pl.name}
 									/>
 									<Text mt="0.75rem" fontSize=".875rem">
 										{pl.name}
@@ -82,7 +82,7 @@ export default function Profile() {
 						<KImage
 							src="/landscape/traffic-light.jpg"
 							objectFit="cover"
-							alt="hello"
+							alt="traffic light"
 							width="100%"
 							height="100%"
 							borderRadius={24}
@@ -111,14 +111,14 @@ export default function Profile() {
 			</Section>
 			<Spacer size={28} />
 			<Section title="Programming Lanugages">
-				<HStack gap="40px">
+				<HStack gap="20px">
 					<Box
 						width={["44%", "33%"]}
 						position="relative"
 						aria-labelledby="namiki"
 					>
 						<Image
-							alt="personal picture of poteboy"
+							alt="namiki street"
 							objectFit="cover"
 							fill
 							src="/landscape/namiki.webp"
@@ -143,7 +143,7 @@ export default function Profile() {
 							Tokyo
 						</Text>
 					</Box>
-					<VStack gap={[40]} flexWrap="wrap" flex={1}>
+					<VStack gap={[20]} flexWrap="wrap" flex={1}>
 						{programmingLanguages.map((pl) => (
 							<Box
 								borderRadius={24}
@@ -169,15 +169,6 @@ export default function Profile() {
 										<Text mt="0.75rem" fontSize=".875rem">
 											{pl.name}
 										</Text>
-										{/* <Text
-											fontSize="12px"
-											lineHeight="16px"
-											color="rgba(0,0,0,.6)"
-											mt="0.25rem"
-										>
-											{pl.yearsOfExperience}{" "}
-											{pl.yearsOfExperience > 1 ? "years" : "year"}
-										</Text> */}
 									</Box>
 								</VStack>
 							</Box>
@@ -187,7 +178,7 @@ export default function Profile() {
 			</Section>
 			<Spacer size={28} />
 			<Section title="Experience">
-				<VStack gap={28}>
+				<VStack gap={20}>
 					{experiences.map((exp) => (
 						<Box
 							borderRadius={24}
@@ -205,7 +196,7 @@ export default function Profile() {
 									height={40}
 									src={exp.logo}
 									className={css`border-radius: 10px;`}
-									alt="typescript logo"
+									alt={exp.name}
 								/>
 								<VStack>
 									<Text fontSize=".875rem">{exp.name}</Text>
@@ -241,7 +232,7 @@ export default function Profile() {
 						height={40}
 						src="/jsconf.png"
 						className={css`border-radius: 10px;`}
-						alt="typescript logo"
+						alt="jsconf logo"
 					/>
 					<VStack>
 						<Text mt="0.75rem" fontSize=".875rem">

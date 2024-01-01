@@ -6,23 +6,29 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IconDisplay, IconNotebook, IconUser } from "./icons";
 
+const MENU_BUTTON_ID = "menu-button"; // ボタンとメニューの関連付けに使うID
 /**
  * スマホ用のメニューボタン。左下配置
  */
 export const MenuButton = () => {
-	const menuRef = useRef<HTMLDivElement>(null);
+	const menuRef = useRef<HTMLDivElement>(null); // Ref for the menu
+	const firstMenuItemRef = useRef<HTMLAnchorElement>(null); // Ref for the first menu item
+
 	const [isOpen, setIsOpen] = useState(false);
 	const pathname = usePathname();
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
+		// ページ遷移したらメニューを閉じる
 		setIsOpen(false);
-	}, [pathname, setIsOpen]);
+	}, [pathname]);
 
 	useEffect(() => {
-		/**
-		 * Menuコンポーネントの外側をクリックしたらメニューを閉じる
-		 */
+		// A11y: Menuが開いたら最初のメニュー項目にフォーカスする
+		if (isOpen && firstMenuItemRef.current) {
+			firstMenuItemRef.current.focus();
+		}
+		/**  Menuコンポーネントの外側をクリックしたらメニューを閉じる  */
 		const handleClick = (e: MouseEvent): void => {
 			if (!menuRef.current) return;
 			if (!isOpen) return;
@@ -32,6 +38,17 @@ export const MenuButton = () => {
 		document.addEventListener("click", handleClick);
 		return () => document.removeEventListener("click", handleClick);
 	}, [isOpen]);
+
+	useEffect(() => {
+		/**  A11y: ESCキーを押したらメニューを閉じる */
+		const handleKeyDown = (e: KeyboardEvent): void => {
+			if (e.key === "Escape") {
+				setIsOpen(false);
+			}
+		};
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, []);
 
 	return (
 		<Box
@@ -48,6 +65,8 @@ export const MenuButton = () => {
 			{isOpen && (
 				<Box
 					as="nav"
+					role="menu"
+					id={MENU_BUTTON_ID}
 					className={css`
                     position: absolute;
                     width: 238px;
@@ -70,10 +89,11 @@ export const MenuButton = () => {
             `}
 				>
 					<k.ul listStyleType="none" padding="0px">
-						{links.map((link) => (
+						{links.map((link, idx) => (
 							<k.li key={link.href} p="0.5rem">
 								<Link
 									href={link.href}
+									ref={idx === 0 ? firstMenuItemRef : undefined}
 									className={css`
                                     text-decoration: none;
                                     color: inherit;
@@ -122,8 +142,12 @@ export const MenuButton = () => {
 						height="100%"
 						width="100%"
 						borderRadius="99px"
-						aria-label="Menu Button"
+						aria-label={isOpen ? "Close menu" : "Open menu"}
+						color="black"
 						onClick={() => setIsOpen(!isOpen)}
+						aria-haspopup="menu"
+						aria-controls={MENU_BUTTON_ID}
+						aria-expanded={isOpen}
 					>
 						<svg
 							stroke="currentColor"
