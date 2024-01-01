@@ -67,12 +67,12 @@ export default function Home() {
 
 const images = [
 	{
-		src: "/palm-tree.jpg",
+		src: "/landscape/palm-tree.jpg",
 		alt: "Palm Tree found in Hawaii",
 		location: "Hawaii",
 	},
 	{
-		src: "/vibrant-sky.jpg",
+		src: "/landscape/vibrant-sky.jpg",
 		alt: "a vibrant sky tinged with shades of pink and purple",
 		location: "Kobe",
 	},
