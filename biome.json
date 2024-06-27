@@ -15,5 +15,9 @@
 				"noNamespace": "error"
 			}
 		}
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
 	}
 }
