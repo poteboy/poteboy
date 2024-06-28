@@ -1,6 +1,15 @@
 import { PersonalCard } from "@/components/personal-card";
-import { Box, HStack, Image, Link, Spacer, Text, VStack } from "@kuma-ui/core";
-import type { FC } from "react";
+import {
+  Box,
+  css,
+  HStack,
+  Image,
+  Link,
+  Spacer,
+  Text,
+  VStack,
+} from "@kuma-ui/core";
+import type { FC, CSSProperties } from "react";
 
 export default function Home() {
   return (
@@ -45,22 +54,52 @@ export default function Home() {
         })}
       </HStack>
       <Spacer size={40} />
-      {/* <VStack px={["0px", "2rem"]} gap={20}>
-        <ProjectCard
-          title="Kuma UI"
-          description="🐻‍❄️ A Headless, Utility-First, and Zero-Runtime UI Component Library ✨"
-          image="/kuma.png"
-          role="Author"
-          link="https://www.kuma-ui.com/"
+      <VStack px={["0px", "2rem"]} gap={20}>
+        <LinkCard
+          siteName="Zenn"
+          image="./siteLogo/zenn.svg"
+          link="https://zenn.dev/poteboy"
+          bg="#f6fdff"
         />
-        <ProjectCard
-          title="Million.js"
-          description="The Virtual DOM Replacement for React."
-          image="/million.svg"
-          role="Core Contributor"
-          link="https://million.dev/"
+        <LinkCard
+          siteName="しずかなインターネット"
+          image="./siteLogo/sizume.png"
+          link="https://sizu.me/poteboy"
+          bg="white"
         />
-      </VStack> */}
+        <LinkCard
+          siteName="Speaker Deck"
+          image="./siteLogo/speakerdeck.png"
+          link="https://speakerdeck.com/poteboy"
+          bg="#e7faf2"
+        />
+        <LinkCard
+          siteName="connpass"
+          image="./siteLogo/connpass.png"
+          link="https://connpass.com/user/_poteboy_"
+          bg="#fae7e7"
+        />
+      </VStack>
+      <Spacer size={40} />
+      <Box
+        width="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Link
+          className={css`
+            text-decoration: underline;
+            text-align: center;
+            font-size: 14px;
+            margin-inline: auto;
+            color: black;
+          `}
+          href="/job"
+        >
+          お仕事依頼はこちら
+        </Link>
+      </Box>
     </Box>
   );
 }
@@ -78,13 +117,12 @@ const images = [
   },
 ];
 
-const _ProjectCard: FC<{
-  title: string;
-  description: string;
+const LinkCard: FC<{
+  siteName: string;
   image: string;
   link: string;
-  role: "Author" | "Core Contributor";
-}> = ({ title, description, image, link, role }) => {
+  bg?: string;
+}> = ({ siteName, image, link, bg = "#f7f9fb" }) => {
   return (
     <Link rel="noreferrer" target="_blank" href={link} textDecoration="none">
       <HStack
@@ -93,44 +131,32 @@ const _ProjectCard: FC<{
         border="1px solid #ebebeb"
         padding="1rem"
         alignItems="center"
+        bg="var(--link-card-bg)"
         _hover={{
           bg: "#f7f9fb",
         }}
+        style={
+          {
+            "--link-card-bg": bg,
+          } as CSSProperties
+        }
       >
         <Image
           src={image}
-          width={40}
-          height={40}
-          borderRadius={16}
-          alt={title}
+          width={28}
+          height={28}
+          borderRadius={7}
+          alt={siteName}
           mr={16}
         />
-        <VStack as="dl" gap={8} alignItems="flex-start">
-          <HStack>
-            <Text as="dt" color="black">
-              {title}
-            </Text>
-            <Text
-              display="flex"
-              alignItems="center"
-              height={24}
-              fontSize={12}
-              px={10}
-              borderRadius={12}
-              bgColor="#f6f6f6"
-              whiteSpace="nowrap"
-              textOverflow="ellipsis"
-              color="#555"
-              textDecoration="none"
-              ml={8}
-            >
-              {role}
-            </Text>
-          </HStack>
-          <Text as="dd" color="#595f63" fontSize={14}>
-            {description}
+        <HStack width="100%" justifyContent="space-between" alignItems="center">
+          <Text as="p" color="black" fontSize={16}>
+            {siteName}
           </Text>
-        </VStack>
+          <Text as="p" color="#595f63" fontSize={12}>
+            {link}
+          </Text>
+        </HStack>
       </HStack>
     </Link>
   );
