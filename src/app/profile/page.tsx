@@ -4,6 +4,13 @@ import type React from "react";
 import Me from "./identification.jpg";
 import Company from "./company.png";
 
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Profile",
+  description: "poteboy's profile",
+  metadataBase: new URL("https://poteboy.dev/"),
+};
+
 export default function Profile() {
   return (
     <Box>
@@ -45,7 +52,15 @@ export default function Profile() {
               Vibes:
             </Text>
             <Text as="dd" color="#555">
-              🍣🐻‍❄️🪐🥊🔫🏔️
+              🔫🍖🐻‍❄️🥊🏝️⚡️
+            </Text>
+          </HStack>
+          <HStack gap={8}>
+            <Text as="dt" fontWeight="bold">
+              Mottos:
+            </Text>
+            <Text as="dd" color="#555">
+              <i>闘志は技術を超越する / 肉を切らせて骨を断つ 🔥🦴</i>
             </Text>
           </HStack>
         </VStack>

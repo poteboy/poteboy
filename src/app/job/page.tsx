@@ -12,7 +12,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "お仕事依頼",
   description: "合同会社ぽてぽてランドへのお仕事依頼を受け付けています。",
-  metadataBase: new URL("https://poteboy.pages.dev/"),
+  metadataBase: new URL("https://poteboy.dev/"),
 };
 
 export default function JobPage() {
