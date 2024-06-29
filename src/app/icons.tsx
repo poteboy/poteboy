@@ -4,7 +4,7 @@ import type React from "react";
  * @see {@link https://reactsvgicons.com/systemuicons}
  */
 export function IconDisplay(
-  props: React.SVGProps<SVGSVGElement> & { title?: string }
+  props: React.SVGProps<SVGSVGElement> & { title?: string },
 ) {
   const { title } = props;
   return (
@@ -33,7 +33,7 @@ export function IconDisplay(
  * @see {@link https://reactsvgicons.com/systemuicons}
  */
 export function IconUser(
-  props: React.SVGProps<SVGSVGElement> & { title?: string }
+  props: React.SVGProps<SVGSVGElement> & { title?: string },
 ) {
   const { title } = props;
   return (
@@ -60,7 +60,7 @@ export function IconUser(
  * @see {@link https://reactsvgicons.com/systemuicons}
  */
 export function IconNotebook(
-  props: React.SVGProps<SVGSVGElement> & { title?: string }
+  props: React.SVGProps<SVGSVGElement> & { title?: string },
 ) {
   const { title } = props;
   return (

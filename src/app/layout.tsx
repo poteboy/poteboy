@@ -10,8 +10,6 @@ import { MenuButton } from "./menu-button";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title: "poteboy",
   description: "Dreaming on Open Source 🤞",
