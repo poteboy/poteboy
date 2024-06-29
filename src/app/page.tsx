@@ -10,6 +10,7 @@ import {
   VStack,
 } from "@kuma-ui/core";
 import type { FC, CSSProperties } from "react";
+import OptimizedImage from "next/image";
 
 export default function Home() {
   return (
@@ -30,6 +31,8 @@ export default function Home() {
                 position="absolute"
                 width="100%"
                 aria-labelledby={image.location}
+                loading="lazy"
+                decoding="async"
               />
               <Text
                 fontSize={10}
@@ -57,25 +60,25 @@ export default function Home() {
       <VStack px={["0px", "2rem"]} gap={20}>
         <LinkCard
           siteName="Zenn"
-          image="./siteLogo/zenn.svg"
+          image="/siteLogo/zenn.svg"
           link="https://zenn.dev/poteboy"
           bg="#f6fdff"
         />
         <LinkCard
           siteName="しずかなインターネット"
-          image="./siteLogo/sizume.png"
+          image="/siteLogo/sizume.png"
           link="https://sizu.me/poteboy"
           bg="white"
         />
         <LinkCard
           siteName="Speaker Deck"
-          image="./siteLogo/speakerdeck.png"
+          image="/siteLogo/speakerdeck.png"
           link="https://speakerdeck.com/poteboy"
           bg="#f0fff9"
         />
         <LinkCard
           siteName="connpass"
-          image="./siteLogo/connpass.png"
+          image="/siteLogo/connpass.png"
           link="https://connpass.com/user/_poteboy_"
           bg="#fcf1f1"
         />
@@ -107,12 +110,12 @@ export default function Home() {
 
 const images = [
   {
-    src: "/landscape/palm-tree.jpg",
+    src: "/landscape/palm-tree.webp",
     alt: "Palm Tree found in Hawaii",
     location: "Hawaii",
   },
   {
-    src: "/landscape/vibrant-sky.jpg",
+    src: "/landscape/vibrant-sky.webp",
     alt: "a vibrant sky tinged with shades of pink and purple",
     location: "Kobe",
   },
@@ -142,13 +145,15 @@ const LinkCard: FC<{
           } as CSSProperties
         }
       >
-        <Image
+        <OptimizedImage
           src={image}
           width={28}
           height={28}
-          borderRadius={7}
           alt={siteName}
-          mr={16}
+          style={{
+            borderRadius: 7,
+            marginRight: 16,
+          }}
         />
         <HStack width="100%" justifyContent="space-between" alignItems="center">
           <Text as="p" color="black" fontSize={16}>

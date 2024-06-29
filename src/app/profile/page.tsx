@@ -1,13 +1,4 @@
-import {
-  Box,
-  HStack,
-  Heading,
-  Image as KImage,
-  Spacer,
-  Text,
-  VStack,
-  css,
-} from "@kuma-ui/core";
+import { Box, HStack, Heading, Spacer, Text, VStack, css } from "@kuma-ui/core";
 import Image, { type StaticImageData } from "next/image";
 import type React from "react";
 import Me from "./identification.jpg";
