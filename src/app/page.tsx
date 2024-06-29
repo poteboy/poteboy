@@ -71,13 +71,13 @@ export default function Home() {
           siteName="Speaker Deck"
           image="./siteLogo/speakerdeck.png"
           link="https://speakerdeck.com/poteboy"
-          bg="#e7faf2"
+          bg="#f0fff9"
         />
         <LinkCard
           siteName="connpass"
           image="./siteLogo/connpass.png"
           link="https://connpass.com/user/_poteboy_"
-          bg="#fae7e7"
+          bg="#fcf1f1"
         />
       </VStack>
       <Spacer size={40} />
@@ -99,6 +99,7 @@ export default function Home() {
         >
           お仕事依頼はこちら
         </Link>
+        <Spacer size={40} />
       </Box>
     </Box>
   );

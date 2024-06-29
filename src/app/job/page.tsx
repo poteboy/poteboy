@@ -1,4 +1,12 @@
-import { Box, Heading, Spacer, VStack, Text, HStack } from "@kuma-ui/core";
+import {
+  Box,
+  Heading,
+  Spacer,
+  VStack,
+  Text,
+  HStack,
+  Flex,
+} from "@kuma-ui/core";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -62,18 +70,18 @@ export default function JobPage() {
               料金
             </Heading>
             <VStack as="dl" padding="12px" gap={16}>
-              <HStack fontSize={14} gap={8}>
+              <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
                 <Text as="dt">準委任契約での開発支援:</Text>
                 <Text as="dd">¥8,250~ / 1時間</Text>
-              </HStack>
-              <HStack fontSize={14} gap={8}>
+              </Flex>
+              <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
                 <Text as="dt">チャット常駐形式での技術アドバイザリー:</Text>
                 <Text as="dd">¥100,000~ / 月</Text>
-              </HStack>
-              <HStack fontSize={14} gap={8}>
+              </Flex>
+              <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
                 <Text as="dt">その他:</Text>
                 <Text as="dd">お問い合わせください</Text>
-              </HStack>
+              </Flex>
             </VStack>
           </Box>
         </Box>
