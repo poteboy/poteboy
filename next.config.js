@@ -8,6 +8,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const nextConfig = {
 	runtime: "edge",
 	pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
+	distDir: "out",
 };
 
 module.exports = withBundleAnalyzer(withKumaUI(withContentlayer(nextConfig)));
