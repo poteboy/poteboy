@@ -6,6 +6,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 const nextConfig = {
+	runtime: "edge",
 	pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
 };
 
