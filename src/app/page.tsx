@@ -11,6 +11,7 @@ import {
 } from "@kuma-ui/core";
 import type { FC, CSSProperties } from "react";
 import OptimizedImage from "next/image";
+import NextLink from "next/link";
 
 export default function Home() {
   return (
@@ -90,7 +91,7 @@ export default function Home() {
         flexDirection="column"
         alignItems="center"
       >
-        <Link
+        <NextLink
           className={css`
             text-decoration: underline;
             text-align: center;
@@ -101,7 +102,7 @@ export default function Home() {
           href="/job"
         >
           お仕事依頼はこちら
-        </Link>
+        </NextLink>
         <Spacer size={52} />
       </Box>
     </Box>
