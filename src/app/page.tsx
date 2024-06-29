@@ -99,7 +99,7 @@ export default function Home() {
         >
           お仕事依頼はこちら
         </Link>
-        <Spacer size={40} />
+        <Spacer size={52} />
       </Box>
     </Box>
   );

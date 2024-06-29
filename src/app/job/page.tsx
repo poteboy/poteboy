@@ -22,7 +22,7 @@ export default function JobPage() {
       <Heading as="h1" fontSize={22} fontWeight={500}>
         お仕事依頼
       </Heading>
-      <VStack>
+      <VStack marginBottom={52}>
         <Box as="section" mt={32}>
           <Heading
             as="h2"
@@ -81,6 +81,31 @@ export default function JobPage() {
               <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
                 <Text as="dt">その他:</Text>
                 <Text as="dd">お問い合わせください</Text>
+              </Flex>
+            </VStack>
+          </Box>
+          <Box as="section" mt={32}>
+            <Heading
+              as="h2"
+              fontSize={18}
+              fontWeight={500}
+              borderBottom="1px solid #d6e3ed"
+            >
+              対応可能領域
+            </Heading>
+            <VStack padding="12px" gap={16}>
+              <Flex as="ul" flexDir="column" fontSize={14} gap={8}>
+                <Text as="li">
+                  Web、モバイル、デスクトップアプリケーション開発・運用
+                </Text>
+                <Text as="li">CI/CDや自動テストの構築と速度改善</Text>
+                <Text as="li">
+                  ブラウザ技術で動くアプリケーションのパフォーマンス改善
+                </Text>
+                <Text as="li">Node.js関連の技術選定やアーキテクチャ設計</Text>
+                <Text as="li">
+                  Design Docやコーディングガイドラインなどのドキュメント作成
+                </Text>
               </Flex>
             </VStack>
           </Box>
