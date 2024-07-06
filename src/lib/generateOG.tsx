@@ -1,11 +1,22 @@
 import { ImageResponse } from "next/og";
+import OGImage from "../../public/ogp.jpg";
 
 type Size = {
   width: number;
   height: number;
 };
 
-export async function generateOgImage({ size }: { size: Size }) {
+export async function generateOgImage({
+  size = {
+    width: 1200,
+    height: 600,
+  },
+  title,
+}: {
+  size?: Size;
+  title: string;
+  emoji?: string;
+}) {
   return new ImageResponse(
     (
       <div
@@ -22,7 +33,7 @@ export async function generateOgImage({ size }: { size: Size }) {
         }}
       >
         <img
-          src="/ogp.jpg"
+          src="https://poteboy.dev/ogp.jpg"
           alt=""
           role="presentation"
           style={{
@@ -31,8 +42,36 @@ export async function generateOgImage({ size }: { size: Size }) {
             left: 0,
             width: "100%",
             height: "100%",
+            zIndex: 1,
           }}
         />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "88%",
+            marginInline: "auto",
+          }}
+        >
+          {title.split(" ").map((word, i) => (
+            <h1
+              style={{
+                zIndex: 2,
+                textAlign: "center",
+                color: "black",
+                fontSize: "3em",
+                fontWeight: 800,
+                margin: "auto",
+                transform: "translateY(-30%)",
+              }}
+              key={word + i.toString()}
+            >
+              {word}
+              <br />
+            </h1>
+          ))}
+        </div>
       </div>
     ),
     {
