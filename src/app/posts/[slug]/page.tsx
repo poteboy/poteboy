@@ -10,6 +10,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Remark } from "@/components/remark";
 import Image, { type ImageProps } from "next/image";
+import { ShareCardFooter } from "./share-card-footer";
 
 const Mermaid = dynamic(() => import("@/components/mermaid"), {
   ssr: false,
@@ -43,7 +44,7 @@ export async function generateMetadata({
       : "https://poteboy.dev";
 
   return {
-    title: `${post.title} | poteboy.dev`,
+    title: `${post.title} | poteboy`,
     description: post.title + post.emoji,
     openGraph: {
       images: [
@@ -108,6 +109,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <Spacer size={56} />
       <article className="mdx-post-content">
         <MDXContent components={mdxComponents} />
+        <Spacer size={32} />
+        <ShareCardFooter
+          url={`https://poteboy.dev/posts/${params.slug}`}
+          title={encodeURIComponent(`${post.title} | poteboy`)}
+        />
+        <Spacer size={16} />
       </article>
       <Spacer size={40} />
       <PersonalCard border />
