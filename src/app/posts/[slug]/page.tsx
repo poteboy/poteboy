@@ -74,47 +74,45 @@ export default async function Page({ params }: { params: { slug: string } }) {
   });
 
   return (
-    <>
-      <Box
-        className={css`
-          div > pre {
-            border-radius: 16px;
-          }
-        `}
-        id="post-content"
+    <Box
+      className={css`
+        div > pre {
+          border-radius: 16px;
+        }
+      `}
+      id="post-content"
+    >
+      <Spacer size={80} />
+      <Text
+        as="div"
+        textAlign="center"
+        fontSize="2.2em"
+        role="img"
+        marginBottom={10}
+        aria-labelledby="post-title"
       >
-        <Spacer size={80} />
-        <Text
-          as="div"
-          textAlign="center"
-          fontSize="2.2em"
-          role="img"
-          marginBottom={10}
-          aria-labelledby="post-title"
-        >
-          {post.emoji}
-        </Text>
-        <Heading fontSize={["1.6em", "1.9em"]} fontWeight={500} id="post-title">
-          {post.title}
-        </Heading>
-        <Spacer size={12} />
-        <Text
-          color="rgba(0,0,0,.6)"
-          fontSize="1em"
-          as="time"
-          dateTime={post.date}
-        >
-          {formattedDate}
-        </Text>
-        <Spacer size={56} />
-        <article className="mdx-post-content">
-          <MDXContent components={mdxComponents} />
-        </article>
-        <Spacer size={40} />
-        <PersonalCard border />
-        <Spacer size={100} />
-      </Box>
-    </>
+        {post.emoji}
+      </Text>
+      <Heading fontSize={["1.6em", "1.9em"]} fontWeight={500} id="post-title">
+        {post.title}
+      </Heading>
+      <Spacer size={12} />
+      <Text
+        color="rgba(0,0,0,.6)"
+        fontSize="1em"
+        as="time"
+        dateTime={post.date}
+      >
+        {formattedDate}
+      </Text>
+      <Spacer size={56} />
+      <article className="mdx-post-content">
+        <MDXContent components={mdxComponents} />
+      </article>
+      <Spacer size={40} />
+      <PersonalCard border />
+      <Spacer size={100} />
+    </Box>
   );
 }
 

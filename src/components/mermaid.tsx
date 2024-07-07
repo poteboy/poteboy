@@ -61,7 +61,7 @@ type Props = {
   className?: string;
 };
 
-export default function Mermaid({ src, className }: Props) {
+export default function Mermaid({ src, className, ...props }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,10 +71,10 @@ export default function Mermaid({ src, className }: Props) {
   }, [src]);
 
   return src ? (
-    <div className={className} ref={ref} key={src}>
+    <div className={className} ref={ref} key={src} {...props}>
       {src}
     </div>
   ) : (
-    <div className={className} key={src} />
+    <div className={className} key={src} {...props} />
   );
 }

@@ -25,7 +25,7 @@ Viteのように、開発時にはESModulesをそのまま使用し、本番ビ�
 
 他にもモジュール関連の提案はいくつか進行中で、それらの横断的な提案をまとめて[Module Harmony](https://docs.google.com/presentation/d/1mZrAHHimtM_z_8fM9L3DUXFz5bjlJPxx8VrwsC68hmk/edit#slide=id.p)という形で議論されています。
 
-さて、ここで「ESModulesをそのままブラウザで使用するのはまだ難しいんだね」で終わらせてしまっても良いのですが、本記事ではそこから一歩だけ踏み込んで、ESModulesの仕様からモジュール読み込みの仕組みと課題を理解し、さらにバンドラがESMを取り扱う上で抱える問題は何か、についてちょっとだけ考えてみたいと思います。
+さて、ここで「ESModulesをそのままブラウザで使用するのはまだ難しいんだね」で終わらせてしまっても良いのですが、本記事ではそこから一歩だけ踏み込んで、ECMAScriptの仕様からESModulesでモジュールが読み込まれるまでの仕組みを理解し、さらにバンドラがESMを取り扱う上で抱える課題は何か、についてちょっとだけ考えてみたいと思います。
 
 
 ## Module Record
@@ -55,7 +55,7 @@ graph TD;
 
 ```remark
 辺に向きがあるグラフの事を有向グラフといいます。 <br />
-強連結成分（SCC）とは、有向グラフにおいて、互いに行き来が可能な頂点の集合を指します。 <br />
+強連結成分（SCC）とは、有向グラフにおいて、互いに行き来が可能な頂点の集合を指します。強連結成分内の任意の2つの頂点は、それぞれから他方に到達可能です。<br />
 ```
 
 
@@ -94,11 +94,12 @@ HTML仕様の各ステップを詳細に追うことは膨大になるため省�
 
 1. モジュールの解決（Resolution）
     - [resolve a module specifier](https://html.spec.whatwg.org/multipage/webappapis.html#resolve-a-module-specifier)アルゴリズムを使用して、モジュールのspecifier（例: `./moduleA.js`）を解決し、モジュールのURLを取得します。
-    - つまり、**モジュールにつき必ずFetchが行われる**ことが分かります。
 2. モジュールの取得（Fetching）
     - [fetch a single imported module script](https://html.spec.whatwg.org/multipage/webappapis.html#fetch-a-single-imported-module-script)アルゴリズムを使用して、前ステップで取得したURLからモジュールスクリプトを取得します。
     - 他のモジュールを読み込み中（`modulMap`が`fetching`）の際は並行で待機し、タスクキューに追加されます。
     - 取得したモジュールが **Source Text Module Record** だった場合に、**LoadRequestedModules** を呼び出して依存関係を解決します。この時、依存関係のあるモジュールも再帰的に取得されます。
+
+これが、冒頭で述べていた`import`のコストが高い理由です。モジュールの数だけFetchが行われるため、**モジュールが増えれば増えるほど、階層が深くなれば深くなるほど読み込み時間が増加します。**
 
 さて、前章でModuele Recordの`Link`や`Evaluate`メソッドを呼び出すためには`LoadRequestedModules`が完了している必要があると述べました。
 
@@ -158,9 +159,10 @@ graph TD;
 4. 次にBの評価が完了し、`B.[[Status]]` = EVALUATEDに更新される
 5. 最後にAの評価が完了し、`A.[[Status]]` = EVALUATEDに更新される
 
-実際にGoogle Chromeでモジュール実行を検証してみても、期待通りにモジュールが評価されていることが確認できます。
+図1の通り、実際にGoogle Chromeでモジュール実行を検証してみても、期待通りにモジュールが評価されていることが確認できます。
 
 ![モジュールA、B、Cの同期実行](/post/20240705/simple-module.png)
+図1: モジュールA、B、Cの同期実行
 
 <br />
 
@@ -176,8 +178,6 @@ graph TD;
 ```
 
 この例では、モジュールAとBが互いに依存し合い、循環参照が発生しています。
-
-依存モジュールの評価は再帰的に行われ、既に評価中のモジュールはスキップされます。
 
 [InnerModuleEvaluation](https://tc39.es/ecma262/#sec-innermoduleevaluation)の仕様において、依存関係の評価順序は以下のように定義されています。
 
@@ -196,20 +196,21 @@ graph TD;
 4. 次に、Aのもう1つの依存関係であるCも同様に深さ優先探索で評価され、完了する。
 5. 最後にAの評価が完了し、`A.[[Status]]` = EVALUATEDに更新される。
 
-実際にGoogle Chromeでモジュール実行を検証してみても、期待通りにモジュールが評価されていることが確認できます。
+図2の通り、実際にGoogle Chromeでモジュール実行を検証してみても、期待通りにモジュールが評価されていることが確認できます。
 
 ![モジュールA、B、Cの循環参照における評価](/post/20240705/cycle-module.png)
+図2: モジュールA、B、Cの循環参照における評価
 
 <br />
 
 
 ### 非同期処理を伴う循環参照
 
-さて、ここまでの例では同期的な処理を前提としていましたが、ESModulesには非同期処理を伴うモジュールの評価も存在します。
+ここまでの例では同期的な処理を前提としていましたが、ESModulesには非同期処理を伴うモジュールの評価も存在します。
 
 そう、[Top Level Await（TLA）](https://github.com/tc39/proposal-top-level-await)です。
 
-先ほどまでに確認した通り、ESModulesにおけるモジュールの評価・実行はDFSの帰りがけ順（post-order）で最左端の部分木から行われ、再帰的に親ノードが評価されます。
+先ほどまでに確認した通り、ESModulesにおけるモジュールの評価・実行はDFSの帰りがけ順（post-order）で最左端の部分木から走査され、再帰的に親ノードが評価されます。
 
 つまり、ESModulesではモジュールの評価が決定される順序は決定的（deterministic）であり、どのような試行でも同じ結果が得られることが保証されていました。
 
@@ -246,9 +247,10 @@ await Promise.resolve("resolve c.mjs")
 console.timeEnd('c.mjs')
 ```
 
-この時、実行順序は前節で示したものと変わりません。ただし、`b.mjs`と`c.mjs`の評価が並列（concurrent）に行われるようになっています。
+この時、実行順序は前節で示したものと変わりません。ただし、`b.mjs`と`c.mjs`の評価が並行（concurrent）に行われるようになっています。
 
 ![モジュールA、B、Cの非同期循環参照における評価](/post/20240705/tla-all.png)
+図3: モジュールA、B、Cの非同期循環参照における評価
 
 <br />
 
@@ -267,22 +269,145 @@ console.timeEnd('b.mjs')
 すると、`b.mjs`の評価が遅延されるため、`c.mjs`の評価が先に完了することが確認できます。
 
 ![モジュールA、B、Cの非同期循環参照における評価（b.mjsの遅延）](/post/20240705/tla-delay.png)
+図4: モジュールA、B、Cの非同期循環参照における評価（b.mjsの遅延）
 
 <br />
 
-以上により、TLAな世界観においてはモジュールの解決は待機されず、**モジュールの評価が完了する順序は非決定的（non-deterministic）になる**ことが分かりました。
+TLAが提案された当初の仕様では、モジュールが解決する順序も従来の同期的な世界観と同じだった（つまり、b.mjsの評価を待機する仕様だった）のですが、Rollup作者のRich Harris氏による[Top-level await is a footgun](https://gist.github.com/Rich-Harris/0b6f317657f5167663b493c722647221)というGistなどをきっかけに、variant Bとして複数のTLAを並行で処理するように仕様が変更される形になったようです。
+
+> When an asynchronous execution for a root module is fulfilled, this function determines the list of modules which are able to synchronously execute together on this completion, populating them in execList. <br />
+> [Top Level Await](https://tc39.es/proposal-top-level-await/#sec-gather-async-parent-completions)
+
+以上により、TLAな世界観においてはモジュールの解決は待機されず並行で処理され、**モジュールの評価が完了する順序は非決定的（non-deterministic）になる**ことが分かりました。
+
+ちなみに、今回はChrome（すなわちV8エンジン）での挙動を確認しましたが、Top Level Awaitの仕様は主要ブラウザであっても完全に満たせているわけではないようです。
+
+例えばWebKitでは、複数のモジュールが同時にTLAを含むコードをインポートして時に`ReferenceError`が起きることが報告されています[^6]。
 
 
 ## バンドラでのTop Level Awaitの扱い
 
-ところで、各バンドラではTop Level Await（TLA）を含むモジュールはどのように扱われるのでしょうか。
+ところで、各バンドラでTop Level Await（TLA）を含むモジュールはどのように扱われるのでしょうか。
 
 モジュールバンドラの役割は、モジュールの依存関係を解決し、それらを1つのファイルにまとめることです（Code Splittingなどは簡単のために省略）。
 
 そのため、TLAを含むモジュールをどうエミュレートするか、というのはバンドラの実装において重要な課題となります。
 
-次に、Viteのように開発時にはESModulesをそのまま使用し、本番ビルド時にバンドルするというアプローチを取るバンドラではどうでしょうか。
+そこで本章では、各バンドラがTLAをどのように扱うか実際に検証してみましょう。
 
+### Vite
+
+次にViteでTLAを含むモジュールをバンドルしてみます。
+
+今回検証に使用するViteのバージョンは`^5.92.1`です。
+
+すると、以下のような結果が得られました。
+
+V8で検証した挙動と異なり、Promiseの解決は並行で行われず、逐次的に処理されていることが確認できます。
+
+![ViteでのTLAの結果](/post/20240705/tla-vite.png)
+図5: ViteでのTLAの結果
+
+バンドルされたコードを見てみると、DFSの結果に応じて直列で実行されていることが確認できます。
+
+```js
+console.time("b.mjs");
+await Promise.resolve("resolve b.mjs");
+console.timeEnd("b.mjs");
+
+console.time("c.mjs");
+await Promise.resolve("resolve c.mjs");
+console.timeEnd("c.mjs");
+
+console.time("a.mjs");
+await Promise.resolve("resolve a.mjs");
+console.timeEnd("a.mjs");
+```
+
+### webpack
+
+次に、webpackの挙動を確認してみます。
+
+今回検証に使用するwebpackのバージョンは`^5.92.1`です。
+
+ちなみに一点注意点として、webpackではESModulesとCommonJSの判定を[HarmonyDetectionParserPlugin](https://github.com/webpack/webpack/blob/main/lib/dependencies/HarmonyDetectionParserPlugin.js)というプラグイン行っていて、ソースファイル内の`import`や`export`の有無を元に判定しています。
+
+なので、`import/export`文の含まれていないファイルはCommonJSとして扱われるので、そのようなファイルでTLAを使用した場合構文エラーになります。
+
+```js
+// lib/dependencies/HarmonyDetectionParserPlugin.js
+if (!HarmonyExports.isEnabled(parser.state)) {
+    throw new Error("Top-level-await is only supported in EcmaScript Modules");
+  }
+```
+
+前章で使用した`a.js`、`b.js`、`c.js`をwebpackでバンドルし、その結果を確認してみたところ、以下のような結果が得られました。
+
+![webpackでのTLAの結果](/post/20240705/tla-webpack.png)
+図6: webpackでのTLAの結果
+
+結果からわかる通り、webpackではTLAを含むモジュールを本来の操作的意味論を変えずに実行できていることが確認できます。
+
+webpackがどのようにTLAの挙動をエミュレートしているか、バンドルされた結果から確認してみましょう。
+
+```js
+__webpack_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
+    /* harmony import */ var _b_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./cycle/b.mjs");
+    /* harmony import */ var _c_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./cycle/c.mjs");
+    var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_b_mjs__WEBPACK_IMPORTED_MODULE_0__, _c_mjs__WEBPACK_IMPORTED_MODULE_1__]);
+    ([ _b_mjs__WEBPACK_IMPORTED_MODULE_0__, _c_mjs__WEBPACK_IMPORTED_MODULE_1__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
+
+    console.time('a.mjs');
+
+    await Promise.resolve("resolve a.mjs");
+
+    console.timeEnd('a.mjs');
+    __webpack_async_result__();
+} catch(e) { __webpack_async_result__(e); } }, 1);
+```
+
+コードを見ると、`__webpack_require__.a`という関数が使用していることがわかります。この関数は、モジュールを非同期に評価するためのラッパー関数として非同期依存関係の解決を待ち、それが完了した後にモジュールの評価を続行します。
+
+`__webpack_require__.a`の[実装](https://github.com/webpack/webpack/blob/dd44b206a9c50f4b4cb4d134e1a0bd0387b159a3/examples/top-level-await/README.md?plain=1#L239-L271)を追ってみましょう。
+
+まず、非同期モジュールの評価を待機する関数のリストをキューに保持します。`hasAwait`が真の場合、キューを初期化します。
+
+```js
+var queue;
+hasAwait && ((queue = []).d = 1);
+```
+
+次に、非同期モジュールの評価が完了するのを待つために、Promiseを使用して評価の順序を管理します。
+
+```js
+var promise = new Promise((resolve, rej) => {
+    reject = rej;
+    outerResolve = resolve;
+});
+promise[webpackQueues] = (fn) => (queue && fn(queue), depQueues.forEach(fn), promise["catch"](x => {}));
+```
+
+依存関係がラップされ、それらがPromiseである場合は解決を待ち、それが完了した後にモジュールの評価を続行します。
+
+```js
+currentDeps = wrapDeps(deps);
+var getResult = () => (currentDeps.map((d) => {
+        if(d[webpackError]) throw d[webpackError];
+        return d[webpackExports];
+}))
+return fn.r ? promise : getResult();
+```
+
+<br />
+
+### エコシステムの難しさ
+
+ちなみに、今回は循環参照を含むTLAでの挙動を確認しましたが、今の所V8/nodeの挙動を完全に再現できているバンドラは存在しません。
+
+これはesbuild開発者の[Evan Wallace](https://github.com/evanw/tla-fuzzer)が公開している[リポジトリ](https://github.com/evanw/tla-fuzzer)からも確認できる通り、webpackでさえも循環参照を含むケースでは適応率は100%にならないようです。
+
+![tla-fuzzer](/post/20240705/tla-fuzzer.png)
+図7: tla-fuzzer
 
 
 ## 余談
@@ -291,13 +416,13 @@ console.timeEnd('b.mjs')
 
 というのも、私はあまりプラットフォーム側の動向に関心が薄く、どちらかといえばエコシステム側で行われる技術発展に興味を持っています。
 
+JavaScriptは元来ここまで高速に動く言語ではありませんでした。しかし、ブラウザで動く唯一の言語であるという業を背負っているため、少しでも高速化するために仕様制定者や処理系開発者だけでなく、エコシステム側の開発者も日々改善を重ねてきました。
+
 例えば最近話題になった[React Compiler](https://react.dev/learn/react-compiler)では、コンパイルターゲットがJavaScriptであるにもかかわらず静的単一代入を用いて定数畳み込みのような最適化を施しています。
 
-JavaScriptは元来ここまで高速に動く言語ではありませんでした。しかし、ブラウザで動く唯一の言語であるという業を背負っているため、少しでも高速化するために言語仕様制定者や処理系開発者だけでなく、エコシステム側の開発者も日々改善を重ねてきました。
+私は、そんなエコシステムの営みが好きです。ただ最近は、ユーザー側でより良い方向にJavaScriptエコシステムを発展させていくためには、仕様を理解しJavaScriptの現在地点を把握することも重要なのかもしれないと考えるようになりました。
 
-私は、そんなエコシステムの営みが好きです。ただし、ユーザー側でより良い方向にJavaScriptエコシステムを発展させていくためには、仕様を理解しJavaScriptの現在地点を把握することが重要なのかもしれないと考えるようになりました。
-
-そういう経緯で今回頑張って仕様書を読んでみました。でもやっぱりエコシステムの話が好きなのでエコシステムの検証も混ぜました。おわり
+そういう経緯で今回頑張って仕様書を読んでみて、エコシステムとプラットフォーム両方の観点からJavaScriptの世界を見てみました。おわり。
 
 
 [^1]: [requires to access .default after build while it's not required in dev (CJS dependency)](https://github.com/vitejs/vite/issues/2139)
@@ -307,3 +432,5 @@ JavaScriptは元来ここまで高速に動く言語ではありませんでし�
 [^4]: 実際にはさらに内部関数である[InnerModuleLoading](https://tc39.es/ecma262/#sec-InnerModuleLoading)内で行われます。
 
 [^5]: 実際の走査はより複雑ですが、さらに詳しく知りたい方は仕様書の[InnerModuleLinking](https://tc39.es/ecma262/#sec-InnerModuleLinking)より詳細を確認してください。
+
+[^6]: [`[JSC] ReferenceError when multiple modules are simultaneously importing a module containing a top-level await`](https://bugs.webkit.org/show_bug.cgi?id=242740)
