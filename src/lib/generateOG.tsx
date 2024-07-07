@@ -34,7 +34,7 @@ export async function generateOgImage({
       >
         <img
           src={
-            "https://github.com/poteboy/poteboy/blob/ebe0925b05f8a200b11757018a5cb077c47298b2/public/ogp.png?raw=true"
+            "https://raw.githubusercontent.com/poteboy/poteboy/6d1ba2e14879510138cbffe5238e7d484b92dc23/public/opengraph.png"
           }
           alt=""
           role="presentation"
