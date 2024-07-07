@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import OGImage from "../../public/ogp.jpg";
+import OGImage from "../../public/ogp.png";
 
 type Size = {
   width: number;
@@ -33,7 +33,9 @@ export async function generateOgImage({
         }}
       >
         <img
-          src="https://poteboy.dev/ogp.jpg"
+          src={
+            "https://github.com/poteboy/poteboy/blob/ebe0925b05f8a200b11757018a5cb077c47298b2/public/ogp.png?raw=true"
+          }
           alt=""
           role="presentation"
           style={{
@@ -59,8 +61,8 @@ export async function generateOgImage({
               style={{
                 zIndex: 2,
                 textAlign: "center",
-                color: "black",
-                fontSize: "3em",
+                color: "#191a1e",
+                fontSize: "3.2em",
                 fontWeight: 800,
                 margin: "auto",
                 transform: "translateY(-30%)",
