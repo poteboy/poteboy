@@ -1,11 +1,22 @@
 import { ImageResponse } from "next/og";
+import OGImage from "../../public/ogp.png";
 
 type Size = {
   width: number;
   height: number;
 };
 
-export async function generateOgImage({ size }: { size: Size }) {
+export async function generateOgImage({
+  size = {
+    width: 1200,
+    height: 600,
+  },
+  title,
+}: {
+  size?: Size;
+  title: string;
+  emoji?: string;
+}) {
   return new ImageResponse(
     (
       <div
@@ -22,7 +33,9 @@ export async function generateOgImage({ size }: { size: Size }) {
         }}
       >
         <img
-          src="/ogp.jpg"
+          src={
+            "https://raw.githubusercontent.com/poteboy/poteboy/6d1ba2e14879510138cbffe5238e7d484b92dc23/public/opengraph.png"
+          }
           alt=""
           role="presentation"
           style={{
@@ -31,8 +44,36 @@ export async function generateOgImage({ size }: { size: Size }) {
             left: 0,
             width: "100%",
             height: "100%",
+            zIndex: 1,
           }}
         />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "88%",
+            marginInline: "auto",
+          }}
+        >
+          {title.split(" ").map((word, i) => (
+            <h1
+              style={{
+                zIndex: 2,
+                textAlign: "center",
+                color: "#191a1e",
+                fontSize: "3.2em",
+                fontWeight: 800,
+                margin: "auto",
+                transform: "translateY(-30%)",
+              }}
+              key={word + i.toString()}
+            >
+              {word}
+              <br />
+            </h1>
+          ))}
+        </div>
       </div>
     ),
     {

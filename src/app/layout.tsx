@@ -1,5 +1,5 @@
 import { TootTip } from "@/components/tool-tip";
-import { Box, HStack, VStack, css, k } from "@kuma-ui/core";
+import { Box, HStack, VStack, css, k, Flex } from "@kuma-ui/core";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
@@ -24,12 +24,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <k.body className={inter.className}>
-        <HStack minHeight="100vh" width="100%" position="relative">
+        <Flex
+          flexDir={["column", "row"]}
+          minHeight="100vh"
+          width="100%"
+          position="relative"
+        >
           <SideBar />
-          <k.main mx="auto" px={["1.5rem", "2.5rem"]} width="849px">
+          <k.main mx="auto" px={["1.5rem", "2.5rem"]} width={["100%", "849px"]}>
             {children}
           </k.main>
-        </HStack>
+        </Flex>
         <MenuButton />
       </k.body>
     </html>

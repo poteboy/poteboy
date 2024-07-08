@@ -57,7 +57,7 @@ export default function JobPage() {
             </HStack>
             <HStack fontSize={14} gap={8}>
               <Text as="dt">メールアドレス:</Text>
-              <Text as="dd">poteboy.dev [at] gmail.com</Text>
+              <Text as="dd">pote [at] pote.land</Text>
             </HStack>
           </VStack>
           <Box as="section" mt={32}>

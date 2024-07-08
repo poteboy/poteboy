@@ -7,6 +7,10 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: false,
 });
 
+const withMDX = require("@next/mdx")({
+  options: {},
+});
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -18,4 +22,6 @@ const nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(withKumaUI(withContentlayer(nextConfig)));
+module.exports = withBundleAnalyzer(
+  withKumaUI(withContentlayer(withMDX(nextConfig))),
+);

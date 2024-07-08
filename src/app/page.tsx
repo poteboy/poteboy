@@ -77,12 +77,6 @@ export default function Home() {
           link="https://speakerdeck.com/poteboy"
           bg="#f0fff9"
         />
-        <LinkCard
-          siteName="connpass"
-          image="/siteLogo/connpass.png"
-          link="https://connpass.com/user/_poteboy_"
-          bg="#fcf1f1"
-        />
       </VStack>
       <Spacer size={40} />
       <Box
@@ -103,7 +97,7 @@ export default function Home() {
         >
           お仕事依頼はこちら
         </NextLink>
-        <Spacer size={52} />
+        <Spacer size={64} />
       </Box>
     </Box>
   );
