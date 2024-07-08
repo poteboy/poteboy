@@ -38,10 +38,7 @@ export async function generateMetadata({
     throw new Error("Post not found");
   }
 
-  const origin =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3001"
-      : "https://poteboy.dev";
+  const origin = "https://poteboy.dev";
 
   return {
     title: `${post.title} | poteboy`,

@@ -70,11 +70,9 @@ export default function Mermaid({ src, className, ...props }: Props) {
     }
   }, [src]);
 
-  return src ? (
+  return (
     <div className={className} ref={ref} key={src} {...props}>
       {src}
     </div>
-  ) : (
-    <div className={className} key={src} {...props} />
   );
 }

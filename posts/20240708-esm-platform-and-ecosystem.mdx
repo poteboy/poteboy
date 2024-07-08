@@ -366,20 +366,30 @@ __webpack_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 } catch(e) { __webpack_async_result__(e); } }, 1);
 ```
 
-コードを見ると、`__webpack_require__.a`という関数が使用していることがわかります。この関数は、モジュールを非同期に評価するためのラッパー関数として非同期依存関係の解決を待ち、それが完了した後にモジュールの評価を続行します。
+まず初めに、`__webpack_require__`という関数が登場しました。これはモジュールをロードするための関数で、この処理は同期的に行われます。
 
-`__webpack_require__.a`の[実装](https://github.com/webpack/webpack/blob/dd44b206a9c50f4b4cb4d134e1a0bd0387b159a3/examples/top-level-await/README.md?plain=1#L239-L271)を追ってみましょう。
+続けてコードを見ると、`__webpack_require__.a`という関数を使用しています。この関数は、モジュールを非同期に評価するためのラッパー関数で、引数の`__webpack_handle_async_dependencies__`を用いて非同期的にモジュールをロードします。
 
-まず、非同期モジュールの評価を待機する関数のリストをキューに保持します。`hasAwait`が真の場合、キューを初期化します。
+さらに詳しく[実装](https://github.com/webpack/webpack/blob/dd44b206a9c50f4b4cb4d134e1a0bd0387b159a3/lib/runtime/AsyncModuleRuntimeModule.js#L13)を追ってみましょう。
+
+まず、非同期モジュールの評価を待機する関数のリストをキューに保持し、非同期モジュールの評価が完了するのを待つために、Promiseを使用して評価を管理します。
 
 ```js
+// 依存関係の評価が完了した際にキュー内の関数を実行する
+var resolveQueue = (queue) => {
+    // `queue.d`はキューが解決されたかどうかを示すフラグ。
+    if(queue && queue.d < 1) {
+        queue.d = 1;
+        queue.forEach((fn) => (fn.r--));
+        // `fn.r`は未解決の依存関係の数
+        // 依存関係がまだ残っている場合はカウントを戻し、依存が全て解決された場合は関数を実行する
+        queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
+    }
+}
+
 var queue;
-hasAwait && ((queue = []).d = 1);
-```
-
-次に、非同期モジュールの評価が完了するのを待つために、Promiseを使用して評価の順序を管理します。
-
-```js
+hasAwait && ((queue = []).d = -1);
+// 省略
 var promise = new Promise((resolve, rej) => {
     reject = rej;
     outerResolve = resolve;
@@ -387,20 +397,37 @@ var promise = new Promise((resolve, rej) => {
 promise[webpackQueues] = (fn) => (queue && fn(queue), depQueues.forEach(fn), promise["catch"](x => {}));
 ```
 
-依存関係がラップされ、それらがPromiseである場合は解決を待ち、それが完了した後にモジュールの評価を続行します。
+次に、非同期モジュールのロードと評価の具体的なフローを見てみます。
 
 ```js
-currentDeps = wrapDeps(deps);
-var getResult = () => (currentDeps.map((d) => {
-        if(d[webpackError]) throw d[webpackError];
+// 即時実行関数式
+body((deps) => {
+    currentDeps = wrapDeps(deps); // 依存関係がPromiseであるかどうかを確認し、結果を`webpackExports`に格納する
+    var fn;
+    var getResult = () => (currentDeps.map((d) => {
+        if (d[webpackError]) throw d[webpackError];
         return d[webpackExports];
-}))
-return fn.r ? promise : getResult();
+    }));
+    var promise = new Promise((resolve) => {
+        fn = () => (resolve(getResult));
+        fn.r = 0;
+        var fnQueue = (q) => (q !== queue && !depQueues.has(q) && (depQueues.add(q), q && !q.d && (fn.r++, q.push(fn))));
+        currentDeps.map((dep) => (dep[webpackQueues](fnQueue)));
+    });
+    return fn.r ? promise : getResult();
+}, (err) => ((err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue)));
+queue && queue.d < 0 && (queue.d = 0);
 ```
+
+非同期モジュールの評価が完了すると`resolveQueue`関数が呼び出され、キュー内の関数が実行されることが分かります。
+
+この仕組みにより、webpackではTLAを含むモジュールの評価を非同期的に行うことができるようになっています。
 
 <br />
 
 ### エコシステムの難しさ
+
+ここまでで、ESModulesにおけるモジュールの評価の流れと、バンドラでのTop Level Await（TLA）の扱いについて確認してきました。
 
 ちなみに、今回は循環参照を含むTLAでの挙動を確認しましたが、今の所V8/nodeの挙動を完全に再現できているバンドラは存在しません。
 
@@ -409,8 +436,9 @@ return fn.r ? promise : getResult();
 ![tla-fuzzer](/post/20240705/tla-fuzzer.png)
 図7: tla-fuzzer
 
-
 ## 余談
+
+本記事ではECMAScriptとHTMLの仕様書から、ESModulesにおけるモジュールの評価の流れを追い、バンドラでのTop Level Await（TLA）の扱いについて検証してきました。
 
 普段から私のことを知っている人にとっては、私らしくない記事だという印象を受けた方もいるかもしれません。
 
@@ -422,7 +450,7 @@ JavaScriptは元来ここまで高速に動く言語ではありませんでし�
 
 私は、そんなエコシステムの営みが好きです。ただ最近は、ユーザー側でより良い方向にJavaScriptエコシステムを発展させていくためには、仕様を理解しJavaScriptの現在地点を把握することも重要なのかもしれないと考えるようになりました。
 
-そういう経緯で今回頑張って仕様書を読んでみて、エコシステムとプラットフォーム両方の観点からJavaScriptの世界を見てみました。おわり。
+そういう経緯で今回頑張って仕様書を読んでみて、エコシステムとプラットフォーム両方の観点からJavaScriptの世界を見てみました。疲れてきたので今日はこの辺で。
 
 
 [^1]: [requires to access .default after build while it's not required in dev (CJS dependency)](https://github.com/vitejs/vite/issues/2139)
