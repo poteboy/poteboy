@@ -71,8 +71,12 @@ export default function JobPage() {
             </Heading>
             <VStack as="dl" padding="12px" gap={16}>
               <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
-                <Text as="dt">準委任契約での開発支援:</Text>
-                <Text as="dd">¥8,250~ / 1時間</Text>
+                <Text as="dt">
+                  <s>準委任契約での開発支援:</s>
+                </Text>
+                <Text as="dd">
+                  <s>¥8,250~ / 時間</s> 現在募集しておりません。
+                </Text>
               </Flex>
               <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
                 <Text as="dt">チャット常駐形式での技術アドバイザリー:</Text>

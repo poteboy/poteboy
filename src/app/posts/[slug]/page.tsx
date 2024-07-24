@@ -1,7 +1,7 @@
 import { allPosts } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { notFound } from "next/navigation";
-import { Box, css, Heading, Spacer, Text, VStack } from "@kuma-ui/core";
+import { Box, css, Heading, HStack, Spacer, Text, VStack } from "@kuma-ui/core";
 import type { MDXComponents } from "mdx/types";
 import { Code } from "bright";
 import type { ReactNode } from "react";
@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { Remark } from "@/components/remark";
 import Image, { type ImageProps } from "next/image";
 import { ShareCardFooter } from "./share-card-footer";
+import { Category, isCategory, pickCategoryColor } from "@/lib/category";
 
 const Mermaid = dynamic(() => import("@/components/mermaid"), {
   ssr: false,
@@ -71,6 +72,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
     day: "numeric",
   });
 
+  const category: Category = isCategory(post.category)
+    ? post.category
+    : "diary";
+
   return (
     <Box
       className={css`
@@ -95,14 +100,30 @@ export default async function Page({ params }: { params: { slug: string } }) {
         {post.title}
       </Heading>
       <Spacer size={12} />
-      <Text
-        color="rgba(0,0,0,.6)"
-        fontSize="1em"
-        as="time"
-        dateTime={post.date}
-      >
-        {formattedDate}
-      </Text>
+      <HStack gap={16} alignItems="center">
+        <Text
+          color="rgba(0,0,0,.6)"
+          fontSize="1em"
+          as="time"
+          dateTime={post.date}
+        >
+          {formattedDate}
+        </Text>
+        <Text
+          as="span"
+          aria-label="category"
+          fontSize="12px"
+          paddingX={6}
+          paddingY={2}
+          borderRadius={8}
+          style={{
+            backgroundColor: pickCategoryColor(category),
+            color: "white",
+          }}
+        >
+          {category}
+        </Text>
+      </HStack>
       <Spacer size={56} />
       <article className="mdx-post-content">
         <MDXContent components={mdxComponents} />

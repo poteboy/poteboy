@@ -10,6 +10,7 @@ export const Post = defineDocumentType(() => ({
     language: { type: "list", of: { type: "string" }, required: true },
     emoji: { type: "string", required: true },
     published: { type: "boolean", required: true },
+    category: { type: "string", required: true }, // lib/category.ts
   },
   computedFields: {
     url: {

@@ -65,7 +65,8 @@ export async function generateOgImage({
                 fontSize: "3.2em",
                 fontWeight: 800,
                 margin: "auto",
-                transform: "translateY(-30%)",
+                transform: "translateY(-20%)",
+                wordBreak: "keep-all",
               }}
               key={word + i.toString()}
             >
