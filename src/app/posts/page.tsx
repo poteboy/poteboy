@@ -1,3 +1,4 @@
+import { Category, isCategory, pickCategoryColor } from "@/lib/category";
 import { Box, css, Heading, HStack, Spacer, Text, VStack } from "@kuma-ui/core";
 import { allPosts, type Post } from "contentlayer/generated";
 import Link from "next/link";
@@ -21,6 +22,10 @@ export default function Posts() {
 }
 
 const PostCard = (post: Post) => {
+  const category: Category = isCategory(post.category)
+    ? post.category
+    : "diary";
+
   const formattedDate = new Date(post.date).toLocaleDateString("ja-JP", {
     year: "numeric",
     month: "long",
@@ -58,14 +63,30 @@ const PostCard = (post: Post) => {
           <Heading as="h2" fontSize="1.5em" fontWeight={500} color="black">
             {post.title}
           </Heading>
-          <Text
-            as="time"
-            fontSize="12px"
-            color="rgba(0,0,0,.6)"
-            dateTime={new Date(post.date).toISOString()}
-          >
-            {formattedDate}
-          </Text>
+          <HStack gap={16} alignItems="center">
+            <Text
+              as="time"
+              fontSize="12px"
+              color="rgba(0,0,0,.6)"
+              dateTime={new Date(post.date).toISOString()}
+            >
+              {formattedDate}
+            </Text>
+            <Text
+              as="span"
+              aria-label="category"
+              fontSize="12px"
+              paddingX={6}
+              paddingY={2}
+              borderRadius={8}
+              style={{
+                backgroundColor: pickCategoryColor(category),
+                color: "white",
+              }}
+            >
+              {category}
+            </Text>
+          </HStack>
         </VStack>
       </HStack>
     </Link>
