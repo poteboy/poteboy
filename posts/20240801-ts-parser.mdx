@@ -1,0 +1,408 @@
+---
+title: "TypeScriptパーサは如何にGenericsを処理するか"
+date: "2024-08-01"
+language: ["ja"]
+emoji: "🧩"
+published: true
+category: "tech"
+---
+
+TypeScriptには、[Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html)という機能があります。Genericsは、型をパラメータ化することで型の再利用性を高めるための機能です。
+
+例えば、以下のように関数に`<T>`という型パラメータを指定することで、関数の引数の型が`T`であることを示すことができます。
+
+```typescript
+function identity<T>(arg: T): T {
+  return arg;
+}
+```
+
+これは、当然JavaScriptには無い機能です。そのため、TypeScriptのパーサは、JavaScriptには無い構文までまとめて解析する必要があります。
+
+ここで厄介なのが、JSXの構文も考慮に入れた時、 **TypeScript（TSX）の構文を適切に処理するのは非常に難しい** ということです。
+
+例えばTypeScriptで以下のコードを書いた時、私はTypeScriptが`<T>`を型パラメータとして認識することを意図しています。
+
+```typescript
+const a = <T>(b: T) => b;
+```
+
+しかし、[AST Explorer](https://astexplorer.net/)などでTypeScriptパーサが生成する抽象構文木（AST）を確認すると、この`<T>`はGenericsではなく`JsxOpeningElement`、すなわちJSXの開始タグとして解釈されてしまいます。
+
+これは意図した挙動ではありませんので、このままでは構文エラーになってしまいます。
+
+TypeScriptにこの`T`が型パラメータであることを正しく解釈させるためには、以下のようにカンマ`,`を挿入する必要があります。
+
+```typescript
+const a = <T,>(b: T) => b;
+```
+
+するとTypeScriptが生成するASTは`<T,>`を`TypeParameter`として解釈し、本来意図した通りになります。
+
+一体なぜでしょうか。
+
+もしも `const a = <T>`という構文がJSXの文法上正しければ、JSの[Automatic Semicolon Insertion（ASI）](https://en.wikibooks.org/wiki/JavaScript/Automatic_semicolon_insertion)により以下のように解釈されたと考えることができます。
+
+```typescript
+const a = <T>;
+(b: T) => b;
+```
+
+しかし、これは正しくありません。[JSXの仕様](https://facebook.github.io/jsx/#sec-jsx-elements-early-errors)上、JSXの開始タグは対応する終了タグが必要です。そのため、`const a = <T>(x: T) => <div>{x}</div>;`を意図通りに解釈しない理由に疑問が生じます。
+
+
+そこで本記事では、TypeScriptのパーサがGenericsをどのように処理しているか、なぜこのような挙動になっているのかについて考えてみたいと思います。
+
+
+## プログラミング言語処理系の入門
+
+TypeScriptのパーサについて考える前に、プログラミング言語の構文がどのように解析されるかについて知っておく必要があります。
+
+本来このテーマだけでも数冊の本が書けるほど奥が深い分野ですが、処理系を厳密に定義するのは本記事の趣旨とは異なるため、ここでは厳密性を犠牲にしてなるべく簡潔かつゆるふわに説明します。
+
+あくまで導入部分だけに留めるため、少しでもかじったことがある方は次章に進んでください。
+
+### 処理系の流れ
+
+さて、プログラミング言語は通常コンパイラやインタプリタと呼ばれる処理系によって解釈されます。
+
+コンパイラはおおまかに以下のようなフェーズで構成されています。インタプリタは異なる挙動を示すこともありますが、基本的な解析フェーズは共通する部分も多いです。
+
+1. **字句解析（Lexical Analysis）**：ソースコードをトークン（字句）に分割する処理
+2. **構文解析（Syntax Analysis）**：トークン列を文法規則に従って解析し、抽象構文木（AST）を生成する処理
+3. **意味解析（Semantic Analysis）**：生成されたASTに対して型チェックや変数のスコープ解決などを行う処理
+4. **中間表現（Intermediate Representation）**：ASTを中間表現に変換する処理
+5. **最適化（Optimization）**：中間表現を最適化する処理
+6. **コード生成（Code Generation）**：最適化された中間表現から機械語やバイトコードを生成する処理
+
+今回焦点となるのは、この中でも**構文解析**のフェーズです。
+
+通常プログラムは、文字列で書かれたソースコードとして与えられます。この文字列をトークンに分割する処理が字句解析です。
+
+例えば、以下のようなJavaScriptのコードが与えられたとします。
+
+```javascript
+const a = 1 + 2;
+```
+
+このコードは、以下のようなトークン列に分割されます。
+
+```json
+{ "Token": "ConstKeyword", "Value": "const" }, 
+{ "Token": "Identifier", "Value": "a" }, 
+{ "Token": "EqualsToken", "Value": "=" }, 
+{ "Token": "NumericLiteral", "Value": "1" }, 
+{ "Token": "PlusToken", "Value": "+" }, 
+{ "Token": "NumericLiteral", "Value": "2" }, 
+{ "Token": "SemicolonToken", "Value": ";" }
+```
+
+このようなトークン列を文法規則に従って解析し、抽象構文木（AST）を生成する処理が構文解析です。
+
+### 構文解析と抽象構文木（AST）
+
+抽象構文木（Abstract Syntax Tree, AST）は、プログラムの構造を木構造で表現したものです。
+
+ESLintのプラグインや、webpack用のプラグインの作成で触れたことがある方も多いかと思います。
+
+例えば、任意のプログラミング言語で書かれた以下のコードが与えられたとします。
+
+```javascript
+1 + 2 * 3
+```
+
+このコードは、以下のようなASTに変換されます。
+
+<img src="/post/20240801/simple-ast.png" alt="1 + 2 * 3のAST" width="400" style={{ margin: '0 auto', paddingBottom: 20 }} loading='lazy' decoding="async"  />
+
+ここで注目して頂きたいのは、演算子の優先順位に基づいて、乗算部分が加算部分よりも一段深い階層になっていることです。
+
+このような構文規則を厳密に定義する方法はいくつかありますが、代表的なものに **バッカス・ナウア記法（BNF）** があります。
+
+BNFを用いて、上記の例のような四則演算の構文規則を定義すると以下のようになります。
+
+```text
+<式> ::= <式> + <項> | <式> - <項> | <項>
+<項> ::= <項> * <因子> | <項> / <因子> | <因子>
+<因子> ::= ( <式> ) | <数>
+<数> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+```
+
+このとき、"0"や"1"などの文字列はこれ以上分解できない最小の単位であるので **終端記号** と呼ばれます。
+
+一方、`<式>`や`<項>`などの記号は、終端記号や他の非終端記号に展開されるため **非終端記号** と呼ばれます。
+
+`<式>`は`<式> + <項>` or `<式> - <項>` or `<項>`に、`<項>`は`<項> * <因子>` or `<項> / <因子>` or `<因子>`に展開されるため、先ほどの例のように演算子の優先順位を表現することができます。
+
+
+```remark
+`1 + 2 - 3`のように同じ優先度を持つ演算子が連続する場合、`(1 + 2) - 3`と解釈される場合に <b>左結合性</b> があると言い、`1 + (2 - 3)`と解釈される場合に <b>右結合性</b> があると言います。 <br />
+```
+
+<br />
+
+### LL(1)文法と再帰下降パーサ
+
+
+ここで、アルファベットの大文字を非終端記号、小文字を終端記号として、以下のようなBNFで表現される構文規則があるとします。
+
+```text
+S ::= aBc
+B ::= b(c | ε)
+```
+
+この構文規則に従って、仮に文字列`abc`を入力として受け取ったすると、`B ::= b(c | ε)`の構文規則に従って`b`の後にもし`c`を選択した場合、`abcc`となり、入力文字列と一致しません。
+
+一方、空文字`ε`を選択した場合、`abc`となり、入力文字列と一致します。
+
+ここで`b`の後に`c`を選択して間違いに気づき、一歩手前に戻って`ε`を選択する手法を **バックトラック** と呼びます。
+
+「または」のどちらかを選択する際に、バックトラックなしで入力の先端記号を1つ見るだけで選択できる文法を **LL(1)文法** と呼びます。
+
+「LL」という名称は「左から右にスキャンする（Left-to-right）」と「最左導出（Leftmost derivation）」を意味し、k文字先を見て選択できる文法を一般にLL(k)と呼びますが、殆どのケースでLLパーサというと単にLL(1)パーサを指していることが多いです。
+
+先ほど例に出した `1 + 2 * 3` という算術式は、LL(1)文法に従って解析することができます。上から順に対応させていくと1は`<数>`、+は`<項>`、2は`<数>`、*は`<因子>`、3は`<数>`にそれぞれ1トークン消費するだけで対応付けすることが可能です。
+
+このように、構文規則をトップダウンで全ての非終端記号に対して再帰的に処理する手法を <b>再帰下降パーサ</b> と呼びます。
+
+厳密には異なりますが、JavaScriptの文法はLL(1)文法に近いため、今回対象となるTypeScriptのパーサも再帰下降で実装されています。
+
+しかし、TypeScriptはJavaScriptの構文に加えて、TypeScript独自の構文を持っているため、1トークン先を見ても選択できない場合が多々あります。
+
+そしてここにJSXも加わると、さらに複雑な構文解析が必要になることは想像に難くありません。
+
+次章では、TypeScriptパーサの実装からその仕組みを探ってみたいと思います。
+
+```remark
+ちなみに、バックトラックを行う再帰下降パーサは、 <b>PEG（Parsing Expression Grammar）</b> と呼ばれる文法で表現されます。 <br />
+バックトラックには指数的な計算量がかかるため、解析結果をメモ化しておくPackrat Parserなどもあります。
+```
+
+## Deep Dive: TypeScriptパーサ
+
+さて、ここまでで字句解析機（スキャナ）が分解したトークン列を構文解析器（パーサ）がどのように解析して抽象構文木（AST）を生成するかについて説明しました。
+
+それではようやく本題である **TypeScriptのパーサがGenerics`<T>`を特定の状況下でJSXの開始タグとして解釈してしまう理由** について考えてみましょう。
+
+この問題が最初に取り上げられたのは恐らく2017年の[Generic usage reported as JSX Error](https://github.com/microsoft/TypeScript/issues/15713#issuecomment-300545248)というIssueで、この指摘に対して元TypeScriptチームのEngineering Managerである[Mohamed Hegazy](https://github.com/mhegazy)氏は以下のようにコメントしています。
+
+> This is a limitation cased by the use of `<T>` for generic type parameter declarations. combined with JSX grammar, it makes such components ambiguous to parse. <br />
+> 日本語訳: これは、一般的な型パラメーターの宣言に `<T>` を使用することによる制限です。JSXの文法と組み合わせると、このようなコンポーネントのパースが曖昧になります。
+
+すなわち冒頭の考察通り、この挙動は仕様として正しいものではなく、パーサがGenerics`<T>`をJSXの開始タグと識別するのに技術的な制約があるため、このような挙動になっているということが分かります。
+
+この事実を踏まえ、TypeScriptパーサの実装を見てみましょう。実装は[TypeScriptのリポジトリ](https://github.com/microsoft/TypeScript)から確認することができます。
+
+TypeScriptのパーサは、`typescript/src/compiler/parser.ts`に実装されています。なんとこのファイル単体だけでも **1万行以上**あり非常に膨大ですが、やっていることは先ほど説明した通り、トークン列を構文規則に従って解析し、再帰下降法で抽象構文木（AST）を生成することです。
+
+まずは、パース対象となる文字列として、最初に挙げた以下のコードを例に取り、どのようにParseされるかを確認してみましょう。
+
+```typescript
+const a = <T>(b: T) => b;
+```
+
+このコードがどのようなトークンに分割されるかを確認するため、TypeScriptのスキャナに食わせてみると、概ね以下のようなトークン列に分割されます。（見やすさのため、空白は省略しています。）
+
+```json
+{ "Token": "ConstKeyword", "Value": "const" }, // 87
+{ "Token": "Identifier", "Value": "a" }, // 80
+{ "Token": "EqualsToken", "Value": "=" }, // 64
+{ "Token": "LessThanToken", "Value": "<" }, // 30
+{ "Token": "Identifier", "Value": "T" }, // 80
+{ "Token": "GreaterThanToken", "Value": ">" }, // 32
+{ "Token": "OpenParenToken", "Value": "(" }, // 21
+{ "Token": "Identifier", "Value": "b" }, // 80
+{ "Token": "ColonToken", "Value": ":" }, // 59
+{ "Token": "Identifier", "Value": "T" }, // 80
+{ "Token": "CloseParenToken", "Value": ")" }, // 22
+{ "Token": "EqualsGreaterThanToken", "Value": "=>" }, // 39
+{ "Token": "Identifier", "Value": "b" }, // 80
+{ "Token": "SemicolonToken", "Value": ";" } // 27
+```
+
+これにより、`<T>` は `LessThanToken`と`Identifier`および`GreaterThanToken`として認識されていることが分かります。
+
+次に、このトークン列をTypeScriptのパーサに食わせて、パーサがどのように解析しているかを確認します。
+
+### トークンの先読み
+
+具体的な処理フローの話に入る前に、TypeScriptのパーサがどのように複雑な文法規則を解析しているかについて説明しておきます。
+
+TypeScriptのパーサは1トークン先読みの再帰下降パーサとして実装されていることは先述の通りですが、それではLL(1)で対応できない文法をどのように処理しているのか疑問が生じます。
+
+そのようなケースでは、TypeScriptのパーサは **Lookahead** という機能を使って、トークンを先読みしてトークンの解釈を決定しています。
+
+TypeScriptでは、`parser.ts`の`Parser`クラス内に [lookAhead](https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts#L2285-L2287) というメソッドが実装されており、概念コードとしては以下のように実装されています。
+
+```typescript
+// パーサ側のLookahead: トークンの事前確認
+function lookAhead<T>(callback: () => T): T {
+    const saveToken = currentToken; // Lookaheadが失敗したらロールバックするために、現在のトークンを保存
+    const result = scanner.lookAhead(callback); // スキャナーのLookaheadを呼び出す
+    if (!result) currentToken = saveToken; // 結果がfalsyなら状態を元に戻す
+    return result;
+}
+
+// スキャナー側のLookahead: 状態を保存して事前確認
+function lookAhead<T>(callback: () => T): T {
+    const savePos = pos;
+    const result = callback(); // コールバック関数を実行
+    if (!result) pos = savePos; // 結果がfalsyなら状態を元に戻す
+    return result;
+}
+```
+
+引数にコールバック関数を取り、その関数を実行して結果がfalsyであれば状態を元に戻すという仕組みで、安全にトークンの先読みを行っています。
+
+このような仕組みで、TypeScriptはLL(1)文法に対応できない複雑な文法規則を解析しています。
+
+### パーサの解析フロー
+
+ここまでで下準備が整ったので、いよいよTypeScriptパーサの解析フローを見てみましょう。
+
+実際の処理をステップバイステップで追うことは非常に膨大なため、ここでは重要で無いところは駆け足で該当箇所のリンクだけを示し、重要な箇所についてのみ解説を行います。
+
+まず、ソースコードがParserに渡されると、[parseSourceFile](https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts#L1593-L1623)メソッドが呼び出されます。
+
+この関数はソースコード全体を解析するエントリーポイントで、実際のソースコードの解析は[parseSourceFileWorker](https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts#L1793-L1834)メソッドに委譲されます。
+
+今回対象となる`const a = <T>(b: T) => b;`は文、すなわちStatementであるため、`parseSourceFileWorker`内の以下で解析が行われます。
+
+```typescript
+const statements = parseList(
+    ParsingContext.SourceElements,
+    parseStatement
+);
+```
+
+[`parseStatement`](https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts#L7342-L7423)にきたタイミングでトークンを読み込み`const`を発見し、変数の宣言として判断し[`parseVariableDeclaration`](https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts#L7608-L7623)メソッドに処理が委譲されます。
+
+`parseVariableDeclaration`では、以下のような形で変数名`a`を読み込み、`=`以降に続く右辺の式を解析する処理が行われます。
+
+```typescript
+function parseVariableDeclaration(allowExclamation) {
+    // 変数名を読み込む
+    const name = parseIdentifierOrPattern(
+            Diagnostics.Private_identifiers_are_not_allowed_in_variable_declarations
+    );
+    const initializer = parseInitializer();
+    // ...省略
+}
+function parseInitializer() {
+    // `=`であれば右辺を読み込む
+    return parseOptional(SyntaxKind.EqualsToken) ? parseAssignmentExpressionOrHigher(/*allowReturnTypeInArrowFunction*/ true) : undefined;
+}
+```
+
+ここで、[parseAssignmentExpressionOrHigher](https://github.com/microsoft/TypeScript/blob/main/src/compiler/parser.ts#L5051-L5116)という関数が出てきました。さて、ここから段々今回の肝となる部分に近づいてきます。
+
+このメソッドでは、まず以下のようにして、右辺がアロー関数式であるかどうかを判定します。
+
+`tryParseParenthesizedArrowFunctionExpression`内部では、トークンが`(`、`<`、`async`のいずれかであれば、アロー関数式である可能性があるため、先ほど登場した`lookAhead`を使って先読みを行い判定します。
+
+
+```typescript
+const arrowExpression = tryParseParenthesizedArrowFunctionExpression(allowReturnTypeInArrowFunction) || tryParseAsyncSimpleArrowFunctionExpression(allowReturnTypeInArrowFunction);
+if (arrowExpression) {
+    return arrowExpression;
+}
+
+function isParenthesizedArrowFunctionExpression(): Tristate {
+    if (token() === SyntaxKind.OpenParenToken || token() === SyntaxKind.LessThanToken || token() === SyntaxKind.AsyncKeyword) {
+        return lookAhead(isParenthesizedArrowFunctionExpressionWorker);
+    }
+
+    if (token() === SyntaxKind.EqualsGreaterThanToken) {
+        return Tristate.True;
+    }
+    // Definitely not a parenthesized arrow function.
+    return Tristate.False;
+}
+```
+
+我々の手持ちである右辺は`<T>(b: T) => b`であり、開始トークンは`<`であるため、この条件式に合致し、`lookahead` が呼び出されます。
+
+ここで注意したいのは、`<T,>(b: T) => b`のようにカンマ`,`を挿入した場合でも、開始タグは`<`であることには変わりないため、同様にこの条件式に合致し、`lookahead` が呼び出されます。
+
+ここで呼び出される **`isParenthesizedArrowFunctionExpressionWorker`こそが、運命の分かれ道** でした。
+
+このメソッドでは、以下の概念コードに近い形で、トークン先読みを駆使してアロー関数式かどうかを判定しています。
+
+```typescript
+const first = token(); // `<`
+const second = nextToken(); // `T`
+// firstが`<`であることを確認。
+Debug.assert(first === SyntaxKind.LessThanToken); 
+if (languageVariant === LanguageVariant.JSX) {
+    const isArrowFunctionInJsx = lookAhead(() => {
+    const third = nextToken();
+    // `<T` に続くトークンが `extends`であれば、かつさらにその次のトークンが `=`、`>`、`/`でない場合はアロー関数式として解釈できる
+    // 例） const a = <T extends U>(b: T) => b;
+    if (third === SyntaxKind.ExtendsKeyword) {
+        const fourth = nextToken();
+        switch (fourth) {
+            /// ...省略
+            default:
+                return true;
+        }
+    }
+    // `<T` に続くトークンが `,`、`=`であればアロー関数式として解釈できる
+    // 例） const a = <T,>(b: T) => b;
+    else if (third === SyntaxKind.CommaToken || third === SyntaxKind.EqualsToken) {
+        return true;
+    }
+    return false;
+    });
+}
+```
+
+`<T` に続くトークンが `extends`であれば、概ね`<T extends {}>`のようなジェネリクスであると判断できますし、`<T` に続くトークンが `,`、`=`であれば、概ね`<T,>`のようなジェネリクスであると判断できます。
+
+これが、冒頭で述べたように`const a = <T,>(b: T) => b;`が正しく型パラメータとして解釈される理由です。
+
+では、`<T>`の場合はどうでしょうか。上記コードではどの条件分岐にも引っ掛からず、最終的に`return false`となっているということは、トークン先読みで判断できないケースがあるということに他なりません。
+
+次のケースを考えてみましょう。
+
+```typescript
+var x1 = <T>() => </T>
+```
+
+私自身もテストケースを走らせてみてようやく気づいたのですが。このコードは、正しいJSX構文です。
+
+なぜなら、ここでの`() =>`は、通常の文字列として解釈可能だからです。このコードは、いわば`const x2 = <T>Hello World</T>`と本質的に同じ構造を持っています。
+
+仮にもしここで`<T>`を型パラメータと判定してしまった場合、後続の `() =>`という部分はアロー関数式であると判断されてしまうため、後続の`JsxClosingElement`を正しく解析できなくなります。
+
+このように、2手や3手先の`lookahead`では判断できないケースがあるため、TypeScriptのパーサはアロー関数の型パラメータを、JSXの開始タグとして解釈せざるを得ないのでしょう。
+
+
+### もっと学びたい方へ
+
+駆け足で処理系の基礎からTypeScriptのパーサの仕組みをざっと説明しましたが、もっと勉強してみたいという方向けに、いくつかおすすめの書籍を紹介しておきます。
+
+- [**Crafting Interpreters**](https://craftinginterpreters.com/): 手を動かすハンズオン形式で処理系の仕組みを学べる。英語だけど無料で読めるのでおすすめ。
+- [**計算理論の基礎 原著第3版 ①オートマトンと言語**](https://www.amazon.co.jp/%E8%A8%88%E7%AE%97%E7%90%86%E8%AB%96%E3%81%AE%E5%9F%BA%E7%A4%8E%EF%BC%BB%E5%8E%9F%E8%91%97%E7%AC%AC3%E7%89%88%EF%BC%BD-1-%E3%82%AA%E3%83%BC%E3%83%88%E3%83%9E%E3%83%88%E3%83%B3%E3%81%A8%E8%A8%80%E8%AA%9E-Michael-Sipser-ebook/dp/B0CCRPT38D): 洋書の翻訳にしては日本語が読みやすい。正規表現と非決定性有限オートマトンの対応が分かって面白かった。
+- [**コンパイラの構成と最適化**](https://www.amazon.co.jp/%E3%82%B3%E3%83%B3%E3%83%91%E3%82%A4%E3%83%A9%E3%81%AE%E6%A7%8B%E6%88%90%E3%81%A8%E6%9C%80%E9%81%A9%E5%8C%96-%E4%B8%AD%E7%94%B0-%E8%82%B2%E7%94%B7/dp/4254121776): 最近買った。全体像の見取り図として使ってる。
+
+
+## 感想
+
+人生ではじめてTypeScriptのパーサを読んでみたのですが、意外と読みやすかったです。
+
+ただ、1万行以上あるファイルを読むのは初めての経験で、手元のVSCodeだと数秒に1回ほどのペースで固まってまともに読めず、それが結構大変でした。
+
+Microsfotの専属チームはTypeScriptを開発する時に自社製のVSCodeを使っているのか、それとも別のエディタを使っているのか割と気になっています。
+
+ところで、私はまだ使ったことがありませんが、高速だと噂のEditorに[Zed](https://github.com/zed-industries/zed)というEditorがあります。
+
+ZedはRustで書かれているということで一時期話題になりましたが、個人的に注目しているのはその内部的なアルゴリズムです。
+
+VSCodeは内部的に[Piece Table](https://en.wikipedia.org/wiki/Piece_table)というデータ構造を使っていることが知られていますが、ZedはPiece Tableではなく [Rope](https://en.wikipedia.org/wiki/Rope_(data_structure)) というデータ構造を使っているとのことです。
+
+Piece Tableは挿入・削除をO(1)で行うことができる反面、文字列の連結がO(n)かかるという欠点があります。反対に、Ropeは文字列の連結および挿入・削除がO(log n)で行うことができるため、文字列の編集が多い場合にはPiece Tableよりも高速であると言われています。
+
+そこら辺の構造についても興味があるので、今後機会があれば勉強してみたいと思います。
+
+あれ、何の話だっけ。
+

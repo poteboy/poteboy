@@ -290,6 +290,34 @@ const mdxComponents: MDXComponents = {
       {children}
     </VStack>
   ),
+  ul: ({ children }) => (
+    <VStack
+      as="ul"
+      gap={4}
+      className={css`
+        font-size: 17px;
+        line-height: 32px;
+        font-weight: 400;
+        margin-inline: 12px;
+        margin-bottom: 0.8em;
+      `}
+    >
+      {children}
+    </VStack>
+  ),
+  li: ({ children }) => (
+    <Text
+      as="li"
+      className={css`
+        font-size: 17px;
+        line-height: 32px;
+        margin-bottom: 0.2em;
+        font-weight: 400;
+      `}
+    >
+      {children}
+    </Text>
+  ),
   img: async (props) => {
     return (
       <Image
