@@ -14,7 +14,7 @@ export const categories = [
     },
     {
         name: 'diary' as const,
-        color: '#395cff'
+        color: '#ff9712'
     }
 ]
 
