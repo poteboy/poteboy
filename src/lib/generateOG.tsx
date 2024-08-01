@@ -56,24 +56,20 @@ export async function generateOgImage({
             marginInline: "auto",
           }}
         >
-          {title.split(" ").map((word, i) => (
-            <h1
-              style={{
-                zIndex: 2,
-                textAlign: "center",
-                color: "#191a1e",
-                fontSize: "3.2em",
-                fontWeight: 800,
-                margin: "auto",
-                transform: "translateY(-20%)",
-                wordBreak: "keep-all",
-              }}
-              key={word + i.toString()}
-            >
-              {word}
-              <br />
-            </h1>
-          ))}
+          <h1
+            style={{
+              zIndex: 2,
+              textAlign: "center",
+              color: "#191a1e",
+              fontSize: "3.2em",
+              fontWeight: 800,
+              margin: "auto",
+              transform: "translateY(-20%)",
+              wordBreak: "keep-all",
+            }}
+          >
+            {title}
+          </h1>
         </div>
       </div>
     ),
