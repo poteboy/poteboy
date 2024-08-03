@@ -17,6 +17,7 @@ export default function Posts() {
         .map((post) => {
           return <PostCard key={post._id} {...post} />;
         })}
+      <Spacer size={100} />
     </Box>
   );
 }

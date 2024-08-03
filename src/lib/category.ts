@@ -6,7 +6,7 @@
 export const categories = [
     {
         name: 'tech' as const,
-        color: '#ff395c'
+        color: '#5299fa'
     },
     {
         name: 'business' as const,
