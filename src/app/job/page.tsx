@@ -34,7 +34,7 @@ export default function JobPage() {
           </Heading>
           <VStack padding="12px" gap={16}>
             <Text fontSize={14}>
-              合同会社ぽてぽてランドでは、Webアプリケーション開発支援、コンサルティング、技術アドバイザリーなどのお仕事を受け付けています。
+              合同会社ぽてぽてランドでは、Web・モバイルアプリケーション開発支援、技術顧問などのお仕事依頼を受け付けています。
             </Text>
             <Text fontSize={14}>
               お仕事のご依頼やご相談は、以下のメールアドレスにお問い合わせください。
@@ -72,15 +72,17 @@ export default function JobPage() {
             <VStack as="dl" padding="12px" gap={16}>
               <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
                 <Text as="dt">
-                  <s>準委任契約での開発支援:</s>
+                  <s>準委任契約での技術顧問・支援:</s>
                 </Text>
                 <Text as="dd">
-                  <s>¥8,250~ / 時間</s> 現在募集しておりません。
+                  <s>¥10000~ / 時間</s>
                 </Text>
               </Flex>
               <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
-                <Text as="dt">チャット常駐形式での技術アドバイザリー:</Text>
-                <Text as="dd">¥100,000~ / 月</Text>
+                <Text as="dt">
+                  Webアプリやモバイルアプリの請負での成果物納品:
+                </Text>
+                <Text as="dd">¥2000000~</Text>
               </Flex>
               <Flex flexDir={["column", "row"]} fontSize={14} gap={8}>
                 <Text as="dt">その他:</Text>
@@ -99,17 +101,9 @@ export default function JobPage() {
             </Heading>
             <VStack padding="12px" gap={16}>
               <Flex as="ul" flexDir="column" fontSize={14} gap={8}>
-                <Text as="li">
-                  Web、モバイル、デスクトップアプリケーション開発・運用
-                </Text>
-                <Text as="li">CI/CDや自動テストの構築と速度改善</Text>
-                <Text as="li">
-                  ブラウザ技術で動くアプリケーションのパフォーマンス改善
-                </Text>
-                <Text as="li">Node.js関連の技術選定やアーキテクチャ設計</Text>
-                <Text as="li">
-                  Design Docやコーディングガイドラインなどのドキュメント作成
-                </Text>
+                <Text as="li">Web、モバイルアプリケーション開発・運用</Text>
+                <Text as="li">AIエージェント開発</Text>
+                <Text as="li">生成AIを活用した業務効率化</Text>
               </Flex>
             </VStack>
           </Box>
